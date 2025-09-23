@@ -14,23 +14,46 @@
         <nav class="sidebar">
             <h2>
                 <img src="assets/images/icons/gem-icon-white.png" alt="GEM-pRF icon" class="sidebar-icon">
-                GEM-pRF                
+                GEM-pRF
             </h2>
             <div id="sidebar-placeholder"></div>
         </nav>
+
         <main class="content">
             <h1>Cite</h1>
-            <p>
-                Our paper is currently in review, meanwhile, please cite our Bioarchive article:<br>
-                👉 <em><a href="https://www.biorxiv.org/content/10.1101/2025.05.16.654560v1" target="_blank"
+
+            <!-- Citation Box -->
+            <div class="citation-box">
+                <p>Our paper is currently in review. Meanwhile, please cite our BioRxiv article:</p>
+                <p>
+                    <a href="https://www.biorxiv.org/content/10.1101/2025.05.16.654560v1" target="_blank"
                         rel="noopener noreferrer">
-                        Mittal et al. (2025), GEM-pRF: GPU-Empowered Mapping of Population Receptive Fields for
-                        Large-Scale fMRI Analysis
-                    </a></em>
-            </p>
+                        <em>Mittal et al. (2025), GEM-pRF: GPU-Empowered Mapping of Population Receptive Fields for
+                            Large-Scale fMRI Analysis</em>
+                    </a>
+                </p>
+            </div>
 
         </main>
     </div>
+
+    <style>
+        .citation-box {
+            background: #f9f9f9;
+            border-left: 4px solid #0077b5;
+            /* subtle accent color */
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .citation-box a {
+            color: #0077b5;
+            text-decoration: underline;
+        }
+    </style>
+
 
     <!-- Fecth the sidebar items -->
     <script>
