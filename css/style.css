@@ -1,17 +1,16 @@
+/* Set a background for the whole page */
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  color: #333;
+  background: #f0f0f0; /* this will be the color of the margins */
 }
 
+/* Main content adjustments */
 .content {
-  flex: 1;
+  max-width: 1000px;      /* limit content width */
+  margin: 0 auto;         /* center horizontally */
   padding: 30px;
-  background: #f9f9f9;
-  
-  /* Add max width and auto margin for readability */
-  max-width: 900px;  /* you can adjust this */
-  margin-right: 30px; /* extra space on the right */
+  background: #ffffff;    /* content background */
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 
