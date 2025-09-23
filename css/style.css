@@ -121,4 +121,11 @@ code {
     padding: 20px;
     box-shadow: none;  /* optional: remove shadow for mobile */
   }
+
+  /* Add passing for the copyright string - only in the mobile devices */
+  .sidebar::after {
+    position: relative;   /* so it pushes content down instead of overlapping */
+    bottom: auto;         /* reset absolute bottom */
+    padding-top: 20px;    /* spacing above copyright */
+  }  
 }
