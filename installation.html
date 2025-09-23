@@ -25,19 +25,32 @@
       <h1>Installation</h1>
 
       <p>
-        GEM-pRF requires GPU access for data processing. At the moment, GEM uses CUDA libraries to access and process data on NVIDIA GPUs.
+        GEM-pRF requires GPU access for data processing. It uses CUDA libraries to access and process data on NVIDIA GPUs.
       </p>
 
       <div class="warning">
-        ⚠️ Please check that your system has a compatible NVIDIA GPU available.
+        ⚠️ Please ensure your system has a compatible NVIDIA GPU available.
       </div>
 
-      <h2>Step 1. Install dependencies</h2>
+      <h2>Step 1. Set up GPU environment</h2>
+      <p>Before installing dependencies, configure your GPU environment:</p>
+      <ul>
+        <li>Install the CUDA SDK if not already installed.</li>
+        <li>Check your installed CUDA version:
+          <pre><code>nvcc --version
+nvidia-smi</code></pre>
+        </li>
+        <li>Install a CuPy version compatible with your CUDA version:
+          <pre><code>pip install cupy-cuda12x  # Replace 12x with your CUDA version</code></pre>
+        </li>
+      </ul>
+
+      <h2>Step 2. Install Python dependencies</h2>
       <pre><code># Create or activate your preferred environment
 pip install -r requirements.txt
 </code></pre>
 
-      <h2>Step 2. Download GEM-pRF code</h2>
+      <h2>Step 3. Download GEM-pRF code</h2>
       <pre><code>git clone https://github.com/siddmittal/GEMpRF.git
 cd GEMpRF
 </code></pre>
