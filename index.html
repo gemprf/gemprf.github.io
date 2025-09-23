@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GEM-pRF Documentation</title>
+  <title>Quickstart - GEM-pRF</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <nav class="sidebar">
       <h2>GEM-pRF</h2>
       <ul>
-        <li><a href="index.html">Quickstart</a></li>
+        <li><a href="index.html" class="active">Quickstart</a></li>
         <li><a href="installation.html">Installation</a></li>
         <li><a href="configuration.html">Configuration</a></li>
         <li><a href="examples.html">Examples</a></li>
@@ -19,14 +19,70 @@
         <li><a href="team.html">Team</a></li>
       </ul>
     </nav>
+
     <main class="content">
-      <h1>Quickstart to GEM-pRF</h1>
+      <h1>Quickstart</h1>
+
       <p>
-        Large-scale population receptive field analysis made easy and accurate.
+        Welcome to <strong>GEM-pRF</strong> — a standalone, plug-and-play software for population receptive field (pRF) mapping, designed for large-scale data analysis with high accuracy.
       </p>
+
       <p>
-        Use the navigation menu on the left to get started.
+        To understand the theoretical foundations and details of how the software works, please refer to our paper:<br>
+        👉 <em>Mittal et al. (2025), GEM-pRF: GPU-Empowered Mapping of Population Receptive Fields for Large-Scale fMRI Analysis</em>
       </p>
+
+      <h2>Documentation</h2>
+      <p>
+        An official documentation is coming soon (<a href="#">GEM-pRF documentation link</a>)!  
+        Meanwhile, for the mathematical foundation of the software, please see the GEM-pRF paper.
+      </p>
+
+      <h2>Installation</h2>
+      <p>
+        GEM-pRF requires GPU access for data processing. At the moment, GEM uses CUDA libraries to access and process data on NVIDIA GPUs.
+      </p>
+
+      <div class="warning">
+        ⚠️ Please check that your system has a compatible NVIDIA GPU available.
+      </div>
+
+      <h3>Step-by-Step Guide</h3>
+
+      <h4>Step 1. Install dependencies</h4>
+      <pre><code># Create or activate your preferred environment
+pip install -r requirements.txt
+</code></pre>
+
+      <h4>Step 2. Download GEM-pRF code</h4>
+      <pre><code>git clone https://github.com/siddmittal/GEMpRF.git
+cd GEMpRF
+</code></pre>
+
+      <h2>Running GEM-pRF</h2>
+      <div class="caution">
+        ⚠️ Before proceeding, make sure to install the required Python dependencies as specified in the <code>requirements.txt</code> file.
+      </div>
+
+      <p>
+        GEM-pRF is written as a standalone software. It comes with an XML configuration file. Once you configure your XML file (see sample config), you can directly run the software.
+      </p>
+
+      <h3>🔹 Option A: Run from terminal</h3>
+      <ol>
+        <li>Open a terminal (e.g. Anaconda Prompt).</li>
+        <li>Activate the environment with the dependencies installed.</li>
+        <li>Navigate to the <code>GEMpRF</code> folder.</li>
+      </ol>
+      <pre><code>python run_gem.py PATH_TO_YOUR_XML_CONFIG_FILE
+</code></pre>
+
+      <h3>🔹 Option B: Run from IDE (e.g. VS Code)</h3>
+      <ol>
+        <li>Open the downloaded <code>GEMpRF</code> folder in VS Code.</li>
+        <li>Edit the <code>run_gem.py</code> script to specify the path to your XML config file.</li>
+        <li>Run the script directly from the IDE.</li>
+      </ol>
     </main>
   </div>
 </body>
