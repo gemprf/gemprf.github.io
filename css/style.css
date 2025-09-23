@@ -4,6 +4,17 @@ body {
   color: #333;
 }
 
+.content {
+  flex: 1;
+  padding: 30px;
+  background: #f9f9f9;
+  
+  /* Add max width and auto margin for readability */
+  max-width: 900px;  /* you can adjust this */
+  margin-right: 30px; /* extra space on the right */
+}
+
+
 .container {
   display: flex;
   min-height: 100vh;
