@@ -48,6 +48,14 @@ body {
 
 .sidebar h2 {
   margin-top: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* space between text and icon */  
+}
+
+.sidebar-icon {
+  height: 1em;   /* make icon the same height as the text */
+  width: auto;   /* keep aspect ratio */
 }
 
 .sidebar ul {
