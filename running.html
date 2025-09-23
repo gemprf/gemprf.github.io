@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Running GEM-pRF</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="sidebar">
+      <h2>GEM-pRF</h2>
+      <ul>
+        <li><a href="index.html">Quickstart</a></li>
+        <li><a href="installation.html">Installation</a></li>
+        <li><a href="running.html" class="active">Running GEM-pRF</a></li>
+        <li><a href="configuration.html">Configuration</a></li>
+        <li><a href="examples.html">Examples</a></li>
+        <li><a href="cite.html">Cite</a></li>
+        <li><a href="team.html">Team</a></li>
+      </ul>
+    </nav>
+
+    <main class="content">
+      <h1>Running GEM-pRF</h1>
+
+      <div class="caution">
+        ⚠️ Before proceeding, make sure you have installed all required Python dependencies as specified in <code>requirements.txt</code>.
+      </div>
+
+      <p>
+        GEM-pRF comes with an XML configuration file. Once you configure your XML file (see sample config), you can directly run the software.
+      </p>
+
+      <h2>Option A: Run from terminal</h2>
+      <ol>
+        <li>Open a terminal (e.g. Anaconda Prompt).</li>
+        <li>Activate the environment with the dependencies installed.</li>
+        <li>Navigate to the <code>GEMpRF</code> folder.</li>
+      </ol>
+      <pre><code>python run_gem.py PATH_TO_YOUR_XML_CONFIG_FILE
+</code></pre>
+
+      <h2>Option B: Run from IDE (e.g. VS Code)</h2>
+      <ol>
+        <li>Open the downloaded <code>GEMpRF</code> folder in VS Code.</li>
+        <li>Edit the <code>run_gem.py</code> script to specify the path to your XML config file.</li>
+        <li>Run the script directly from the IDE.</li>
+      </ol>
+    </main>
+  </div>
+</body>
+</html>
