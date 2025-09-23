@@ -88,3 +88,22 @@ pre {
 code {
   font-family: monospace;
 }
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* stack sidebar on top of content */
+  }
+
+  .sidebar {
+    width: 100%;      /* full width for sidebar */
+    padding: 20px 10px;
+  }
+
+  .content {
+    max-width: 100%;   /* take full width on mobile */
+    margin: 0;         /* remove horizontal margins */
+    padding: 20px;
+    box-shadow: none;  /* optional: remove shadow for mobile */
+  }
+}
