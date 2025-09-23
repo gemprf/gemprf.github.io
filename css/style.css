@@ -24,6 +24,18 @@ body {
   background: #2c3e50;
   color: #fff;
   padding: 20px;
+  position: relative;
+}
+
+/* Add copyright at the bottom of the sidebar */
+.sidebar::after {
+  content: "© copyright 2025 Siddharth Mittal,\A Medical University of Vienna";
+  position: absolute;
+  bottom: 20px;       /* space from bottom */
+  left: 20px;         /* align with sidebar content */
+  font-size: 12px;
+  color: #ccc;        /* subtle color */
+  width: calc(100% - 40px); /* prevent overflow */
 }
 
 .sidebar h2 {
