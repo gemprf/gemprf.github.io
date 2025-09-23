@@ -7,6 +7,65 @@
     <title>Team - GEM-pRF</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/png" href="assets/images/icons/gem-icon.png">
+
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .team-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .team-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .team-card h3 {
+            margin: 10px 0 5px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .team-card .social-links a {
+            margin: 0 6px;
+            color: #555;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .team-card .social-links a:hover {
+            color: #0077b5;
+            /* LinkedIn blue */
+        }
+
+        .team-card .social-links a.twitter:hover {
+            color: #1da1f2;
+        }
+
+        .team-card .social-links a.scholar:hover {
+            color: #ea4335;
+            /* Google Scholar red */
+        }
+    </style>
 </head>
 
 <body>
@@ -14,34 +73,95 @@
         <nav class="sidebar">
             <h2>
                 <img src="assets/images/icons/gem-icon-white.png" alt="GEM-pRF icon" class="sidebar-icon">
-                GEM-pRF                
+                GEM-pRF
             </h2>
             <div id="sidebar-placeholder"></div>
         </nav>
 
         <main class="content">
             <h1>Team</h1>
-            <ul>
-                <li><a href="#" target="_blank">Siddharth Mittal</a></li>
-                <li><a href="#" target="_blank">Michael Woletz</a></li>
-                <li><a href="#" target="_blank">David Linhardt</a></li>
-                <li><a href="#" target="_blank">Christian Windischberger</a></li>
+
+            <div class="team-grid">
+                <!-- Team Member 1 -->
+                <div class="team-card">
+                    <img src="assets/images/team/sidd.png" alt="Siddharth Mittal">
+                    <h3>Siddharth<br>Mittal</h3>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/simittal/" target="_blank"><i
+                                class="fab fa-linkedin"></i></a>
+                        <a href="https://x.com/MittalSid_fMRI" target="_blank" class="twitter"><i
+                                class="fab fa-x-twitter"></i></a>
+                        <a href="https://scholar.google.com/citations?user=tvH1568AAAAJ&hl=en&oi=sra" target="_blank"
+                            class="scholar"><i class="fas fa-graduation-cap"></i></a>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="team-card">
+                    <img src="assets/images/team/michi.png" alt="Michael Woletz">
+                    <h3>Michael<br>Woletz</h3>
+                    <div class="social-links">
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" target="_blank" class="twitter"><i class="fab fa-x-twitter"></i></a>
+                        <a href="https://scholar.google.com/citations?user=ayT4rvoAAAAJ&hl=en&oi=ao" target="_blank"
+                            class="scholar"><i class="fas fa-graduation-cap"></i></a>
+                    </div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="team-card">
+                    <img src="assets/images/team/david.png" alt="David Linhardt">
+                    <h3>David<br>Linhardt</h3>
+                    <div class="social-links">
+                        <a href="https://at.linkedin.com/in/david-linhardt-b2900918a" target="_blank"><i
+                                class="fab fa-linkedin"></i></a>
+                        <a href="https://x.com/david_linhardt" target="_blank" class="twitter"><i
+                                class="fab fa-x-twitter"></i></a>
+                        <a href="https://scholar.google.com/citations?user=qxVQhh4AAAAJ&hl=en&oi=ao" target="_blank"
+                            class="scholar"><i class="fas fa-graduation-cap"></i></a>
+                    </div>
+                </div>
+
+                <!-- Team Member 4 -->
+                <div class="team-card">
+                    <img src="assets/images/team/christian.png" alt="Christian Windischberger">
+                    <h3>Christian<br>Windischberger</h3>
+                    <div class="social-links">
+                        <a href="https://at.linkedin.com/in/christian-windischberger" target="_blank"><i
+                                class="fab fa-linkedin"></i></a>
+                        <a href="https://x.com/cwindfMRI" target="_blank" class="twitter"><i
+                                class="fab fa-x-twitter"></i></a>
+                        <a href="https://scholar.google.com/citations?user=B91jDVkAAAAJ&hl=en&oi=ao" target="_blank"
+                            class="scholar"><i class="fas fa-graduation-cap"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 50px;">Other Credits</h2>
+            <ul style="font-size: 12px; color: #555; line-height: 1.5;">
+                <li>
+                    Windischberger Lab –
+                    <a href="https://www.linkedin.com/company/windischberger-lab/" target="_blank"
+                        style="color: #555; text-decoration: underline;">
+                        LinkedIn
+                    </a>
+                </li>
+                <li>
+                    Medical University of Vienna
+                </li>
+                <li>
+                    Icon credits –
+                    <a href="https://www.flaticon.com/free-icons/reliability" title="reliability icons" target="_blank"
+                        style="color: #555; text-decoration: underline;">
+                        Reliability icons created by piksart – Flaticon
+                    </a>
+                </li>
             </ul>
 
-            <hr>
-
-            <p style="font-size: 11px; color: #999; margin-top: 40px;">
-            Icon credits: 
-            <a href="https://www.flaticon.com/free-icons/reliability" 
-                title="reliability icons" target="_blank" 
-                style="color: #999; text-decoration: none;">
-                Reliability icons created by piksart – Flaticon
-            </a>
-            </p>            
         </main>
     </div>
 
-    <!-- Fecth the sidebar items -->
+    <!-- Fetch the sidebar items -->
     <script>
         fetch('sidebar.html')
             .then(response => response.text())
@@ -57,7 +177,7 @@
                     }
                 });
             });
-    </script>    
+    </script>
 </body>
 
 </html>
