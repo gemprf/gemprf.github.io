@@ -29,7 +29,7 @@ body {
 
 /* Add copyright at the bottom of the sidebar */
 .sidebar::after {
-  content: "© copyright 2025 Siddharth Mittal\A  Medical University of Vienna";
+  content: "© copyright 2025 Siddharth Mittal\A Medical University of Vienna";
   position: absolute;
   bottom: 20px;       /* space from bottom */
   left: 20px;         /* align with sidebar content */
@@ -40,8 +40,8 @@ body {
   display: block;            /* enable \A line break */
 
   /* added for alignment to aling letter "c" of copyright and letter "M" of Medical*/
-  padding-left: 1.2em;  /* shift whole block right */
-  text-indent: -1.2em;  /* pull first line back */
+  padding-left: 1.0em;  /* shift whole block right */
+  text-indent: -1.0em;  /* pull first line back */
 
 }
 
