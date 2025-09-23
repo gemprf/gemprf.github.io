@@ -10,15 +10,7 @@
   <div class="container">
     <nav class="sidebar">
       <h2>GEM-pRF</h2>
-      <ul>
-        <li><a href="index.html">Quickstart</a></li>
-        <li><a href="installation.html" class="active">Installation</a></li>
-        <li><a href="running.html">Running GEM-pRF</a></li>
-        <li><a href="configuration.html">Configuration</a></li>
-        <li><a href="examples.html">Examples</a></li>
-        <li><a href="cite.html">Cite</a></li>
-        <li><a href="team.html">Team</a></li>
-      </ul>
+      <div id="sidebar-placeholder"></div>
     </nav>
 
     <main class="content">
@@ -60,5 +52,23 @@ cd GEMpRF
       </p>
     </main>
   </div>
+
+      <!-- Fecth the sidebar items -->
+    <script>
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-placeholder').innerHTML = data;
+
+                // Optional: highlight active page
+                const current = window.location.pathname.split("/").pop();
+                const links = document.querySelectorAll('#sidebar-placeholder a');
+                links.forEach(link => {
+                    if (link.getAttribute('href') === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+    </script>
 </body>
 </html>
