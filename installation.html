@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,13 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/png" href="assets/images/icons/gem-icon.png">
 </head>
+
 <body>
   <div class="container">
     <nav class="sidebar">
       <h2>
         <img src="assets/images/icons/gem-icon-white.png" alt="GEM-pRF icon" class="sidebar-icon">
-        GEM-pRF        
+        GEM-pRF
       </h2>
       <div id="sidebar-placeholder"></div>
     </nav>
@@ -20,36 +22,61 @@
     <main class="content">
       <h1>Installation</h1>
 
-      <p>
-        GEM-pRF requires GPU access for data processing. It uses CUDA libraries to access and process data on NVIDIA GPUs.
-      </p>
+      <!-- Quick Overview Section -->
+      <section class="quick-overview">
+        <h2>Quick Overview</h2>
+        <ul>
+          <li>✅ Check your system has an NVIDIA GPU</li>
+          <li>⚡ Install CUDA SDK</li>
+          <li>📦 Install CuPy (compatible with your CUDA version)</li>
+          <li>🔗 Install other dependencies</li>
+          <li>⬇️ Download GEM-pRF code</li>
+        </ul>
+      </section>
 
-      <div class="warning">
-        ⚠️ Please ensure your system has a compatible NVIDIA GPU available.
-      </div>
+      <!-- Step by Step Guide -->
+      <section class="step-guide">
+        <h2>Step-by-Step Guide</h2>
 
-      <h2>Step 1. Set up GPU environment</h2>
-      <p>Before installing dependencies, configure your GPU environment:</p>
-      <ul>
-        <li>Install the <a href="https://developer.nvidia.com/cuda-downloads" target="_blank">CUDA SDK</a> if not already installed.</li>
-        <li>Check your installed CUDA version:
-          <pre><code>nvcc --version
+        <p>
+          GEM-pRF requires GPU access for data processing. It uses CUDA libraries to access and process data on NVIDIA GPUs.
+        </p>
+
+        <div class="callout warning">
+          ⚠️ Ensure your system has a compatible NVIDIA GPU available.
+        </div>
+
+        <h3>Step 1. Set up GPU environment</h3>
+        <ul>
+          <li>Install the <a href="https://developer.nvidia.com/cuda-downloads" target="_blank">CUDA SDK</a> if not
+            already installed.</li>
+          <li>Check your installed CUDA version:
+            <pre><code>nvcc --version
 nvidia-smi</code></pre>
-        </li>
-        <li>Install a CuPy version compatible with your CUDA version:
-          <pre><code>pip install cupy-cuda12x  # Replace 12x with your CUDA version</code></pre>
-        </li>
-      </ul>
+          </li>
+          <li>Install a CuPy version compatible with your CUDA version:
+            <pre><code>pip install cupy-cuda12x  # Replace 12x with your CUDA version</code></pre>
+          </li>
+        </ul>
 
-      <h2>Step 2. Install Python dependencies</h2>
-      <pre><code># Create or activate your preferred environment
+        <h3>Step 2. Install Python dependencies</h3>
+        <ul>
+          <li>Use the provided requirements file to install dependencies:
+            <pre><code># Create or activate your preferred environment
 pip install -r requirements.txt
 </code></pre>
+          </li>
+        </ul>
 
-      <h2>Step 3. Download GEM-pRF code</h2>
-      <pre><code>git clone https://github.com/siddmittal/GEMpRF.git
+        <h3>Step 3. Download GEM-pRF code</h3>
+        <ul>
+          <li>Clone the repository and move into it:
+            <pre><code>git clone https://github.com/siddmittal/GEMpRF.git
 cd GEMpRF
 </code></pre>
+          </li>
+        </ul>
+      </section>
 
       <p>
         ✅ Once installed, proceed to <a href="running.html">Running GEM-pRF</a>.
@@ -57,22 +84,23 @@ cd GEMpRF
     </main>
   </div>
 
-      <!-- Fecth the sidebar items -->
-    <script>
-        fetch('sidebar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('sidebar-placeholder').innerHTML = data;
+  <!-- Fetch the sidebar items -->
+  <script>
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-placeholder').innerHTML = data;
 
-                // Optional: highlight active page
-                const current = window.location.pathname.split("/").pop();
-                const links = document.querySelectorAll('#sidebar-placeholder a');
-                links.forEach(link => {
-                    if (link.getAttribute('href') === current) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-    </script>
+        // Highlight active page
+        const current = window.location.pathname.split("/").pop();
+        const links = document.querySelectorAll('#sidebar-placeholder a');
+        links.forEach(link => {
+          if (link.getAttribute('href') === current) {
+            link.classList.add('active');
+          }
+        });
+      });
+  </script>
 </body>
+
 </html>

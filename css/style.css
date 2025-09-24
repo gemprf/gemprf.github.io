@@ -106,6 +106,48 @@ body {
   border: 1px solid #f5c6cb;
 }
 
+/* Quick Overview box */
+.quick-overview {
+  background: #f9f9f9;
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  border-left: 4px solid #0077b5;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.quick-overview h2 {
+  margin-top: 0;
+  font-size: 1.2em;
+}
+
+/* Callout boxes */
+.callout {
+  padding: 12px 18px;
+  margin: 20px 0;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.callout.warning {
+  background: #fff3cd;
+  border-left: 4px solid #e0a800;
+  color: #856404;
+}
+
+/* Step-by-Step Guide */
+.step-guide h2 {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.step-guide h3 {
+  margin-top: 25px;
+  font-size: 1.1em;
+  color: #0077b5;
+}
+
+
 pre {
   background: #2d2d2d;
   color: #f8f8f2;
