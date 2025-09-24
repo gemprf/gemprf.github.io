@@ -20,48 +20,59 @@
     <main class="content">
       <h1>Running GEM-pRF</h1>
 
+      <!-- Quick Overview -->
+      <section class="quick-overview">
+        <h2>Quick Overview</h2>
+        <ul>
+          <li>📂 Prepare your XML configuration file (see sample config).</li>
+          <li>💻 Run GEM-pRF via terminal or your preferred IDE.</li>
+          <li>⚡ Make sure the correct Python environment is activated.</li>
+        </ul>
+      </section>
+
       <div class="caution">
-        ⚠️ Before proceeding, make sure you have installed all required Python dependencies as specified in <code>requirements.txt</code>.
+        ⚠️ Before proceeding, ensure you have installed all required dependencies from <code>requirements.txt</code>.
       </div>
 
-      <p>
-        GEM-pRF comes with an XML configuration file. Once you configure your XML file (see sample config), you can directly run the software.
-      </p>
+      <!-- Step-by-Step Guide -->
+      <section class="step-guide">
+        <h2>Step-by-Step Guide</h2>
 
-      <h2>Option A: Run from terminal</h2>
-      <ol>
-        <li>Open a terminal (e.g. Anaconda Prompt).</li>
-        <li>Activate the environment with the dependencies installed.</li>
-        <li>Navigate to the <code>GEMpRF</code> folder.</li>
-      </ol>
-      <pre><code>python run_gem.py PATH_TO_YOUR_XML_CONFIG_FILE
+        <h3>Option A: Run from Terminal</h3>
+        <ul>
+          <li>Open a terminal (e.g. Anaconda Prompt) and activate your environment.</li>
+          <li>Navigate to the <code>GEMpRF</code> folder and execute:
+            <pre><code>python run_gem.py PATH_TO_YOUR_XML_CONFIG_FILE
 </code></pre>
+          </li>
+        </ul>
 
-      <h2>Option B: Run from IDE (e.g. VS Code)</h2>
-      <ol>
-        <li>Open the downloaded <code>GEMpRF</code> folder in VS Code.</li>
-        <li>Edit the <code>run_gem.py</code> script to specify the path to your XML config file.</li>
-        <li>Run the script directly from the IDE.</li>
-      </ol>
+        <h3>Option B: Run from IDE (e.g. VS Code)</h3>
+        <ul>
+          <li>Open the downloaded <code>GEMpRF</code> folder in VS Code.</li>
+          <li>Edit <code>run_gem.py</code> to specify your XML config file path.</li>
+          <li>Run the script directly from the IDE.</li>
+        </ul>
+      </section>
     </main>
   </div>
 
-    <!-- Fecth the sidebar items -->
-    <script>
-        fetch('sidebar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('sidebar-placeholder').innerHTML = data;
+  <!-- Fetch the sidebar items -->
+  <script>
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-placeholder').innerHTML = data;
 
-                // Optional: highlight active page
-                const current = window.location.pathname.split("/").pop();
-                const links = document.querySelectorAll('#sidebar-placeholder a');
-                links.forEach(link => {
-                    if (link.getAttribute('href') === current) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-    </script>  
+        // Highlight active page
+        const current = window.location.pathname.split("/").pop();
+        const links = document.querySelectorAll('#sidebar-placeholder a');
+        links.forEach(link => {
+          if (link.getAttribute('href') === current) {
+            link.classList.add('active');
+          }
+        });
+      });
+  </script>  
 </body>
 </html>
