@@ -7,6 +7,28 @@
     <title>Configuration - GEM-pRF</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/png" href="assets/images/icons/gem-icon.png">
+    <style>
+        .coming-soon-box {
+            margin-top: 60px;
+            padding: 30px;
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            background: #f9f9f9;
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .coming-soon-box strong {
+            display: block;
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,11 +42,16 @@
         </nav>
         <main class="content">
             <h1>Configuration</h1>
-            <p>Edit this file to add Configuration instructions for GEM-pRF.</p>
+            
+            <div class="coming-soon-box">
+                <strong>🚧 Work in Progress 🚧</strong>
+                As all good things take time…<br>
+                Configuration guide coming soon ✨
+            </div>
         </main>
     </div>
 
-    <!-- Fecth the sidebar items -->
+    <!-- Fetch the sidebar items -->
     <script>
         fetch('sidebar.html')
             .then(response => response.text())

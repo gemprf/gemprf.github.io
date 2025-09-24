@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,37 +8,43 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/png" href="assets/images/icons/gem-icon.png">
 </head>
+
 <body>
   <div class="container">
     <nav class="sidebar">
-        <h2>
-            <img src="assets/images/icons/gem-icon-white.png" alt="GEM-pRF icon" class="sidebar-icon">
-            GEM-pRF                
-        </h2>
+      <h2>
+        <img src="assets/images/icons/gem-icon-white.png" alt="GEM-pRF icon" class="sidebar-icon">
+        GEM-pRF
+      </h2>
       <div id="sidebar-placeholder"></div>
     </nav>
     <main class="content">
       <h1>Examples</h1>
-      <p>Edit this file to add Examples instructions for GEM-pRF.</p>
+      <div class="coming-soon-box">
+        <strong>🚧 Work in Progress 🚧</strong>
+        As all good things take time…<br>
+        GEM-pRF examples coming soon ✨
+      </div>
     </main>
   </div>
 
-    <!-- Fecth the sidebar items -->
-    <script>
-        fetch('sidebar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('sidebar-placeholder').innerHTML = data;
+  <!-- Fetch the sidebar items -->
+  <script>
+    fetch('sidebar.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('sidebar-placeholder').innerHTML = data;
 
-                // Optional: highlight active page
-                const current = window.location.pathname.split("/").pop();
-                const links = document.querySelectorAll('#sidebar-placeholder a');
-                links.forEach(link => {
-                    if (link.getAttribute('href') === current) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-    </script>  
+        // Optional: highlight active page
+        const current = window.location.pathname.split("/").pop();
+        const links = document.querySelectorAll('#sidebar-placeholder a');
+        links.forEach(link => {
+          if (link.getAttribute('href') === current) {
+            link.classList.add('active');
+          }
+        });
+      });
+  </script>
 </body>
+
 </html>
