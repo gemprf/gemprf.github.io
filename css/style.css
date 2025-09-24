@@ -29,7 +29,7 @@ body {
 
 /* Add copyright at the bottom of the sidebar */
 .sidebar::after {
-  content: "© 2025 Siddharth Mittal,\A Medical University of Vienna\A All rights reserved";
+  content: "© 2025 Siddharth Mittal\A Medical University of Vienna\A All rights reserved";
   position: absolute;
   bottom: 20px;       /* space from bottom */
   left: 20px;         /* align with sidebar content */
