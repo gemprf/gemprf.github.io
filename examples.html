@@ -44,6 +44,13 @@
           }
         });
       });
+
+    // Fetch analytics
+    fetch('analytics.html')
+      .then(response => response.text())
+      .then(data => {
+        document.head.insertAdjacentHTML('beforeend', data);
+      });      
   </script>
 </body>
 
