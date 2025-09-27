@@ -6,6 +6,15 @@
   <title>Running GEM-pRF</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" type="image/png" href="assets/images/icons/gem-icon.png">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MXYNQ1GY8V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-MXYNQ1GY8V');
+  </script>
 </head>
 <body>
   <div class="container">
@@ -72,14 +81,7 @@
             link.classList.add('active');
           }
         });
-      });
-
-    // Fetch analytics
-    fetch('analytics.html')
-      .then(response => response.text())
-      .then(data => {
-        document.head.insertAdjacentHTML('beforeend', data);
-      });        
+      });   
   </script>  
 </body>
 </html>
