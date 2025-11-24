@@ -87,23 +87,6 @@
   </div>
 
   <!-- Fetch the sidebar items -->
-  <!-- <script>
-    fetch('sidebar.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('sidebar-placeholder').innerHTML = data;
-
-        // Highlight active page
-        const current = window.location.pathname.split("/").pop();
-        const links = document.querySelectorAll('#sidebar-placeholder a');
-        links.forEach(link => {
-          if (link.getAttribute('href') === current) {
-            link.classList.add('active');
-          }
-        });
-      });       
-  </script> -->
-
   <script src="/js/sidebar.js"></script>
 </body>
 
