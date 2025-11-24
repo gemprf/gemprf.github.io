@@ -26,48 +26,74 @@
       <div id="sidebar-placeholder"></div>      
     </nav>
 
-    <main class="content">
-      <h1>Running GEM-pRF</h1>
+<main class="content">
+  <h1>Running GEM-pRF</h1>
 
-      <!-- Quick Overview -->
-      <section class="quick-overview">
-        <h2>Quick Overview</h2>
-        <ul>
-          <li>📂 Prepare your XML configuration file (see sample config).</li>
-          <li>💻 Run GEM-pRF via terminal or your preferred IDE.</li>
-          <li>⚡ Make sure the correct Python environment is activated.</li>
-        </ul>
-      </section>
+  <!-- Quick Overview -->
+  <section class="quick-overview">
+    <h2>Quick Overview</h2>
+    <ul>
+      <li>📂 Prepare your XML configuration file.</li>
+      <li>🚀 Run GEM-pRF directly from Python (recommended).</li>
+      <li>💻 Advanced users can also run GEM-pRF from its entry script.</li>
+    </ul>
+  </section>
 
-      <div class="caution">
-        ⚠️ Before proceeding, ensure you have installed all required dependencies from <code>requirements.txt</code>.
-      </div>
+  <div class="caution">
+    ⚠️ Make sure you have installed GEM-pRF via <code>pip install gemprf</code> and a matching CuPy build.
+  </div>
 
-      <!-- Step-by-Step Guide -->
-      <section class="step-guide">
-        <h2>Step-by-Step Guide</h2>
+  <!-- Step-by-Step Guide -->
+  <section class="step-guide">
+    <h2>Step-by-Step Guide</h2>
 
-        <h3>Option A: Run from Terminal</h3>
-        <ul>
-          <li>Open a terminal (e.g. Anaconda Prompt) and activate your environment.</li>
-          <li>Navigate to the <code>GEMpRF</code> folder and execute:
-            <pre><code>python run_gem.py PATH_TO_YOUR_XML_CONFIG_FILE
-</code></pre>
-          </li>
-        </ul>
+    <!-- Option A -->
+    <h3>Option A: Run GEM-pRF from Python (recommended)</h3>
+    <p>This is the simplest way to use GEM-pRF. No cloning, no manual entry points.</p>
 
-        <h3>Option B: Run from IDE (e.g. VS Code)</h3>
-        <ul>
-          <li>Open the downloaded <code>GEMpRF</code> folder in VS Code.</li>
-          <li>Edit <code>run_gem.py</code> to specify your XML config file path.</li>
-          <li>Run the script directly from the IDE.</li>
-        </ul>
-      </section>
-    </main>
+    <ul>
+      <li>Import the package:</li>
+      <pre><code>import gemprf as gp</code></pre>
+
+      <li>Run GEM-pRF by providing the path to your XML config file ( 
+  <a href="https://github.com/siddmittal/GEMpRF_Demo/blob/main/sample_configs/sample_config.xml" target="_blank">see a sample config here</a>):</li>
+      <pre><code>import gemprf as gp
+gp.run("path/to/your_config.xml")</code></pre>
+    </ul>
+
+    <p>
+      This works in any Python environment: scripts, Jupyter, VS Code, PyCharm — everything.
+    </p>
+
+    <!-- Option B -->
+    <h3>Option B: Advanced — Run from entry script (GitHub codebase)</h3>
+    <p>
+      For users with full access to the GEM-pRF source code (e.g. debugging, modifying kernels),
+      you can execute GEM from its terminal entry point.
+    </p>
+
+    <ul>
+      <li>Activate your environment and navigate to the <code>GEMpRF</code> folder.</li>
+      <li>Run:</li>
+      <pre><code>python run_gem.py PATH_TO_YOUR_XML_CONFIG_FILE</code></pre>
+    </ul>
+
+    <h3>Option C: Run from an IDE (source-code users)</h3>
+    <ul>
+      <li>Open the GEM-pRF code folder in VS Code or PyCharm.</li>
+      <li>Edit <code>run_gem.py</code> to point to your XML config file.</li>
+      <li>Execute the script directly inside the IDE.</li>
+    </ul>
+
+  </section>
+</main>
+    
+    
+
   </div>
 
   <!-- Fetch the sidebar items -->
-  <script>
+  <!-- <script>
     fetch('sidebar.html')
       .then(response => response.text())
       .then(data => {
@@ -82,6 +108,8 @@
           }
         });
       });   
-  </script>  
+  </script>   -->
+
+  <script src="/js/sidebar.js"></script>
 </body>
 </html>

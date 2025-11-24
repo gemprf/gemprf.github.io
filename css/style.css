@@ -121,6 +121,15 @@ body {
   font-size: 1.2em;
 }
 
+/* indentation for sublist */
+.sidebar ul .sublist {
+  padding-left: 15px;   /* indentation */
+}
+
+.sidebar ul .sublist li a {
+  font-size: 0.95em;    /* optional, slightly smaller text */
+}
+
 
 /* Coming soon box */
 .coming-soon-box {

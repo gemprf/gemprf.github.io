@@ -28,73 +28,66 @@
       <div id="sidebar-placeholder"></div>
     </nav>
 
-    <main class="content">
-      <h1>Installation</h1>
+  <main class="content">
+    <h1>Installation</h1>
 
-      <!-- Quick Overview Section -->
-      <section class="quick-overview">
-        <h2>Quick Overview</h2>
-        <ul>
-          <li>✅ Check your system has an NVIDIA GPU</li>
-          <li>⚡ Install CUDA SDK</li>
-          <li>📦 Install CuPy (compatible with your CUDA version)</li>
-          <li>🔗 Install other dependencies</li>
-          <li>⬇️ Download GEM-pRF code</li>
-        </ul>
-      </section>
+    <!-- Quick Overview Section -->
+    <section class="quick-overview">
+      <h2>Quick Overview</h2>
+      <ul>
+        <li>✅ Check your system has an NVIDIA GPU</li>
+        <li>⚡ Install CUDA SDK</li>
+        <li>📦 Install CuPy (matching your CUDA version)</li>
+        <li>⬇️ Install GEM-pRF using pip</li>
+      </ul>
+    </section>
 
-      <!-- Step by Step Guide -->
-      <section class="step-guide">
-        <h2>Step-by-Step Guide</h2>
-
-        <p>
-          GEM-pRF requires GPU access for data processing. It uses CUDA libraries to access and process data on NVIDIA GPUs.
-        </p>
-
-        <div class="callout warning">
-          ⚠️ Ensure your system has a compatible NVIDIA GPU available.
-        </div>
-
-        <h3>Step 1. Set up GPU environment</h3>
-        <ul>
-          <li>Install the <a href="https://developer.nvidia.com/cuda-downloads" target="_blank">CUDA SDK</a> if not
-            already installed.</li>
-          <li>Check your installed CUDA version:
-            <pre><code>nvcc --version
-nvidia-smi</code></pre>
-          </li>
-          <li>Install a CuPy version compatible with your CUDA version:
-            <pre><code>pip install cupy-cuda12x  # Replace 12x with your CUDA version</code></pre>
-          </li>
-        </ul>
-
-        <h3>Step 2. Install Python dependencies</h3>
-        <ul>
-          <li>Use the provided requirements file to install dependencies:
-            <pre><code># Create or activate your preferred environment
-pip install -r requirements.txt
-</code></pre>
-          </li>
-        </ul>
-
-        <h3>Step 3. Download GEM-pRF code</h3>
-        <ul>
-          <li>Clone the repository and move into it:
-            <pre><code>git clone https://github.com/siddmittal/GEMpRF.git
-cd GEMpRF
-</code></pre>
-          </li>
-        </ul>
-      </section>
+    <!-- Step by Step Guide -->
+    <section class="step-guide">
+      <h2>Step-by-Step Guide</h2>
 
       <p>
-        ✅ Once installed, proceed to <a href="running.html">Running GEM-pRF</a>.
+        GEM-pRF requires an NVIDIA GPU and CUDA for accelerated pRF computation.
+        Make sure your system has a compatible GPU available.
       </p>
-    </main>
+
+      <div class="callout warning">
+        ⚠️ Ensure your system has a compatible NVIDIA GPU available.
+      </div>
+
+      <h3>Step 1. Set up GPU environment</h3>
+      <ul>
+        <li>Install the <a href="https://developer.nvidia.com/cuda-downloads" target="_blank">CUDA SDK</a>.</li>
+        <li>Check your CUDA installation:
+          <pre><code>nvcc --version<br>nvidia-smi</code></pre>
+        </li>
+        <li>Install a CuPy build that matches your CUDA version:
+          <pre><code>pip install cupy-cuda12x   # Replace 12x with your CUDA version</code></pre>
+        </li>
+      </ul>
+
+      <h3>Step 2. Install GEM-pRF via pip</h3>
+      <ul>
+        <li>Install from PyPI:
+          <pre><code>pip install gemprf</code></pre>
+        </li>
+        <li>Latest releases:
+          <a href="https://pypi.org/project/gemprf/" target="_blank">PyPI – gemprf</a>
+        </li>
+      </ul>
+
+    </section>
+
+    <p>
+      ✅ Once installed, proceed to <a href="running.html">Running GEM-pRF</a>.
+    </p>
+  </main>
+
+
   </div>
 
   <!-- Fetch the sidebar items -->
-  <script>
+  <!-- <script>
     fetch('sidebar.html')
       .then(response => response.text())
       .then(data => {
@@ -109,7 +102,9 @@ cd GEMpRF
           }
         });
       });       
-  </script>
+  </script> -->
+
+  <script src="/js/sidebar.js"></script>
 </body>
 
 </html>

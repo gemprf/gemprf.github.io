@@ -171,7 +171,7 @@
     </div>
 
     <!-- Fetch the sidebar items -->
-    <script>
+    <!-- <script>
         fetch('sidebar.html')
             .then(response => response.text())
             .then(data => {
@@ -186,7 +186,60 @@
                     }
                 });
             });          
-    </script>
+    </script> -->
+
+    <!-- <script>
+    fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+        // insert sidebar HTML
+        const placeholder = document.getElementById('sidebar-placeholder');
+        placeholder.innerHTML = data;
+
+        // --- Highlight active link robustly ---
+        const currentPath = window.location.pathname; // full path
+        document.querySelectorAll('#sidebar-placeholder a').forEach(link => {
+            const href = link.getAttribute('href');
+            // highlight when the current path ends with the link href
+            if (currentPath.endsWith(href)) {
+            link.classList.add('active');
+            // also expand parent collapsible if this link is inside one
+            const parentCollapsible = link.closest('.collapsible');
+            if (parentCollapsible) {
+                const hdr = parentCollapsible.querySelector('.collapsible-header');
+                const sl = parentCollapsible.querySelector('.sublist');
+                if (sl) sl.style.display = 'block';
+                if (hdr) hdr.textContent = hdr.textContent.replace('▸','▾');
+            }
+            }
+        });
+
+        // --- Initialize collapsible groups (supports multiple groups) ---
+        const collapsibles = placeholder.querySelectorAll('.collapsible');
+        collapsibles.forEach(item => {
+            const header = item.querySelector('.collapsible-header');
+            const sublist = item.querySelector('.sublist');
+            if (!header || !sublist) return;
+
+            // hide by default unless already shown by highlight logic above
+            if (getComputedStyle(sublist).display === 'none' || !sublist.style.display) {
+            sublist.style.display = sublist.style.display || 'none';
+            }
+
+            header.style.cursor = 'pointer'; // makes it clear it's clickable
+            header.addEventListener('click', () => {
+            const isOpen = sublist.style.display === 'block';
+            sublist.style.display = isOpen ? 'none' : 'block';
+            header.textContent = isOpen ? header.textContent.replace('▾','▸') : header.textContent.replace('▸','▾');
+            });
+        });
+        })
+        .catch(err => {
+        console.error('Failed to fetch sidebar:', err);
+        });
+    </script> -->
+
+    <script src="/js/sidebar.js"></script>
 </body>
 
 </html>
