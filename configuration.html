@@ -29,96 +29,96 @@
         </nav>
 
         <!-- Main content for this page -->
-        <main class="content">
-          <h1>Configuration</h1>
+<!-- Main content for this page -->
+<main class="content">
+  <h1>Configuration</h1>
 
-          <!-- Quick Overview box -->
-          <section class="quick-overview">
-            <h2>Quick Overview</h2>
-            <ul>
-              <li>⚙️ GEM-pRF uses a simple XML configuration file.</li>
-              <li>📄 All analysis settings, paths, and parameters live inside this file.</li>
-              <li>🚀 Your Python code stays tiny, you only call <code>gp.run(CONFIG_FILEPATH)</code>.</li>
-              <li>🔁 Create multiple XML files to run multiple analyses easily.</li>
-              <li>📂 GEM-pRF stores a copy of your XML file inside the analysis output folder.</li>
-            </ul>
-          </section>
+  <!-- Quick Overview box -->
+  <section class="quick-overview">
+    <h2>Quick Overview</h2>
+    <ul>
+      <li>⚙️ GEM-pRF uses a simple XML configuration file.</li>
+      <li>📄 All analysis settings, paths, and parameters live inside this file.</li>
+      <li>🚀 Your Python code stays tiny, you only call <code>gp.run(CONFIG_FILEPATH)</code>.</li>
+      <li>🔁 Create multiple XML files to run multiple analyses easily.</li>
+      <li>📂 GEM-pRF stores a copy of your XML file inside the analysis output folder.</li>
+    </ul>
+  </section>
 
-          <!-- Callout box -->
-          <div class="callout warning">
-            The configuration file is the <strong>heart of GEM-pRF</strong>.
-            If the XML file is correct, GEM-pRF will run smoothly — no code changes needed.
-          </div>
+  <!-- Callout box -->
+  <div class="callout warning">
+    The configuration file is the <strong>heart of GEM-pRF</strong>.
+    If the XML file is correct, GEM-pRF will run smoothly — no code changes needed.
+  </div>
 
-          <!-- Why XML -->
-          <section class="quick-overview">
-            <h2>Why an XML configuration file?</h2>
-            <p>
-              GEM-pRF keeps analysis settings separate from the code.
-              Instead of editing Python scripts, you adjust the XML — flexible,simple, safe, and easy to automate.
-            </p>
+  <!-- Why XML -->
+  <section class="quick-overview">
+    <h2>Why an XML configuration file?</h2>
+    <p>
+      GEM-pRF keeps analysis settings separate from the code.
+      Instead of editing Python scripts, you adjust the XML — flexible,simple, safe, and easy to automate.
+    </p>
 
-            <ul>
-              <li><strong>No code editing:</strong> all parameters are defined in the XML.</li>
-              <li><strong>Batch processing:</strong> create multiple config files and run them in sequence.</li>
-              <li><strong>Automation:</strong> call <code>gp.run()</code> in a loop or run a bash script over a folder of XML
-                files.</li>
-              <li><strong>Reproducibility:</strong> GEM-pRF automatically saves the XML file inside the analysis output
-                directory.</li>
-              <li><strong>Clarity:</strong> well-named XML files make it easy to track analyses.</li>
-            </ul>
-          </section>
+    <ul>
+      <li><strong>No code editing:</strong> all parameters are defined in the XML.</li>
+      <li><strong>Batch processing:</strong> create multiple config files and run them in sequence.</li>
+      <li><strong>Automation:</strong> call <code>gp.run()</code> in a loop or run a bash script over a folder of XML files.</li>
+      <li><strong>Reproducibility:</strong> GEM-pRF automatically saves the XML file inside the analysis output directory.</li>
+      <li><strong>Clarity:</strong> well-named XML files make it easy to track analyses.</li>
+    </ul>
+  </section>
 
-          <!-- Naming conventions -->
-          <section>
-            <h2>Recommended naming conventions</h2>
-            <p>
-              While not required, giving your XML files meaningful names makes your work much easier to understand later.
-              A BIDS-style naming convention works very well.
-            </p>
+  <!-- Naming conventions -->
+  <section class="quick-overview">
+    <h2>Recommended naming conventions</h2>
+    <p>
+      While not required, giving your XML files meaningful names makes your work much easier to understand later.
+      A BIDS-style naming convention works very well.
+    </p>
 
-            <pre><code>study-CHN_task-fixedbar123_run-concat_analysis-02_desc-hres.xml</code></pre>
+    <pre><code>study-CHN_task-fixedbar123_run-concat_analysis-02_desc-hres.xml</code></pre>
 
-            <p>Clear naming helps you recognize what the analysis did even years later.</p>
-          </section>
+    <p>Clear naming helps you recognize what the analysis did even years later.</p>
+  </section>
 
-          <!-- Running GEM-pRF -->
-          <section>
-            <h2>How to run GEM-pRF using a config file</h2>
-            <p>Once <code>gemprf</code> and the matching CuPy build are installed, run GEM-pRF using:</p>
+  <!-- Running GEM-pRF -->
+  <section class="quick-overview">
+    <h2>How to run GEM-pRF using a config file</h2>
+    <p>Once <code>gemprf</code> and the matching CuPy build are installed, run GEM-pRF using:</p>
 
-            <pre><code>import gemprf as gp
-        gp.run("path/to/your_config.xml")</code></pre>
+    <pre><code>import gemprf as gp
+gp.run("path/to/your_config.xml")</code></pre>
 
-            <p>
-              GEM-pRF reads everything from the XML file — data paths, stimuli, parameters, output locations — and executes the
-              full analysis automatically.
-            </p>
-          </section>
+    <p>
+      GEM-pRF reads everything from the XML file — data paths, stimuli, parameters, output locations — and executes the
+      full analysis automatically.
+    </p>
+  </section>
 
-          <!-- Editing XML -->
-          <section class="quick-overview">
-            <h2>Where to edit the XML file</h2>
-            <p>Use an editor that highlights XML tags:</p>
+  <!-- Editing XML -->
+  <section class="quick-overview">
+    <h2>Where to edit the XML file</h2>
+    <p>Use an editor that highlights XML tags:</p>
 
-            <ul>
-              <li><strong>VS Code</strong> (recommended)</li>
-              <li><strong>Notepad++</strong></li>
-              <li>Sublime Text, Atom, etc.</li>
-            </ul>
-          </section>
+    <ul>
+      <li><strong>VS Code</strong> (recommended)</li>
+      <li><strong>Notepad++</strong></li>
+      <li>Sublime Text, Atom, etc.</li>
+    </ul>
+  </section>
 
-          <!-- Example -->
-          <section>
-            <h2>See a full configuration example</h2>
-            <p>
-              A complete example configuration file is available here:<br>
-              👉 <a href="/examples/config_file.html">Configuration File Example</a>
-            </p>
-            <p>Use it as a template, adjust paths and parameters, and you're ready to run GEM-pRF.</p>
-          </section>
+  <!-- Example -->
+  <section class="quick-overview">
+    <h2>See a full configuration example</h2>
+    <p>
+      A complete example configuration file is available here:<br>
+      👉 <a href="/examples/config_file.html">Configuration File Example</a>
+    </p>
+    <p>Use it as a template, adjust paths and parameters, and you're ready to run GEM-pRF.</p>
+  </section>
 
-        </main>
+</main>
+
 
 
 
