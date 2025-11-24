@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GEM-pRF Configuration Files</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/png" href="/assets/images/icons/gem-icon.png" />
+</head>
+<body>
+  <div class="container">
+    <nav class="sidebar">
+      <h2>
+        <img src="/assets/images/icons/gem-icon-white.png" alt="GEM-pRF icon" class="sidebar-icon">
+        GEM-pRF
+      </h2>
+      <div id="sidebar-placeholder"></div>
+    </nav>
+
+    <main class="content">
+      <h1>Configuration Files</h1>
+
+      <p>
+        GEM-pRF uses XML configuration files to define all analysis inputs and settings.
+        Once <code>gemprf</code> and CuPy are installed, you only need to prepare your XML file and
+        pass its path to the <code>gp.run()</code> function.
+      </p>
+
+      <h2>Running with a Config File</h2>
+
+      <pre><code>import gemprf as gp
+gp.run("path/to/your_config.xml")</code></pre>
+
+      <p>
+        A complete example configuration file can be found here:
+        <a href="https://github.com/siddmittal/GEMpRF_Demo/blob/main/sample_configs/sample_config.xml" 
+           target="_blank">sample_config.xml</a>.
+      </p>
+
+      <p>
+        You can copy this template, modify paths and parameters, and use it as your starting point for
+        running your own analyses.
+      </p>
+    </main>
+  </div>
+
+  <script src="/js/sidebar.js"></script>
+</body>
+</html>

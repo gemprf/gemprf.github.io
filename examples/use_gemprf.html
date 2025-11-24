@@ -1,58 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Running GEM-pRF — Example</title>
-  <link rel="stylesheet" href="../css/style.css" />
-  <link rel="icon" type="image/png" href="../assets/images/icons/gem-icon.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Using GEM-pRF</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/png" href="/assets/images/icons/gem-icon.png">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MXYNQ1GY8V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-MXYNQ1GY8V');
+  </script>
 </head>
 <body>
   <div class="container">
     <nav class="sidebar">
       <h2>
-        <img src="../assets/images/icons/gem-icon-white.png" alt="GEM-pRF icon" class="sidebar-icon">
-        GEM-pRF
+        <img src="/assets/images/icons/gem-icon-white.png" alt="GEM-pRF icon" class="sidebar-icon">
+        GEM-pRF        
       </h2>
-      <div id="sidebar-placeholder"></div>
+      <div id="sidebar-placeholder"></div>      
     </nav>
 
     <main class="content">
-      <h1>Example — Run GEM-pRF (basic)</h1>
+      <h1>Using GEM-pRF</h1>
 
-      <p>This example shows a minimal workflow to run GEM-pRF using the packaged API.</p>
+      <p>
+        Once <code>gemprf</code> is installed and you have a matching CuPy build installed,
+        running GEM-pRF is very simple. The latest release of <code>gemprf</code> is available on
+    <a href="https://pypi.org/project/gemprf/" target="_blank">PyPI</a>.
+      </p>
 
-      <h2>Files used</h2>
-      <ul>
-        <li><code>sample_configs/sample_config.xml</code> — example XML config.</li>
-        <li>Input data (place your preprocessed fMRI files in the paths referenced by the XML).</li>
-      </ul>
+      <h2>Quick example</h2>
+      <p>Import the package and call the run function with your XML configuration file:</p>
+      <pre><code>import gemprf as gp
+gp.run("path/to/your_config.xml")</code></pre>
 
-      <h2>Steps</h2>
-      <ol>
-        <li>Install GEM-pRF and a matching CuPy build:
-          <pre><code>pip install gemprf
-pip install cupy-cuda12x  # replace 12x with your CUDA version</code></pre>
-        </li>
-        <li>Run GEM-pRF from Python:
-          <pre><code>import gemprf as gp
-gp.run("sample_configs/sample_config.xml")</code></pre>
-        </li>
-        <li>Check the output folder specified in the XML for results and logs.</li>
-      </ol>
+      <p>
+        A sample configuration file is available here:
+        <a href="https://github.com/siddmittal/GEMpRF_Demo/blob/main/sample_configs/sample_config.xml" target="_blank">
+          sample_config.xml
+        </a>.
+      </p>
 
-      <h2>Troubleshooting (quick)</h2>
-      <ul>
-        <li>If GEM-pRF errors on import, verify CuPy and CUDA versions match (<code>nvidia-smi</code> / <code>nvcc --version</code>).</li>
-        <li>For CUDA/CuPy compatibility see: <a href="https://docs.cupy.dev/en/stable/install.html" target="_blank">CuPy install</a>.</li>
-      </ul>
-
-      <p>Want a more advanced example (batch processing, custom models)? Tell me which one and I'll scaffold it.</p>
+      <p>
+        This works in scripts, Jupyter notebooks, or any Python IDE.
+      </p>
     </main>
   </div>
 
   <!-- Fetch the sidebar items -->
   <script src="/js/sidebar.js"></script>
-
 </body>
 </html>
