@@ -86,8 +86,7 @@
     <h2>How to run GEM-pRF using a config file</h2>
     <p>Once <code>gemprf</code> and the matching CuPy build are installed, run GEM-pRF using:</p>
 
-    <pre><code>import gemprf as gp
-gp.run("path/to/your_config.xml")</code></pre>
+    <pre><code>import gemprf as gp<br>gp.run("path/to/your_config.xml")</code></pre>
 
     <p>
       GEM-pRF reads everything from the XML file — data paths, stimuli, parameters, output locations — and executes the
@@ -98,12 +97,14 @@ gp.run("path/to/your_config.xml")</code></pre>
   <!-- Editing XML -->
   <section class="quick-overview">
     <h2>Where to edit the XML file</h2>
-    <p>Use an editor that highlights XML tags:</p>
+    <p>
+      Use an editor that highlights XML tags clearly, so you can avoid small mistakes and see the structure of the configuration file at a glance.
+    </p>
 
     <ul>
-      <li><strong>VS Code</strong> (recommended)</li>
-      <li><strong>Notepad++</strong></li>
-      <li>Sublime Text, Atom, etc.</li>
+      <li><strong>VS Code</strong> (recommended, easy to use and has great XML highlighting)</li>
+      <li><strong>Notepad++</strong> (lightweight and works well on Windows systems)</li>
+      <li>Sublime Text, Atom, or any editor that provides XML syntax coloring and indentation support</li>
     </ul>
   </section>
 
