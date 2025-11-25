@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Search — GEM-pRF</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/png" href="/assets/images/icons/gem-icon.png" />
+  <style>
+    .search-area { max-width: 720px; margin: 32px auto; text-align: center; }
+    .search-box { max-width: 720px; margin: 12px auto 32px; }
+    .empty-area { display: flex; justify-content: center; align-items: center; padding: 60px 0; }
+    /* Make the placeholder icon half the width of the search box (responsive) */
+    .empty-area img { opacity: 0.5; width: 50%; max-width: 360px; filter: grayscale(10%); pointer-events: none; }
+    .site-footer { text-align: center; font-size: 12px; color: #555; font-style: italic; margin: 18px 0 36px; }
+    .site-footer a { color: inherit; text-decoration: underline; }
+    .search-input { width: 100%; padding: 12px 14px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc; }
+    .results { max-width: 720px; margin: 16px auto; }
+    .result { background: #fff; border-radius: 10px; padding: 12px; margin-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.06);} 
+    .result a { font-weight: 600; color: #0077b5; text-decoration: none; }
+    .result .snippet { color: #555; font-size: 14px; margin-top: 6px; }
+    .meta { color: #888; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="sidebar">
+      <h2>
+        <img src="/assets/images/icons/gem-icon-white.png" alt="GEM-pRF icon" class="sidebar-icon">
+        GEM-pRF
+      </h2>
+      <div id="sidebar-placeholder"></div>
+    </nav>
+
+    <main class="content">
+      <div class="search-area">
+        <h1>Search the site</h1>
+
+        <div class="search-box">
+          <input id="search-input" class="search-input" placeholder="Search pages (type & press Enter or wait)..." aria-label="Search" />
+        </div>
+      </div>
+
+      <!-- empty-area shows the semi-transparent gem icon when nothing is searched -->
+      <div id="empty-area" class="empty-area">
+        <img id="empty-icon" src="/assets/images/icons/gem-icon.png" alt="GEM-pRF" />
+      </div>
+
+      <div id="results" class="results"></div>
+    </main>
+  </div>
+
+    <!-- Fetch the sidebar items -->
+    <script src="/js/sidebar.js"></script>
+    
+    <!-- Search functionality -->
+    <script src="js/search.js"></script>
+
+
+  <!-- small centered attribution for the icon -->
+  <footer class="site-footer">Icon credits — <a href="https://www.flaticon.com/free-icons/reliability" target="_blank" rel="noopener">Reliability icons created by piksart — Flaticon</a></footer>
+
+
+</body>
+</html>
