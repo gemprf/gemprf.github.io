@@ -15,9 +15,9 @@
     "text": "Configuration - GEM-pRF GEM-pRF Configuration Quick Overview ⚙️ GEM-pRF uses a simple XML configuration file. 📄 All analysis settings, paths, and parameters live inside this file. 🚀 Your Python code stays tiny, you only call gp.run(CONFIG_FILEPATH) . 🔁 Create multiple XML files to run multiple analyses easily. 📂 GEM-pRF stores a copy of your XML file inside the analysis output folder. The configuration file is the heart of GEM-pRF . If the XML file is correct, GEM-pRF will run smoothly — no code changes needed. Why an XML configuration file? GEM-pRF keeps analysis settings separate from the code. Instead of editing Python scripts, you adjust the XML — flexible,simple, safe, and easy to automate. No code editing: all parameters are defined in the XML. Batch processing: create multiple config files and run them in sequence. Automation: call gp.run() in a loop or run a bash script over a folder of XML files. Reproducibility: GEM-pRF automatically saves the XML file inside the analysis output directory. Clarity: well-named XML files make it easy to track analyses. Recommended naming conventions While not required, giving your XML files meaningful names makes your work much easier to understand later. A BIDS-style naming convention works very well. study-CHN_task-fixedbar123_run-concat_analysis-02_desc-hres.xml Clear naming helps you recognize what the analysis did even years later. How to run GEM-pRF using a config file Once gemprf and the matching CuPy build are installed, run GEM-pRF using: import gemprf as gp gp.run(\"path/to/your_config.xml\") GEM-pRF reads everything from the XML file — data paths, stimuli, parameters, output locations — and executes the full analysis automatically. Where to edit the XML file Use an editor that highlights XML tags clearly, so you can avoid small mistakes and see the structure of the configuration file at a glance. VS Code (recommended, easy to use and has great XML highlighting) Notepad++ (lightweight and works well on Windows systems) Sublime Text, Atom, or any editor that provides XML syntax coloring and indentation support See a full configuration example A complete example configuration file is available here: 👉 Configuration File Example Use it as a template, adjust paths and parameters, and you're ready to run GEM-pRF."
   },
   {
-    "path": "examples.html",
-    "title": "Examples - GEM-pRF",
-    "text": "Examples - GEM-pRF GEM-pRF Examples Here you'll find different examples that show how to work with GEM-pRF such as running GEM-pRF, editing configuration files, preparing inputs, and more. 🚧 Work in Progress 🚧 We're actively building the examples library. More examples will appear here soon ✨"
+    "path": "download_gemprf.html",
+    "title": "Download GEM-pRF",
+    "text": "Download GEM-pRF GEM-pRF Download GEM-pRF GEM-pRF can be downloaded in two ways, depending on your access and workflow. 1. Download from PyPI (recommended) The easiest and most common way to install GEM-pRF is directly from PyPI: pip install gemprf The latest release is available here: PyPI – gemprf . After installation, see Running for instructions on running GEM-pRF. 2. Download from GitHub (restricted access) Users who have been granted access to the private GEM-pRF GitHub repository may also download the source code directly from there. This option is mainly for contributors or advanced users who want to inspect the implementation, debug, or modify the code. For most users, installing from PyPI is the recommended and simplest method."
   },
   {
     "path": "index.html",
@@ -37,12 +37,12 @@
   {
     "path": "search.html",
     "title": "Search — GEM-pRF",
-    "text": "Search — GEM-pRF GEM-pRF Search the site"
+    "text": "Search — GEM-pRF GEM-pRF Search the site Icon credits — Reliability icons created by piksart — Flaticon"
   },
   {
     "path": "sidebar.html",
     "title": "",
-    "text": "Quickstart Installation Running GEM-pRF Configuration Examples ▸ Download Use gemprf Configuration file Cite Team"
+    "text": "Search Quickstart Download Installation Configuration Running Tutorials ▸ Config ▸ Configuration file Input source selection Fitting ▸ Grid ▸ GPU ▸ HRF ▸ Cite Team"
   },
   {
     "path": "team.html",
@@ -50,28 +50,18 @@
     "text": "Team - GEM-pRF GEM-pRF Team Siddharth Mittal Michael Woletz David Linhardt Christian Windischberger Other Credits Windischberger Lab – LinkedIn Medical University of Vienna Icon credits – Reliability icons created by piksart – Flaticon"
   },
   {
-    "path": "examples/config_file.html",
+    "path": "tutorials.html",
+    "title": "Tutorials - GEM-pRF",
+    "text": "Tutorials - GEM-pRF GEM-pRF Tutorials Here you'll find different tutorials that show how to work with GEM-pRF such as running GEM-pRF, editing configuration files, preparing inputs, and more. 🚧 Work in Progress 🚧 We're actively building the tutorials library. More tutorials will appear here soon ✨"
+  },
+  {
+    "path": "tutorials/config-tutorials/config_file.html",
     "title": "GEM-pRF Configuration Files",
     "text": "GEM-pRF Configuration Files GEM-pRF Configuration Files GEM-pRF uses XML configuration files to define all analysis inputs and settings. Once gemprf and CuPy are installed, you only need to prepare your XML file and pass its path to the gp.run() function. Running with a Config File import gemprf as gp gp.run(\"path/to/your_config.xml\") A complete example configuration file can be found here: sample_config.xml . You can copy this template, modify paths and parameters, and use it as your starting point for running your own analyses."
   },
   {
-    "path": "examples/download_gemprf.html",
-    "title": "Using GEM-pRF",
-    "text": "Using GEM-pRF GEM-pRF Download GEM-pRF GEM-pRF can be downloaded in two ways, depending on your access and workflow. 1. Download from PyPI (recommended) The easiest and most common way to install GEM-pRF is directly from PyPI: pip install gemprf The latest release is available here: PyPI – gemprf . After installation, you can run GEM-pRF exactly as described in the Using GEM-pRF example. 2. Download from GitHub (restricted access) Users who have been granted access to the private GEM-pRF GitHub repository may also download the source code directly from there. This option is mainly for contributors or advanced users who want to inspect the implementation, debug, or modify the code. For most users, installing from PyPI is the recommended and simplest method."
-  },
-  {
-    "path": "examples/use_gemprf.html",
-    "title": "Using GEM-pRF",
-    "text": "Using GEM-pRF GEM-pRF Using GEM-pRF Once gemprf is installed and you have a matching CuPy build installed, running GEM-pRF is very simple. The latest release of gemprf is available on PyPI . Quick example Import the package and call the run function with your XML configuration file: import gemprf as gp gp.run(\"path/to/your_config.xml\") A sample configuration file is available here: sample_config.xml . This works in scripts, Jupyter notebooks, or any Python IDE."
-  },
-  {
-    "path": "examples/ideas/bids_based_input.html",
-    "title": "",
-    "text": ""
-  },
-  {
-    "path": "examples/ideas/non_bids_fixed_path_input.html",
-    "title": "",
-    "text": ""
+    "path": "tutorials/input-source-tutorials/input-source-selection-tutorial.html",
+    "title": "Input Sources - GEM-pRF",
+    "text": "Input Sources - GEM-pRF GEM-pRF Input source selection GEM-pRF supports multiple input sources for stimuli and data. Depending on your workflow you can supply inputs from files on disk, BIDS-organized datasets, or programmatic generators. The flexible configuration system lets you select and combine different input sources without changing the core code. Overview Use GEM-pRF's configuration file to specify where stimulus and data files are located, or to point GEM-pRF at a BIDS dataset. For advanced use, you can plug in custom generators or preprocessing steps. The most common patterns are listed below: Filesystem paths: direct paths to stimulus and fMRI files. BIDS input: point GEM-pRF to a BIDS dataset and use BIDS selectors. Generated inputs: programmatically created stimuli or synthetic data. Try the demo examples (001–005) To learn more and see working examples, run the demo script in the GEMpRF DemoKit. Examples 001 through 005 demonstrate different input-source configurations and how to switch between them. Repository: run_gemprf_demo.py Quick run (local) From a machine with the DemoKit checked out, run the examples 001–005 like this: python run_gemprf_demo.py 001 python run_gemprf_demo.py 002 python run_gemprf_demo.py 003 python run_gemprf_demo.py 004 python run_gemprf_demo.py 005 Notes Make sure GEM-pRF and any required dependencies (e.g., CuPy for GPU support) are installed before running the demos. The demo script contains comments showing which configuration fields control input selection—use those as a starting point when adapting to your own data. If you'd like, I can also add short example snippets here showing the minimal configuration keys to switch input sources (BIDS vs file paths vs generator). Minimal configuration examples Below are minimal configuration snippets showing the key fields you typically change to switch input sources. These are illustrative — adapt the exact XML keys to match your config schema. Filesystem paths Direct paths to stimulus and fMRI files. <config> <inputs> <stimulus path=\"/path/to/stimulus.nii.gz\" /> <fmri path=\"/path/to/sub-01_task-task_bold.nii.gz\" /> </inputs> </config> BIDS dataset Point GEM-pRF at a BIDS root and select the subject/task using BIDS selectors. <config> <inputs> <bids_root>/path/to/BIDS</bids_root> <bids_subject>01</bids_subject> <bids_task>task</bids_task> </inputs> </config> Programmatic / generated inputs Use a generator function (module + function) when you need to create stimuli on-the-fly. <config> <inputs> <generator>my_module.my_generator_func</generator> </inputs> </config>"
   }
 ]

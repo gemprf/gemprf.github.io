@@ -13,6 +13,24 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
+/* Ensure lists in the main content area look like normal document lists
+   (distinct from the sidebar navigation lists). */
+.content ul {
+  list-style: disc;        /* standard filled circles */
+  margin: 0 0 1em 1.25em;  /* space and indentation */
+  color: #333;
+}
+.content ul > li {
+  margin-bottom: 0.5em;
+}
+.content ul ul {
+  list-style: circle;      /* second-level lists use circles */
+  margin-left: 1.1em;
+}
+.content ul ul ul {
+  list-style: square;      /* third-level lists use squares */
+}
+
 
 .container {
   display: flex;

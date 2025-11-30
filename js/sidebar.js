@@ -17,12 +17,22 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentPath.endsWith(href) || currentPath.endsWith(fullHref)) {
           link.classList.add("active");
 
-          const parent = link.closest(".collapsible");
-          if (parent) {
-            const header = parent.querySelector(".collapsible-header");
-            const sublist = parent.querySelector(".sublist");
-            if (sublist) sublist.style.display = "block";
-            if (header) header.textContent = "Examples ▾";
+          // Expand the matching collapsible and all its ancestor collapsibles
+          let p = link.closest('.collapsible');
+          while (p) {
+            const header = p.querySelector('.collapsible-header');
+            const sublist = p.querySelector('.sublist');
+            if (sublist) sublist.style.display = 'block';
+            if (header) {
+              if (header.textContent.includes('▸')) {
+                header.textContent = header.textContent.replace('▸', '▾');
+              } else if (!header.textContent.includes('▾')) {
+                header.textContent = header.textContent.trim() + ' ▾';
+              }
+            }
+            // move to the next ancestor collapsible (if any)
+            const parentUL = p.parentElement;
+            p = parentUL ? parentUL.closest('.collapsible') : null;
           }
         }
       });

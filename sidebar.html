@@ -1,23 +1,94 @@
 <!-- dependency for search lens icon -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+<!-- Tutorials styling: reduce font size by hierarchy and tighten vertical spacing -->
+<style>
+  /* Target only the Tutorials area so other lists are unaffected */
+  #tutorials-group .sublist { font-size: 0.95rem; line-height: 1.18; }
+  #tutorials-group .sublist .sublist { font-size: 0.9rem; line-height: 1.14; }
+  /* Slightly smaller for a third level if it appears */
+  #tutorials-group .sublist .sublist .sublist { font-size: 0.86rem; }
+
+  /* Reduce vertical spacing between items */
+  #tutorials-group .sublist > li { margin: 4px 0; }
+  #tutorials-group .sublist .sublist > li { margin: 3px 0; }
+
+  /* Compact padding for nested lists */
+  #tutorials-group .sublist { padding-left: 10px; }
+  #tutorials-group .sublist .sublist { padding-left: 12px; }
+
+  /* Reduce boldness for tutorials headers and links so they are less heavy */
+  #tutorials-group > .collapsible > .collapsible-header { font-weight: 500; }
+  #tutorials-group a { font-weight: 400; }
+
+  /* Disabled placeholder sections: visually muted and not clickable */
+  #tutorials-group .collapsible.disabled > .collapsible-header {
+    opacity: 0.65;
+    cursor: default;
+    pointer-events: none; /* simple way to disable clicks */
+  }
+</style>
+
 <ul>
   <li><a href="/search.html">Search <i class="fa fa-search"></i></a></li>
   <li><a href="/index.html">Quickstart</a></li>
+  <li><a href="/download_gemprf.html">Download</a></li>
   <li><a href="/installation.html">Installation</a></li>
-  <li><a href="/running.html">Running GEM-pRF</a></li>
   <li><a href="/configuration.html">Configuration</a></li>
+  <li><a href="/running.html">Running</a></li>
 
-  <!-- put the list of Examples here -->
-  <li class="collapsible">
-    <span class="collapsible-header">Examples ▸</span>
-    <ul class="sublist">
-      <li><a href="/examples/download_gemprf.html">Download</a></li>
-      <li><a href="/examples/use_gemprf.html">Use gemprf</a></li>
-      <li><a href="/examples/config_file.html">Configuration file</a></li>      
-      <!-- Add more examples here -->
-    </ul>
-  </li>
+  <!-- put the list of Tutorials here (grouped by folder, alphabetically) -->
+    <li id="tutorials-group" class="collapsible">
+      <span class="collapsible-header">Tutorials ▸</span>
+      <ul class="sublist">
+        <!-- Config -->
+        <li class="collapsible">
+          <span class="collapsible-header">Config ▸</span>
+          <ul class="sublist">
+            <li><a href="/tutorials/config-tutorials/config_file.html">Configuration file</a></li>
+          </ul>
+        </li>
+
+        <!-- Input Data -->
+        <li class="collapsible">
+          <span class="collapsible-header">Input Data ▸</span>
+          <ul class="sublist">
+            <li><a href="/tutorials/input-source-tutorials/input-source-selection-tutorial.html">Input source selection</a></li>
+          </ul>
+        </li>
+
+        <!-- Fitting (placeholder) -->
+        <li class="collapsible disabled">
+          <span class="collapsible-header">Fitting ▸</span>
+          <ul class="sublist">
+          </ul>
+        </li>
+
+        <!-- Grid (placeholder) -->
+        <li class="collapsible disabled">
+          <span class="collapsible-header">Grid ▸</span>
+          <ul class="sublist">
+          </ul>
+        </li>
+
+        <!-- GPU (placeholder) -->
+        <li class="collapsible disabled">
+          <span class="collapsible-header">GPU ▸</span>
+          <ul class="sublist">
+          </ul>
+        </li>
+
+        <!-- HRF (placeholder) -->
+        <li class="collapsible disabled">
+          <span class="collapsible-header">HRF ▸</span>
+          <ul class="sublist">
+          </ul>
+        </li>
+
+        <!-- Ideas section removed -->
+
+      </ul>
+    </li>
 
   <li><a href="/cite.html">Cite</a></li>
   <li><a href="/team.html">Team</a></li>
