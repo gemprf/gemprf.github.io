@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input Sources - GEM-pRF</title>
+    <title>Tutorial - Input Source Selection in GEM-pRF</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" type="image/png" href="/assets/images/icons/gem-icon.png">
 
@@ -30,81 +30,75 @@
         </nav>
 
         <main class="content">
-            <h1>Input Source Selection</h1>
+<h1>Tutorial - Input Source Selection</h1>
 
-            <div class="quick-overview">
-                <h2>Quick Overview</h2>
-                <p>Want to see how GEM-pRF handles different input sources? The demo already has everything set up. Just
-                    do this:</p>
-                <ol>
-                    <li>Download the <a href="https://github.com/siddmittal/GEMpRF-DemoKit" target="_blank">GEMpRF DemoKit</a> (it includes sample fMRI/MRI data):</li>
-                </ol>
+<!-- Quick Overview Section -->
+<section class="quick-overview">
+    <h2>Quick Overview</h2>
+    <ul>
+        <li>📦 Make sure GEM-pRF is installed (see the <a href="/installation.html">Installation page</a>)</li>
+        <li>⬇️ Download the GEMpRF DemoKit</li>
+        <li>▶️ Run the interactive demo script</li>
+        <li>🔍 Choose examples 001–005 to explore different input source configurations</li>
+    </ul>
+</section>
 
-                <pre><code>git clone https://github.com/siddmittal/GEMpRF-DemoKit.git
-cd GEMpRF-DemoKit
-</code></pre>
+      <div class="callout warning">
+        ⚠️ Ensure that you have installed GEM-pRF package (follow the <a href="/installation.html">Installation page</a>).
+      </div>
 
-                <ol start="2">
-                    <li>Run the interactive demo:</li>
-                </ol>
+<!-- Step by Step Guide -->
+<section class="step-guide">
+    <h2>Step-by-Step Guide</h2>
 
-                <pre><code>python run_gemprf_demo.py</code></pre>
+    <h3>Step 1. Download the DemoKit</h3>
+      <ul>
+        <li>This repository contains sample fMRI/MRI data and example configurations.
+          <pre><code>git clone https://github.com/siddmittal/GEMpRF-DemoKit.git<br>cd GEMpRF-DemoKit</code></pre>
+        </li>
+      </ul>
 
-                <p>The script asks what you want to learn. To explore input sources, pick <strong>options 001 -
-                        005</strong>. That’s it.</p>
-            </div>
+    <h3>Step 2. Run the interactive demo</h3>
+    <ul>
+        <li>The demo script guides you through multiple examples. To explore input sources, select <strong>options 001–005</strong>.
+            <pre><code>python run_gemprf_demo.py</code></pre>
+        </li>
+    </ul>
 
-            <p>
-                GEM-pRF lets you pull inputs from different places - raw files, BIDS datasets.
-                The goal here is to show you how the software decides <em>where your data is coming from</em> and how to
-                control it.
-            </p>
+    <h3>Step 3. What happens during the demo</h3>
+    <ul>
+        <li><strong>Interactive menu</strong>: choose examples showing different input styles</li>
+        <li><strong>Automatic path fixing</strong>: XML configs update to your local DemoKit paths</li>
+        <li><strong>GPU memory check</strong>: prevents running models that won’t fit</li>
+        <li><strong>Full GEM-pRF run</strong>: executes <code>gp.run()</code> using the selected configuration</li>
+    </ul>
+</section>
 
-            <h2>How Input Sources Work</h2>
-            <p>
-                Everything runs through the XML configuration file. You don’t edit GEM-pRF itself - you just change the
-                config.
-            </p>
+<h2>How Input Sources Work</h2>
+<p>
+    GEM-pRF accepts inputs from multiple sources: raw filesystem paths or structured BIDS datasets.
+    Everything is controlled through XML configuration files, not by modifying GEM-pRF code.
+</p>
+<ul>
+    <li><strong>Filesystem paths</strong>: direct references to your fMRI and stimulus files</li>
+    <li><strong>BIDS datasets</strong>: GEM-pRF locates the correct files based on subject/session</li>
+</ul>
 
-            <ul>
-                <li><strong>Filesystem paths</strong>: point directly to your fMRI and stimulus files.</li>
-                <li><strong>BIDS datasets</strong>: use subject/session selectors, and GEM-pRF finds the files for you.
-                </li>
-            </ul>
+<h2>Examples You Will See (001–005)</h2>
+<ul>
+    <li><strong>001:</strong> BIDS + prfprepare (surface), individual runs</li>
+    <li><strong>002:</strong> BIDS + fMRIPrep (surface), individual runs</li>
+    <li><strong>003:</strong> BIDS + fMRIPrep (volume), individual runs</li>
+    <li><strong>004:</strong> BIDS + fMRIPrep (surface + volume), individual runs</li>
+    <li><strong>005:</strong> Fixed paths (non-BIDS) + prfprepare (surface)</li>
+</ul>
 
-            <h2>Learning Through the Demo (001–005)</h2>
-            <p>
-                The DemoKit includes several ready-made examples that show how different input setups look in practice.
-                You don't need to prepare any data - the runner updates paths automatically.
-            </p>
-            <p>Here’s what the demo script does for you:</p>
+<h2>Notes</h2>
+<p>
+    Ensure GEM-pRF and required dependencies (e.g., CuPy for GPU support) are installed.
+    When adapting examples to your own data, check the XML comments to see which fields control input behaviour.
+</p>
 
-            <ul>
-                <li><strong>Interactive menu</strong>: lets you select examples 001 - 005, each demonstrating a
-                    different input style.</li>
-                <li><strong>Automatic path fixing</strong>: the XML files are patched to point at your local copy of the
-                    sample data.</li>
-                <li><strong>GPU memory check</strong>: if the model won't fit, the script stops early instead of
-                    crashing halfway.</li>
-                <li><strong>Full GEM-pRF run</strong>: once ready, it calls <code>gp.run()</code> on the chosen
-                    configuration.</li>
-            </ul>
-
-            <h2>Examples you will See (001 - 005)</h2>
-            <ul>
-                <li><strong>001:</strong> BIDS + prfprepare (surface), individual runs</li>
-                <li><strong>002:</strong> BIDS + fMRIPrep (surface), individual runs</li>
-                <li><strong>003:</strong> BIDS + fMRIPrep (volume), individual runs</li>
-                <li><strong>004:</strong> BIDS + fMRIPrep (surface + volume), individual runs</li>
-                <li><strong>005:</strong> Fixed paths (non-BIDS) + prfprepare (surface)</li>
-            </ul>
-
-            <h2>Notes</h2>
-            <p>
-                Make sure GEM-pRF and dependencies (e.g., CuPy for GPU support) are installed.
-                If you're adapting these examples to your own data, the comments in the XML files show exactly which
-                fields control input behaviour.
-            </p>
         </main>
     </div>
 

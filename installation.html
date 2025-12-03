@@ -45,17 +45,24 @@
     <!-- Step by Step Guide -->
     <section class="step-guide">
       <h2>Step-by-Step Guide</h2>
-
+    
       <p>
         GEM-pRF requires an NVIDIA GPU and CUDA for accelerated pRF computation.
         Make sure your system has a compatible GPU available.
       </p>
-
+    
       <div class="callout warning">
         ⚠️ Ensure your system has a compatible NVIDIA GPU available.
       </div>
-
-      <h3>Step 1. Set up GPU environment</h3>
+    
+      <h3>Step 1. Create a new python environment (recommended)</h3>
+      <ul>
+        <li>Create a fresh conda environment:
+          <pre><code>conda create --name gemprf python=3.10<br>conda activate gemprf</code></pre>
+        </li>
+      </ul>
+    
+      <h3>Step 2. Set up GPU environment</h3>
       <ul>
         <li>Install the <a href="https://developer.nvidia.com/cuda-downloads" target="_blank">CUDA SDK</a>.</li>
         <li>Check your CUDA installation:
@@ -65,8 +72,16 @@
           <pre><code>pip install cupy-cuda12x   # Replace 12x with your CUDA version</code></pre>
         </li>
       </ul>
-
-      <h3>Step 2. Install GEM-pRF via pip</h3>
+    
+      <h3>Step 3. Verify CUDA–CuPy compatibility</h3>
+      <ul>
+        <li>Run a quick test to confirm CuPy can use the CUDA runtime correctly:
+          <pre><code>python -c "import cupy as cp; print(cp.arange(5) ** 2)"</code></pre>
+        </li>
+        <li>If this fails, your CuPy build does not match your CUDA runtime.</li>
+      </ul>
+    
+      <h3>Step 4. Install GEM-pRF via pip</h3>
       <ul>
         <li>Install from PyPI:
           <pre><code>pip install gemprf</code></pre>
@@ -75,7 +90,13 @@
           <a href="https://pypi.org/project/gemprf/" target="_blank">PyPI – gemprf</a>
         </li>
       </ul>
+    
 
+      <h3>Step 5. Try the GEMpRF-DemoKit (optional)</h3>
+      <ul>
+        <li>Follow the instructions in the <a href="tutorials/input-source-tutorials/input-source-selection-tutorial.html">Getting Started with GEMpRF-DemoKit tutorial</a> to verify your installation.</li>
+      </ul>
+    
     </section>
 
     <p>
