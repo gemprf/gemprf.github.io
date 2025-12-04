@@ -3,6 +3,11 @@ body {
   background: #f0f0f0; /* this will be the color of the margins */
 }
 
+/* Base font for the whole site: prefer Helvetica with fallbacks */
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 /* Main content adjustments */
 .content {
   max-width: 1000px;      /* limit content width */
