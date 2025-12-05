@@ -1,11 +1,79 @@
 // sidebar.js
 document.addEventListener("DOMContentLoaded", () => {
+  // Inject site favicon into <head> so all pages that load the sidebar get it.
+  try {
+    const existing = document.querySelector('link[rel="icon"]');
+    if (!existing) {
+      const link = document.createElement('link');
+      link.rel = 'icon';
+      link.type = 'image/x-icon';
+      link.href = '/assets/images/icons/gem-favicon-retinotopy.png';
+      document.head.appendChild(link);
+    }
+  } catch (e) {
+    console.warn('Failed to inject favicon:', e);
+  }
   // fetch and insert sidebar
   fetch("/sidebar.html")
     .then(response => response.text())
     .then(data => {
       const placeholder = document.getElementById("sidebar-placeholder");
       placeholder.innerHTML = data;
+
+      // Prepend site logo to the sidebar header (if header exists and no logo present)
+      try {
+        const nav = document.querySelector('.sidebar');
+        if (nav) {
+          const h2 = nav.querySelector('h2');
+          if (h2 && !h2.querySelector('img.sidebar-icon')) {
+            // Replace h2 contents with a stacked logo and centered title
+            const logoSrc = '/assets/images/icons/gem-icon-retinotopy-white.png';
+            h2.innerHTML = '';
+            const wrapper = document.createElement('div');
+            wrapper.className = 'sidebar-logo-wrapper';
+
+            // inner container that will be sized to the title width and centered
+            const inner = document.createElement('div');
+            inner.className = 'sidebar-logo-inner';
+
+            const logoDiv = document.createElement('div');
+            logoDiv.className = 'logo';
+            const img = document.createElement('img');
+            img.src = logoSrc;
+            img.alt = 'GEM-pRF logo';
+            img.className = 'sidebar-icon';
+            logoDiv.appendChild(img);
+
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'logo-text';
+            titleDiv.textContent = 'GEM-pRF';
+
+            inner.appendChild(logoDiv);
+            inner.appendChild(titleDiv);
+            wrapper.appendChild(inner);
+            h2.appendChild(wrapper);
+
+            // After the elements are in the DOM, size the inner container to match the title width
+            // so the image (100% width of inner) and title remain centered together while the
+            // wrapper (full-width) stays left-aligned with other sidebar items.
+            requestAnimationFrame(() => {
+              try {
+                const titleWidth = titleDiv.getBoundingClientRect().width;
+                if (titleWidth && inner) {
+                  inner.style.width = Math.max(0, Math.round(titleWidth)) + 'px';
+                  // make image fill the inner width
+                  img.style.width = '100%';
+                  img.style.height = 'auto';
+                }
+              } catch (err) {
+                // ignore measurement errors
+              }
+            });
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to insert sidebar logo:', e);
+      }
 
       const currentPath = window.location.pathname;
 

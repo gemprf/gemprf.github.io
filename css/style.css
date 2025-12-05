@@ -72,14 +72,44 @@ body {
 .sidebar h2 {
   margin-top: 0;
   display: flex;
-  align-items: center;
-  gap: 10px; /* space between text and icon */  
+  flex-direction: column; /* stack logo above title */
+  align-items: flex-start; /* align wrapper to left edge of sidebar */
+  text-align: left;
+  gap: 8px; /* vertical space between logo and title */
 }
 
-/* make icon slightly bigger than the text */
-.sidebar-icon {
-  height: 1.4em;  /* 1em = same as text height; 1.4em = ~40% bigger */
-  width: auto;    /* maintain aspect ratio */
+/* make sidebar logo take full width of the sidebar */
+.sidebar .logo {
+  width: 100%;
+}
+.sidebar-logo-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* left-align the wrapper with other sidebar items */
+}
+
+/* inner box that will be sized to the title width; its contents are centered */
+.sidebar-logo-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* left-align logo and title within this inner box */
+}
+.sidebar .logo img.sidebar-icon {
+  width: auto;      /* will be set via JS to match title width */
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.sidebar .logo-text {
+  font-size: 1.05em;
+  color: inherit;
+  margin: 0;
+  padding: 0; /* remove horizontal padding so title aligns with links */
 }
 
 .sidebar ul {
