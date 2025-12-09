@@ -110,6 +110,7 @@ body {
   color: inherit;
   margin: 0;
   padding: 0; /* remove horizontal padding so title aligns with links */
+  white-space: nowrap; /* prevent text from wrapping on mobile */
 }
 
 .sidebar ul {
