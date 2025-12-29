@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Speeds
 	const moveSpeed = 60; // px/s
 	const zoomSpeed = 0.15; // scale units/s
-	const resetPauseMs = 2000; // pause between slides (images ↔ text)
+	const resetPauseMs = 3500; // pause between slides (images ↔ text)
 
 	const cHeight = carousel.getBoundingClientRect().height;
 	const cWidth = carousel.getBoundingClientRect().width;

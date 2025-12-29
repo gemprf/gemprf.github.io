@@ -24,7 +24,7 @@
   inset: 0;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 250ms ease;
+  transition: opacity 1500ms ease-in-out;
   z-index: 1; /* above decorative background */
 }
 .carousel-item.active {
@@ -35,9 +35,13 @@
 .hemi-img {
   position: absolute;
   top: 50%; /* vertically center baseline before transforms */
-  height: 70%; /* initial displayed height; allows room to zoom up to 100% */
+  max-width: 50%; /* limit each image to half the container width */
+  max-height: 70%; /* initial displayed height; allows room to zoom up to 100% */
+  height: auto; /* maintain aspect ratio */
+  width: auto; /* maintain aspect ratio */
   transform-origin: center center;
   will-change: transform; /* hint for smoother animations */
+  object-fit: contain; /* ensure image fits within bounds */
 }
 
 .hemi-img.left {
@@ -46,6 +50,19 @@
 
 .hemi-img.right {
   right: 0; /* anchor to right edge */
+}
+
+/* Adjust image size for smaller screens */
+@media (max-width: 768px) {
+  .hemi-img {
+    max-height: 60%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hemi-img {
+    max-height: 50%;
+  }
 }
 
 /* Text slides */
@@ -58,6 +75,8 @@
   justify-content: center;/* vertical center */
   gap: 8px;               /* space between lines */
   text-align: center;
+  padding: 20px;          /* add padding to prevent edge touch */
+  box-sizing: border-box; /* include padding in width calculation */
 }
 
 /* Decorative pattern overlay for text slide only */
@@ -93,13 +112,45 @@
   font-weight: 600;
   color: #f5f7fa;        /* light text on dark gradient */
   letter-spacing: 0.01em;
-  line-height: 1;
+  line-height: 1.2;
   white-space: nowrap; /* single line */
   z-index: 2;            /* above waves */
+  max-width: 100%;       /* never exceed container width */
+  overflow: hidden;      /* hide any overflow */
+  text-overflow: ellipsis; /* show ... if text is cut */
+  display: inline-block; /* needed for max-width to work */
 }
 
 .item-text .carousel-text-line.text-line-2 {
   font-size: 2.5rem; /* larger for "GPU-Empowered Mapping" */
+}
+
+/* Responsive font sizes for smaller screens */
+@media (max-width: 900px) {
+  .item-text .carousel-text-line {
+    font-size: 1.5rem;
+  }
+  .item-text .carousel-text-line.text-line-2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .item-text .carousel-text-line {
+    font-size: 1.2rem;
+  }
+  .item-text .carousel-text-line.text-line-2 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .item-text .carousel-text-line {
+    font-size: 1rem;
+  }
+  .item-text .carousel-text-line.text-line-2 {
+    font-size: 1.2rem;
+  }
 }
 
 .item-text .carousel-text-line.text-line-1 {
