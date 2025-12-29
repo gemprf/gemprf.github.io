@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quickstart - GEM-pRF</title>
     <link rel="stylesheet" href="/css/style.css">
-  
+    <link rel="stylesheet" href="/css/carousel.css">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MXYNQ1GY8V"></script>
     <script>
@@ -28,6 +28,24 @@
     </nav>
 
     <main class="content">
+      <!-- Hemispheres Carousel (top of page) -->
+      <section class="hemi-section">
+        <div id="hemis-carousel" class="hemi-carousel" aria-label="Hemispheres carousel" role="region">
+          <!-- Slide 1: Images -->
+          <div class="carousel-item item-images active">
+            <img class="hemi-img left" alt="Left Hemisphere" src="/assets/images/retMaps/leftHemiWhite.png" />
+            <img class="hemi-img right" alt="Right Hemisphere" src="/assets/images/retMaps/rightHemiWhite.png" />
+          </div>
+          <!-- Slide 2: Texts (sequential in same tab) -->
+          <div class="carousel-item item-text">
+            <div class="carousel-text">
+              <p class="carousel-text-line text-line-2">GPU-Empowered Mapping</p>
+              <p class="carousel-text-line text-line-1">Highly Accurate Retinotopic Maps</p>              
+            </div>
+          </div>
+        </div>
+      </section>
+
       <h1>Quickstart</h1>
 
       <!-- Welcome Box -->
@@ -88,6 +106,8 @@
 
     <!-- Fecth the sidebar items -->
     <script src="/js/sidebar.js"></script>
+  <!-- Carousel animation -->
+  <script src="/js/carousel.js"></script>
 
 </body>
 

@@ -1,0 +1,107 @@
+/* Hemispheres Carousel */
+.hemi-section {
+  margin-top: 30px;
+}
+
+.hemi-section h2 {
+  margin: 0 0 12px 0;
+}
+
+.hemi-carousel {
+  position: relative;
+  width: 100%;
+  height: 360px; /* default carousel height */
+  /* Subtle dark gradient to suit transparent images */
+  background: radial-gradient(1200px circle at 50% 50%, #1f2937 0%, #0f172a 55%, #0b1220 100%);
+  border-radius: 8px;
+  overflow: hidden; /* ensure zoom never shows outside */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+/* Slide layering */
+.carousel-item {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease;
+  z-index: 1; /* above decorative background */
+}
+.carousel-item.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hemi-img {
+  position: absolute;
+  top: 50%; /* vertically center baseline before transforms */
+  height: 70%; /* initial displayed height; allows room to zoom up to 100% */
+  transform-origin: center center;
+  will-change: transform; /* hint for smoother animations */
+}
+
+.hemi-img.left {
+  left: 0; /* anchor to left edge */
+}
+
+.hemi-img.right {
+  right: 0; /* anchor to right edge */
+}
+
+/* Text slides */
+.item-text .carousel-text {
+  position: absolute;
+  inset: 0; /* fill slide */
+  display: flex;
+  flex-direction: column; /* stack lines vertically */
+  align-items: center;    /* horizontal center */
+  justify-content: center;/* vertical center */
+  gap: 8px;               /* space between lines */
+  text-align: center;
+}
+
+/* Decorative pattern overlay for text slide only */
+.item-text::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* layered subtle dot grid pattern */
+  background-image:
+    radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: 20px 20px, 40px 40px;
+  background-position: 0 0, 10px 10px;
+  opacity: 0.35;
+}
+
+/* Animated wave canvas overlay (brain-signal-like) */
+.hemi-carousel .wave-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;            /* blend subtly over background */
+  mix-blend-mode: screen;  /* brighten on dark gradient */
+  z-index: 0;              /* keep behind images/text */
+}
+
+.item-text .carousel-text-line {
+  position: static;      /* let flexbox control layout */
+  transform: none;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #f5f7fa;        /* light text on dark gradient */
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap; /* single line */
+  z-index: 2;            /* above waves */
+}
+
+.item-text .carousel-text-line.text-line-2 {
+  font-size: 2.5rem; /* larger for "GPU-Empowered Mapping" */
+}
+
+.item-text .carousel-text-line.text-line-1 {
+  color: #60a5fa; /* distinct color for "Highly Accurate Retinotopic Maps" */
+}
