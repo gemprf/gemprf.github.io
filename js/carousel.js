@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	const zoomSpeed = 0.15; // scale units/s
 	const resetPauseMs = 3500; // pause between slides (images ↔ text)
 
-	const cHeight = carousel.getBoundingClientRect().height;
-	const cWidth = carousel.getBoundingClientRect().width;
+	let cHeight = carousel.getBoundingClientRect().height;
+	let cWidth = carousel.getBoundingClientRect().width;
 
 	// Wave canvas overlay sized to carousel (always visible)
 	let waveCanvas = document.createElement('canvas');
@@ -40,6 +40,29 @@ document.addEventListener("DOMContentLoaded", () => {
 	waveCanvas.height = Math.floor(cHeight);
 	carousel.appendChild(waveCanvas);
 	waveCtx = waveCanvas.getContext('2d');
+
+	// Resize handler to update canvas and recalculate dimensions
+	const handleResize = () => {
+		const newHeight = carousel.getBoundingClientRect().height;
+		const newWidth = carousel.getBoundingClientRect().width;
+		
+		// Only update if dimensions actually changed
+		if (newHeight !== cHeight || newWidth !== cWidth) {
+			cHeight = newHeight;
+			cWidth = newWidth;
+			waveCanvas.width = Math.floor(cWidth);
+			waveCanvas.height = Math.floor(cHeight);
+			
+			// Recalculate maxScale for current image slide
+			if (leftImg && rightImg && leftImg.complete && rightImg.complete) {
+				const baseDisplayHeight = leftImg.getBoundingClientRect().height;
+				maxScale = Math.max(1, cHeight / baseDisplayHeight);
+			}
+		}
+	};
+
+	// Listen for window resize
+	window.addEventListener('resize', handleResize);
 
 	// Smooth noise helper (sum of sines)
 	const noiseSeeds = [Math.random()*1000, Math.random()*2000, Math.random()*3000];
@@ -142,6 +165,37 @@ document.addEventListener("DOMContentLoaded", () => {
 		const dt = (ts - lastTs) / 1000;
 		lastTs = ts;
 
+		// Draw animated waves every frame (always, regardless of state)
+		if (waveCtx) {
+			wavePhase += dt;
+			waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+			const W = waveCanvas.width;
+			const H = waveCanvas.height;
+			const waves = [
+				{ y: H*0.15, amp: 16, wl: 140, speed: 1.1, color: 'rgba(255,126,126,0.35)', noiseAmp: 4, driftAmp: 7, driftFreq: 0.45, spikeAmp: 8, spikeRate: 1.35, hfAmp: 4, hfFreq: 3.2, seed: 0 },
+				{ y: H*0.30, amp: 18, wl: 170, speed: 0.9, color: 'rgba(255,178,102,0.32)', noiseAmp: 5, driftAmp: 6, driftFreq: 0.38, spikeAmp: 9, spikeRate: 1.15, hfAmp: 5, hfFreq: 2.8, seed: 1 },
+				{ y: H*0.50, amp: 14, wl: 130, speed: 1.4, color: 'rgba(255,235,180,0.26)', noiseAmp: 4, driftAmp: 5, driftFreq: 0.42, spikeAmp: 7, spikeRate: 1.6, hfAmp: 3, hfFreq: 3.5, seed: 2 },
+				{ y: H*0.70, amp: 16, wl: 155, speed: 1.05, color: 'rgba(255,178,102,0.30)', noiseAmp: 4, driftAmp: 6, driftFreq: 0.40, spikeAmp: 8, spikeRate: 1.25, hfAmp: 4, hfFreq: 3.0, seed: 3 },
+				{ y: H*0.85, amp: 15, wl: 145, speed: 1.2, color: 'rgba(255,126,126,0.28)', noiseAmp: 5, driftAmp: 7, driftFreq: 0.48, spikeAmp: 9, spikeRate: 1.4, hfAmp: 4, hfFreq: 3.3, seed: 4 }
+			];
+			waves.forEach((w) => {
+				waveCtx.beginPath();
+				for (let x = 0; x <= W; x += 2) {
+					const theta = (x / w.wl) * Math.PI * 2 + wavePhase * w.speed;
+					const base = w.y + w.amp * Math.sin(theta);
+					const drift = w.driftAmp * Math.sin(w.driftFreq * wavePhase + w.seed);
+					const noise = w.noiseAmp * noise1D(x, wavePhase*0.6, w.seed);
+					const spike = w.spikeAmp * Math.max(0, noise1D(x*0.4, wavePhase * w.spikeRate, w.seed+5));
+					const hf = w.hfAmp * Math.sin(theta * w.hfFreq + wavePhase * 2.2);
+					const y = base + drift + noise + spike + hf;
+					if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
+				}
+				waveCtx.strokeStyle = w.color;
+				waveCtx.lineWidth = 2.2;
+				waveCtx.stroke();
+			});
+		}
+
 		if (state === "run") {
 			// Image slide: move + zoom linearly
 			if (leftImg && rightImg && imageReady) {
@@ -177,35 +231,6 @@ document.addEventListener("DOMContentLoaded", () => {
 					gpu.style.opacity = op;
 					if (acc) acc.style.opacity = op;
 				}
-			}
-
-			// Draw animated waves every frame
-			if (waveCtx) {
-				wavePhase += dt;
-				waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
-				const W = waveCanvas.width;
-				const H = waveCanvas.height;
-				const waves = [
-					{ y: H*0.35, amp: 16, wl: 140, speed: 1.1, color: 'rgba(255,126,126,0.35)', noiseAmp: 4, driftAmp: 7, driftFreq: 0.45, spikeAmp: 8, spikeRate: 1.35, hfAmp: 4, hfFreq: 3.2, seed: 0 },
-					{ y: H*0.50, amp: 18, wl: 170, speed: 0.9, color: 'rgba(255,178,102,0.32)', noiseAmp: 5, driftAmp: 6, driftFreq: 0.38, spikeAmp: 9, spikeRate: 1.15, hfAmp: 5, hfFreq: 2.8, seed: 1 },
-					{ y: H*0.65, amp: 14, wl: 130, speed: 1.4, color: 'rgba(255,235,180,0.26)', noiseAmp: 4, driftAmp: 5, driftFreq: 0.42, spikeAmp: 7, spikeRate: 1.6, hfAmp: 3, hfFreq: 3.5, seed: 2 }
-				];
-				waves.forEach((w) => {
-					waveCtx.beginPath();
-					for (let x = 0; x <= W; x += 2) {
-						const theta = (x / w.wl) * Math.PI * 2 + wavePhase * w.speed;
-						const base = w.y + w.amp * Math.sin(theta);
-						const drift = w.driftAmp * Math.sin(w.driftFreq * wavePhase + w.seed);
-						const noise = w.noiseAmp * noise1D(x, wavePhase*0.6, w.seed);
-						const spike = w.spikeAmp * Math.max(0, noise1D(x*0.4, wavePhase * w.spikeRate, w.seed+5));
-						const hf = w.hfAmp * Math.sin(theta * w.hfFreq + wavePhase * 2.2);
-						const y = base + drift + noise + spike + hf;
-						if (x === 0) waveCtx.moveTo(x, y); else waveCtx.lineTo(x, y);
-					}
-					waveCtx.strokeStyle = w.color;
-					waveCtx.lineWidth = 2.2;
-					waveCtx.stroke();
-				});
 			}
 
 			applyTransforms();
