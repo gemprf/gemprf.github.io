@@ -50,7 +50,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             inner.appendChild(logoDiv);
             inner.appendChild(titleDiv);
-            wrapper.appendChild(inner);
+            
+            // Wrap the logo and title in a link to index.html
+            const link = document.createElement('a');
+            link.href = '/index.html';
+            link.style.textDecoration = 'none';
+            link.style.color = 'inherit';
+            link.appendChild(inner);
+            wrapper.appendChild(link);
             h2.appendChild(wrapper);
 
             // After the elements are in the DOM, size the inner container to match the title width
