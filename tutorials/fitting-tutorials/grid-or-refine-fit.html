@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Grid Fit vs Grid + Refine Fit - GEM-pRF | Fitting Strategy Tutorial</title>
+  <meta name="description" content="Learn how to choose between grid fitting only or combining grid fit with refine fit in GEM-pRF. Configure your fitting strategy through the XML configuration file.">
+  <meta name="keywords" content="GEM-pRF fitting, grid fit, refine fit, fitting strategy, population receptive field, pRF optimization">
+  <meta name="author" content="GEM-pRF Team">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Grid Fit vs Grid + Refine Fit - GEM-pRF Tutorial">
+  <meta property="og:description" content="Learn how to choose between grid fitting only or grid + refine fitting strategies in GEM-pRF.">
+  <meta property="og:url" content="https://gemprf.github.io/tutorials/fitting-tutorials/grid-or-refine-fit.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Grid Fit vs Grid + Refine Fit - GEM-pRF Tutorial">
+  <meta name="twitter:description" content="Learn how to choose between grid fitting only or grid + refine fitting strategies in GEM-pRF.">
+  <link rel="canonical" href="https://gemprf.github.io/tutorials/fitting-tutorials/grid-or-refine-fit.html">
+  <link rel="stylesheet" href="/css/style.css" />
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Choose Between Grid Fit and Refine Fit in GEM-pRF",
+    "description": "Guide to selecting the appropriate fitting strategy for population receptive field analysis",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Understand Grid Fitting",
+        "text": "Grid fitting performs a comprehensive search across a predefined parameter space to find initial population receptive field estimates"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Understand Refine Fitting",
+        "text": "Refine fitting performs a fine-grained optimization starting from grid fit results to achieve better parameter estimates"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Choose Your Strategy",
+        "text": "Decide whether to use grid fitting only (faster, less refined) or combine with refine fitting (slower, more refined)"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Configure XML File",
+        "text": "Set the appropriate options in your GEM-pRF XML configuration file to specify your chosen fitting strategy"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <nav class="sidebar">
+      <h2>
+        GEM-pRF
+      </h2>
+      <div id="sidebar-placeholder"></div>
+    </nav>
+
+    <main class="content">
+      <h1>Grid Fit vs Grid + Refine Fit</h1>
+
+      <p>
+        One of the key decisions in configuring GEM-pRF is choosing your fitting strategy. 
+        GEM-pRF offers two approaches to estimating population receptive fields: 
+        <strong>grid fitting only</strong> or <strong>a two-stage approach combining grid fitting with refine fitting</strong>.
+        This choice significantly impacts both the speed and accuracy of your analysis.
+      </p>
+
+      <section class="quick-overview">
+        <h2>Quick Overview</h2>
+        <ul>
+          <li>⚙️ Grid Fitting: Fast initial parameter search across a defined space</li>
+          <li>🔧 Refine Fitting: Optional fine-tuning for improved accuracy (little slower)</li>
+          <li>📋 Configure via your XML configuration file</li>
+          <li>⚡ Choose based on your accuracy vs. speed requirements</li>
+          <li>🎯 Two-stage approach is recommended for most analyses</li>
+        </ul>
+      </section>
+
+      <h2>Grid Fitting</h2>
+
+      <p>
+        Grid fitting is the initial stage where GEM-pRF searches across a coarse grid of population receptive field parameters.
+        This stage efficiently explores the parameter space and produces reasonable initial estimates for each voxel.
+      </p>
+
+      <h3>Characteristics of Grid Fitting:</h3>
+      <ul>
+        <li><strong>Speed:</strong> Fast, suitable for large-scale analyses</li>
+        <li><strong>Coverage:</strong> Explores the full parameter space systematically</li>
+        <li><strong>Accuracy:</strong> Good estimates, but may not capture fine details</li>
+        <li><strong>Use Case:</strong> Quick exploratory analyses or when computational resources are limited</li>
+      </ul>
+
+      <h2>Refine Fitting</h2>
+
+      <p>
+        Refine fitting (also called fine-fit) is an optional second stage that takes the results from grid fitting 
+        and performs a more precise optimization around the best grid solution. This can significantly improve parameter estimates.
+        For detailed information about the gridfit and refinefit algorithms, see the 
+        <a href="/cite.html">GEM-pRF research paper</a>.
+      </p>
+
+      <h3>Characteristics of Refine Fitting:</h3>
+      <ul>
+        <li><strong>Speed:</strong> Slower than grid fitting alone, but focuses on smaller search space</li>
+        <li><strong>Accuracy:</strong> Higher quality parameter estimates with better convergence</li>
+        <li><strong>Optimization:</strong> Uses gradient-based methods around the grid solution</li>
+        <li><strong>Use Case:</strong> Final, publication-quality analyses</li>
+      </ul>
+
+      <h2>Comparing the Two Approaches</h2>
+
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+        <tr style="background-color: #f5f5f5;">
+          <th style="border: 1px solid #ddd; padding: 10px; text-align: left;"><strong>Aspect</strong></th>
+          <th style="border: 1px solid #ddd; padding: 10px; text-align: left;"><strong>Grid Fit Only</strong></th>
+          <th style="border: 1px solid #ddd; padding: 10px; text-align: left;"><strong>Grid Fit + Refine Fit</strong></th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #ddd; padding: 10px;"><strong>Speed</strong></td>
+          <td style="border: 1px solid #ddd; padding: 10px;">Fastest</td>
+          <td style="border: 1px solid #ddd; padding: 10px;">Slower (but still efficient) <sup><a href="/cite.html" title="See research paper for execution times">*</a></sup></td>
+        </tr>
+        <tr style="background-color: #f9f9f9;">
+          <td style="border: 1px solid #ddd; padding: 10px;"><strong>Accuracy</strong></td>
+          <td style="border: 1px solid #ddd; padding: 10px;">Good initial estimates</td>
+          <td style="border: 1px solid #ddd; padding: 10px;">Excellent refined estimates <sup><a href="/cite.html" title="See research paper for accuracy comparisons">*</a></sup></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #ddd; padding: 10px;"><strong>Best For</strong></td>
+          <td style="border: 1px solid #ddd; padding: 10px;">Exploratory analysis, prototyping</td>
+          <td style="border: 1px solid #ddd; padding: 10px;">Publication-quality analysis</td>
+        </tr>
+        <tr style="background-color: #f9f9f9;">
+          <td style="border: 1px solid #ddd; padding: 10px;"><strong>Parameter Quality</strong></td>
+          <td style="border: 1px solid #ddd; padding: 10px;">Coarse resolution</td>
+          <td style="border: 1px solid #ddd; padding: 10px;">Fine resolution</td>
+        </tr>
+      </table>
+
+      <h2>How to Configure Your Fitting Strategy</h2>
+
+      <p>
+        Your choice of fitting strategy is configured through your GEM-pRF XML configuration file.
+        The configuration file controls whether refine fitting is enabled or disabled.
+      </p>
+
+      <h3>XML Configuration Parameters</h3>
+
+      <pre><code>&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+&lt;root&gt;
+  &lt;!-- Enable both grid fit and refine fit (recommended) --&gt;
+  &lt;refine_fitting enable="True" refinefit_on_gpu="True"/&gt;
+
+  &lt;!-- REST OF YOUR CONFIGURATION... --&gt;
+
+
+&lt;/root&gt;</code></pre>      
+
+      <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+        <tr style="background-color: #f5f5f5;">
+          <th style="border: 1px solid #ddd; padding: 10px; text-align: left;"><strong>Parameter</strong></th>
+          <th style="border: 1px solid #ddd; padding: 10px; text-align: left;"><strong>Values</strong></th>
+          <th style="border: 1px solid #ddd; padding: 10px; text-align: left;"><strong>Description</strong></th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #ddd; padding: 10px;"><code>enable</code></td>
+          <td style="border: 1px solid #ddd; padding: 10px;">True / False</td>
+          <td style="border: 1px solid #ddd; padding: 10px;">Enable or disable refine fitting stage</td>
+        </tr>
+        <tr style="background-color: #f9f9f9;">
+          <td style="border: 1px solid #ddd; padding: 10px;"><code>refinefit_on_gpu</code></td>
+          <td style="border: 1px solid #ddd; padding: 10px;">True / False</td>
+          <td style="border: 1px solid #ddd; padding: 10px;">Run refine fitting on GPU (recommended) or CPU (if memory-limited)</td>
+        </tr>
+      </table>
+
+      <h2>Recommendations</h2>
+
+      <div class="callout info">
+        <strong>💡 For Most Users:</strong> We recommend using grid fitting combined with refine fitting 
+        (the two-stage approach) for your final analyses. The extra computation time is well worth the improvement 
+        in parameter quality, and GEM-pRF's GPU acceleration makes this quite fast even for large datasets.
+      </div>
+
+      <div class="callout">
+        <strong>⚡ For Quick Exploration:</strong> If you're testing configurations or doing preliminary analysis, 
+        grid fitting alone is sufficient and much faster. You can always switch to the two-stage approach later.
+      </div>
+
+      <h2>Next Steps</h2>
+
+      <ul>
+        <li>
+          <strong>Try it out:</strong> Get started quickly with the 
+          <a href="https://github.com/siddmittal/GEMpRF-DemoKit" target="_blank">GEM-pRF DemoKit</a>, 
+          which includes example datasets and configuration files you can experiment with
+        </li>
+        <li>
+          <strong>Learn about configuration:</strong> Read the 
+          <a href="/tutorials/config-tutorials/config_file.html">Configuration File Tutorial</a> 
+          to understand all available options
+        </li>
+        <li>
+          <strong>Start with a sample:</strong> Use the sample configuration file as a template and modify 
+          the fitting strategy to match your needs
+        </li>
+        <li>
+          <strong>Monitor performance:</strong> Compare the analysis time and result quality between the two approaches 
+          to inform your choice for future analyses
+        </li>
+      </ul>
+
+      <div style="background: #f0f8ff; padding: 15px; border-left: 4px solid #0077b5; margin: 20px 0; border-radius: 4px;">
+        <strong>📚 Learn More:</strong> For complete details about configuration options and fitting parameters, 
+        see the <a href="/tutorials/config-tutorials/config_file.html">Configuration File Tutorial</a>.
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/js/sidebar.js"></script>
+</body>
+</html>
