@@ -3,9 +3,96 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GEM-pRF Configuration Files</title>
+  <title>Configuration Files - GEM-pRF | XML Configuration Tutorial</title>
+  <meta name="description" content="Learn how to configure GEM-pRF using XML configuration files. Step-by-step tutorial for setting up analysis parameters and paths.">
+  <meta name="keywords" content="GEM-pRF configuration files, XML config tutorial, fMRI configuration, GEM-pRF setup guide">
+  <meta name="author" content="GEM-pRF Team">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Configuration Files - GEM-pRF Tutorial">
+  <meta property="og:description" content="Complete tutorial on GEM-pRF XML configuration files for fMRI analysis.">
+  <meta property="og:url" content="https://gemprf.github.io/tutorials/config-tutorials/config_file.html">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://gemprf.github.io/assets/images/icons/gemprf-og-1200x628.jpg">
+  <meta property="og:image:alt" content="GEM-pRF - GPU-Accelerated pRF Mapping Population Receptive Field Mapping Software">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="628">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Configuration Files - GEM-pRF Tutorial">
+  <meta name="twitter:description" content="Learn to configure GEM-pRF with XML configuration files.">
+  <link rel="canonical" href="https://gemprf.github.io/tutorials/config-tutorials/config_file.html">
   <link rel="stylesheet" href="/css/style.css" />
   
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MXYNQ1GY8V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-MXYNQ1GY8V');
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://gemprf.github.io/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Tutorials",
+        "item": "https://gemprf.github.io/tutorials.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Config",
+        "item": "https://gemprf.github.io/tutorials/config-tutorials/config_file.html"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Configuration Files",
+        "item": "https://gemprf.github.io/tutorials/config-tutorials/config_file.html"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Configure GEM-pRF with XML Files",
+    "description": "Tutorial on creating and using XML configuration files with GEM-pRF for fMRI analysis",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Create configuration file",
+        "text": "Create an XML configuration file with your analysis parameters"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Set file paths",
+        "text": "Define paths to your input data and output directories"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Configure analysis settings",
+        "text": "Set analysis parameters and options in the XML file"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Run GEM-pRF",
+        "text": "Pass the configuration file to gp.run() function"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <div class="container">
