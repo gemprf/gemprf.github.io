@@ -272,3 +272,27 @@ code {
     padding-top: 20px;    /* spacing above copyright */
   }  
 }
+
+/* Download button styles - reusable across the site */
+.download-button {
+  display: inline-block;
+  background: linear-gradient(135deg, #0077b5, #005a96);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 119, 181, 0.3);
+}
+
+.download-button:hover {
+  background: linear-gradient(135deg, #005a96, #003d6b);
+  box-shadow: 0 6px 12px rgba(0, 119, 181, 0.4);
+  transform: translateY(-2px);
+}
+
+.download-button:active {
+  transform: translateY(0);
+}
