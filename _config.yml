@@ -1,0 +1,9 @@
+exclude:
+  - sitemap.xml
+  - robots.txt
+  - README.md
+  - build_search_index.py
+
+# Disable Jekyll's default processing
+markdown: kramdown
+highlighter: rouge
