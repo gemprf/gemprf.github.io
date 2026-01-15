@@ -275,8 +275,11 @@ code {
 
 /* Download button styles - reusable across the site */
 .download-button {
-  display: inline-block;
-  background: linear-gradient(135deg, #0077b5, #005a96);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #27ae60, #229954);
   color: white;
   padding: 12px 24px;
   border-radius: 6px;
@@ -284,12 +287,26 @@ code {
   font-weight: 600;
   margin-top: 10px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 119, 181, 0.3);
+  box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+}
+
+.button-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5em;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.button-text {
+  text-align: center;
+  line-height: 1.2;
 }
 
 .download-button:hover {
-  background: linear-gradient(135deg, #005a96, #003d6b);
-  box-shadow: 0 6px 12px rgba(0, 119, 181, 0.4);
+  background: linear-gradient(135deg, #229954, #1e8449);
+  box-shadow: 0 6px 12px rgba(39, 174, 96, 0.4);
   transform: translateY(-2px);
 }
 
