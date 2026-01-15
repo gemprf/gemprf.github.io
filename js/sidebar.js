@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const link = document.createElement('link');
       link.rel = 'icon';
       link.type = 'image/x-icon';
-      link.href = '/assets/images/icons/gem-favicon-retinotopy.png';
+      link.href = '/favicon.ico';
       document.head.appendChild(link);
     }
   } catch (e) {
