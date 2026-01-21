@@ -73,6 +73,9 @@ const fieldHelpText = {
 // MOBILE DETECTION & XML RENDERING CONTROL
 // ============================================================================
 
+// Track if the XML disabled modal has been shown
+let xmlDisabledModalShown = false;
+
 /**
  * Detects if the device is a mobile device (excluding iPad)
  * @returns {boolean}
@@ -108,7 +111,7 @@ function shouldDisableXmlRendering() {
 }
 
 /**
- * Disables the XML rendering container and shows a warning modal
+ * Disables the XML rendering container and shows warning modal only once
  */
 function disableXmlRendering() {
     const rightPanel = document.getElementById('rightPanel');
@@ -121,8 +124,10 @@ function disableXmlRendering() {
     if (resizer) {
         resizer.style.display = 'none';
     }
-    if (modal) {
+    // Only show modal if it hasn't been shown before
+    if (modal && !xmlDisabledModalShown) {
         modal.style.display = 'flex';
+        xmlDisabledModalShown = true;
     }
 }
 
