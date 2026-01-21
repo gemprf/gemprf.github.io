@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEM-pRF Configuration Generator | Create pRF Analysis Config Files</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Generate XML configuration files for GEM-pRF population receptive field analysis. Interactive tool for BIDS-compatible pRF mapping and retinotopy studies.">
+    <meta name="keywords" content="pRF configuration, retinotopy config, GEM-pRF setup, population receptive field, fMRI analysis config, BIDS pRF, pRF parameter generator">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Siddharth Mittal">
+    
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp, etc.) -->
+    <meta property="og:title" content="GEM-pRF Configuration Generator - pRF Analysis Setup Tool">
+    <meta property="og:description" content="Interactive configuration file generator for GEM-pRF population receptive field mapping. Create custom XML configs for retinotopy and visual cortex analysis.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gemprf.github.io/gemprf-configs/config_generator.html">
+    <meta property="og:image" content="https://gemprf.github.io/assets/images/icons/gemprf-og-1200x628.jpg">
+    <meta property="og:image:alt" content="GEM-pRF Configuration Generator - Create pRF Analysis Config Files">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="628">
+    <meta property="og:site_name" content="GEM-pRF">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="GEM-pRF Configuration Generator - pRF Analysis Setup">
+    <meta name="twitter:description" content="Generate XML configuration files for population receptive field mapping with GEM-pRF. BIDS-compatible pRF analysis setup.">
+    <meta name="twitter:image" content="https://gemprf.github.io/assets/images/icons/gemprf-og-1200x628.jpg">
+    <meta name="twitter:image:alt" content="GEM-pRF Configuration Generator">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://gemprf.github.io/gemprf-configs/config_generator.html">
+    
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/gemprf-configs/css/config_generator.css">
+    
+    <!-- Prism.js for reliable XML highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MXYNQ1GY8V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MXYNQ1GY8V');
+    </script>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "GEM-pRF Configuration Generator",
+      "applicationCategory": "ScienceApplication",
+      "description": "Interactive web-based configuration file generator for GEM-pRF population receptive field mapping software. Create custom XML configuration files for BIDS-compatible fMRI retinotopy analysis.",
+      "url": "https://gemprf.github.io/gemprf-configs/config_generator.html",
+      "author": {
+        "@type": "Person",
+        "name": "Siddharth Mittal",
+        "email": "siddharth.mittal@meduniwien.ac.at",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Medical University of Vienna"
+        }
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "url": "https://gemprf.github.io/configuration.html"
+      },
+      "isPartOf": {
+        "@type": "SoftwareApplication",
+        "name": "GEM-pRF",
+        "url": "https://gemprf.github.io/"
+      }
+    }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar" id="configSidebar">
+            <button class="sidebar-collapse-btn" type="button" onclick="toggleSidebarCollapse()" aria-label="Toggle sidebar"></button>
+            <h2>GEM-pRF</h2>
+            <div id="sidebar-placeholder"></div>
+        </nav>
+
+        <main class="content" style="flex: 1; display: flex; flex-direction: column; padding: 0; background: #f5f5f5;">
+            <div class="page-header">Create Your Configuration</div>
+            <div class="developer-info">[For queries or assistance, contact: <span id="contactEmail"></span>]</div>
+            <div class="config-wrapper">
+                <!-- Form Panel -->
+                <div class="form-panel" id="leftPanel">
+                    <form id="configForm">
+                        <!-- Version -->
+                        <div class="section">
+                            <h2>Version</h2>
+                            <div class="form-group">
+                                <label for="version">Config Version</label>
+                                <input type="text" id="version" value="0.1.11" required disabled>
+                                <small>Config generator works with the current version only.<br>For older versions, see the <a href="/gemprf-configs/list-configs-archive.html">config archive list</a>.</small>
+                            </div>
+                        </div>
+
+                        <!-- Config Filename Builder -->
+                        <div class="section">
+                            <h2>Config Filename Builder</h2>
+                            <div class="form-group">
+                                <label for="filename_datasrc">Data Source</label>
+                                <div class="input-container">
+                                    <input type="text" id="filename_datasrc" value="" placeholder="e.g. your study name such as HCP, NYU etc" oninput="limitWords(this, 5); updateConfigFilename()">
+                                    <button type="button" class="clear-btn" onclick="clearField('filename_datasrc')" title="Clear field">✕</button>
+                                </div>
+                                <small>Identifier for your data source (max 5 words)</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="filename_stimulus">Stimulus Type</label>
+                                <div class="input-container">
+                                    <input type="text" id="filename_stimulus" value="" placeholder="e.g., fixed bar" oninput="limitWords(this, 5); updateConfigFilename()">
+                                    <button type="button" class="clear-btn" onclick="clearField('filename_stimulus')" title="Clear field">✕</button>
+                                </div>
+                                <small>Type of stimulus used (max 5 words)</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="filename_description">Description</label>
+                                <div class="input-container">
+                                    <input type="text" id="filename_description" value="" placeholder="e.g., high res analysis" oninput="limitWords(this, 10); updateConfigFilename()">
+                                    <button type="button" class="clear-btn" onclick="clearField('filename_description')" title="Clear field">✕</button>
+                                </div>
+                                <small>Brief description (max 10 words)</small>
+                            </div>
+                        </div>
+
+                <!-- Refine Fitting -->
+                <div class="section">
+                    <h2>Refine Fitting</h2>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="refine_enable" checked>
+                        <label for="refine_enable">Enable Refine Fitting</label>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="refine_gpu" checked>
+                        <label for="refine_gpu">Execute on GPU (if available)</label>
+                    </div>
+                </div>
+
+                <!-- Stimulus -->
+                <div class="section">
+                    <h2>Stimulus Configuration</h2>
+                    <div class="form-group">
+                        <label for="stim_dir">Stimulus Directory<span id="stim_dir_validation" class="validation-message"></span></label>
+                        <div class="path-input">
+                            <div class="input-container">
+                                <input type="text" id="stim_dir" value="Path/to/data/BIDS/stimuli" required oninput="updatePathValidation('stim_dir', 'directory')" data-validation-type="directory">
+                                <button type="button" class="clear-btn" onclick="clearField('stim_dir')" title="Clear field">✕</button>
+                            </div>
+                            <div id="stim_dir_validation" class="validation-indicator"></div>
+                            <div class="path-actions">
+                                <button type="button" class="path-btn" onclick="pastePath('stim_dir')">Paste</button>
+                                <button type="button" class="path-btn" onclick="copyField('stim_dir')">Copy</button>
+                            </div>
+                        </div>
+                        <small>Path to stimulus directory (Nifti format)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="visual_field">Visual Field Radius</label>
+                        <input type="number" id="visual_field" value="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stim_width">Width</label>
+                        <input type="number" id="stim_width" value="101" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stim_height">Height</label>
+                        <input type="number" id="stim_height" value="101" required>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>Binarization</h3>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="binarization_enable" checked>
+                            <label for="binarization_enable">Enable Binarization</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="binarization_threshold">Threshold</label>
+                            <input type="number" id="binarization_threshold" value="0">
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>High Temporal Resolution</h3>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="high_temporal_enable">
+                            <label for="high_temporal_enable">Enable High Temporal Resolution</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="num_frames">Number of Downsampled Frames</label>
+                            <input type="number" id="num_frames" value="305">
+                        </div>
+                        <div class="form-group">
+                            <label for="slice_time_ref">Slice Time Reference</label>
+                            <input type="number" step="0.1" id="slice_time_ref" value="0.5">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Data Source -->
+                <div class="section">
+                    <h2>Input Data Source</h2>
+                    
+                    <div class="form-group">
+                        <label>Data Organization Type</label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="data_type" value="bids" checked>
+                                BIDS Format
+                            </label>
+                            <label>
+                                <input type="radio" name="data_type" value="fixed">
+                                Fixed Paths
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- BIDS Configuration -->
+                    <div id="bids_section">
+                        <div class="subsection">
+                            <h3>BIDS Configuration</h3>
+                            <div class="form-group">
+                                <label for="bids_run_type">Run Type</label>
+                                <select id="bids_run_type">
+                                    <option value="individual" selected>Individual</option>
+                                    <option value="concatenated">Concatenated</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="bids_basepath">Base Path<span id="bids_basepath_validation" class="validation-message"></span></label>
+                                <div class="path-input">
+                                    <div class="input-container">
+                                        <input type="text" id="bids_basepath" value="Path/to/data/BIDS" oninput="updatePathValidation('bids_basepath', 'directory')" data-validation-type="directory">
+                                        <button type="button" class="clear-btn" onclick="clearField('bids_basepath')" title="Clear field">✕</button>
+                                    </div>
+                                    <div id="bids_basepath_validation" class="validation-indicator"></div>
+                                    <div class="path-actions">
+                                        <button type="button" class="path-btn" onclick="pastePath('bids_basepath')">Paste</button>
+                                        <button type="button" class="path-btn" onclick="copyField('bids_basepath')">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="bids_append">Append to Base Path</label>
+                                <input type="text" id="bids_append" value="derivatives, fmriprep">
+                                <small>Comma-separated values</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="results_id">Results Analysis ID</label>
+                                <div class="input-container">
+                                    <input type="text" id="results_id" value="" placeholder="e.g. 01 or TestWithGEM (to get analysis-01 or analysis-TestWithGEM)">
+                                    <button type="button" class="clear-btn" onclick="clearField('results_id')" title="Clear field">✕</button>
+                                </div>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="results_overwrite">
+                                <label for="results_overwrite">Overwrite Existing Results</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="bids_analysis">Analysis</label>
+                                <input type="text" id="bids_analysis" value="01">
+                                <small>Comma-separated values or "all"</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="bids_sub">Subjects</label>
+                                <input type="text" id="bids_sub" value="all">
+                                <small>Comma-separated values or "all"</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="bids_hemi">Hemisphere</label>
+                                <input type="text" id="bids_hemi" value="all">
+                                <small>Comma-separated values or "all"</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="bids_space">Space</label>
+                                <input type="text" id="bids_space" value="fsnative">
+                                <small>e.g., fsaverage/fsnative/T1w or all</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="bids_extension">Input File Extension</label>
+                                <select id="bids_extension">
+                                    <option value=".nii.gz">.nii.gz</option>
+                                    <option value=".gii" selected>.gii</option>
+                                    <option value="both">both</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Individual Task Analysis -->
+                            <div id="individual_section">
+                                <h3 style="margin-top: 20px;">Individual Task Analysis</h3>
+                                <div class="form-group">
+                                    <label for="individual_task">Task</label>
+                                    <input type="text" id="individual_task" value="fixedbar">
+                                    <small>ONLY one value allowed</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="individual_ses">Session</label>
+                                    <input type="text" id="individual_ses" value="all">
+                                    <small>Comma-separated values or "all"</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="individual_run">Run</label>
+                                    <input type="text" id="individual_run" value="all">
+                                    <small>Comma-separated values or "all"</small>
+                                </div>
+                            </div>
+
+                            <!-- Concatenated Analysis -->
+                            <div id="concatenated_section" class="hidden">
+                                <h3 style="margin-top: 20px;">Concatenated Analysis</h3>
+                                <small style="color: #666; margin-bottom: 10px; display: block;">Add concatenate items (example shows 3 items, modify as needed)</small>
+                                <div class="form-group">
+                                    <label for="concat_items">Concatenate Items (JSON format)</label>
+                                    <textarea id="concat_items" rows="10">[
+  {"ses": "01", "task": "fixedbar", "run": "1"},
+  {"ses": "01", "task": "fixedbar", "run": "2"},
+  {"ses": "01", "task": "fixedbar", "run": "3"}
+]</textarea>
+                                    <small>Each item should have ses, task, and run</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fixed Paths Configuration -->
+                    <div id="fixed_paths_section" class="hidden">
+                        <div class="subsection">
+                            <h3>Fixed Paths Configuration</h3>
+                            <div class="form-group">
+                                <label for="fixed_stim_path">Stimulus File Path<span id="fixed_stim_path_validation" class="validation-message"></span></label>
+                                <div class="path-input">
+                                    <div class="input-container">
+                                        <input type="text" id="fixed_stim_path" value="D:/GEMpRF-DemoKit/example_data/stimuli/task-bar_apertures.nii.gz" oninput="updatePathValidation('fixed_stim_path', 'file', '.nii.gz')" data-validation-type="file" data-required-extension=".nii.gz">
+                                        <button type="button" class="clear-btn" onclick="clearField('fixed_stim_path')" title="Clear field">✕</button>
+                                    </div>
+                                    <div id="fixed_stim_path_validation" class="validation-indicator"></div>
+                                    <div class="path-actions">
+                                        <button type="button" class="path-btn" onclick="pastePath('fixed_stim_path')">Paste</button>
+                                        <button type="button" class="path-btn" onclick="copyField('fixed_stim_path')">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Measured Data File Paths</label>
+                                <div class="paths-container" id="data_paths_container">
+                                    <div class="path-entry">
+                                        <div class="path-input">
+                                            <div class="input-container">
+                                                <input type="text" class="data-path-input" value="path/to/data/tests/gem_generic_test/BIDS/sub-001/ses-3n2/func/sub-001_ses-3n2_task-prf_acq-normal_run-01_bold.nii.gz" oninput="updateDataPathsPreview()" data-validation-type="file">
+                                                <button type="button" class="clear-btn" onclick="clearDataPath(this)" title="Clear field">✕</button>
+                                            </div>
+                                            <span class="validation-message"></span>
+                                        </div>
+                                        <button type="button" class="remove-btn" onclick="removeDataPath(this)">Remove</button>
+                                    </div>
+                                    <div class="path-entry">
+                                        <div class="path-input">
+                                            <div class="input-container">
+                                                <input type="text" class="data-path-input" value="path/to/data/tests/gem_generic_test/BIDS/sub-001/ses-3n2/func/sub-001_ses-3n2_task-prf_acq-normal_run-02_bold.nii.gz" oninput="updateDataPathsPreview()" data-validation-type="file">
+                                                <button type="button" class="clear-btn" onclick="clearDataPath(this)" title="Clear field">✕</button>
+                                            </div>
+                                            <span class="validation-message"></span>
+                                        </div>
+                                        <button type="button" class="remove-btn" onclick="removeDataPath(this)">Remove</button>
+                                    </div>
+                                </div>
+                                <button type="button" class="add-path-btn" onclick="addDataPath()">+ Add Path</button>
+                                <small>Add one or more measured data file paths</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="fixed_results_basepath">Results Base Path<span id="fixed_results_basepath_validation" class="validation-message"></span></label>
+                                <div class="path-input">
+                                    <div class="input-container">
+                                        <input type="text" id="fixed_results_basepath" value="path/to/data/tests/gem_generic_test/derivatives/prfanalyze-gem/analysis-01/sub-001/ses-3n2/" oninput="updatePathValidation('fixed_results_basepath', 'directory')" data-validation-type="directory">
+                                        <button type="button" class="clear-btn" onclick="clearField('fixed_results_basepath')" title="Clear field">✕</button>
+                                    </div>
+                                    <div id="fixed_results_basepath_validation" class="validation-indicator"></div>
+                                    <div class="path-actions">
+                                        <button type="button" class="path-btn" onclick="pastePath('fixed_results_basepath')">Paste</button>
+                                        <button type="button" class="path-btn" onclick="copyField('fixed_results_basepath')">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="fixed_filename_postfix">Custom Filename Postfix</label>
+                                <input type="text" id="fixed_filename_postfix" value="-sample">
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="fixed_prepend_date" checked>
+                                <label for="fixed_prepend_date">Prepend Date to Filename</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- pRF Model -->
+                <div class="section">
+                    <h2>pRF Model</h2>
+                    <div class="form-group">
+                        <label for="prf_model">Model Type</label>
+                        <select id="prf_model">
+                            <option value="2d_gaussian" selected>2D Gaussian</option>
+                            <option value="DoG" disabled>DoG (not available)</option>
+                            <option value="CSS" disabled>CSS (not available)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Measured Data -->
+                <div class="section">
+                    <h2>Measured Data</h2>
+                    <div class="form-group">
+                        <label for="batches">Batches</label>
+                        <input type="number" id="batches" value="500" required>
+                        <small>Number of batches for processing</small>
+                    </div>
+                </div>
+
+                <!-- GPU Configuration -->
+                <div class="section">
+                    <h2>GPU Configuration</h2>
+                    <div class="form-group">
+                        <label for="default_gpu">Default GPU</label>
+                        <input type="number" id="default_gpu" value="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Additional Available GPUs</label>
+                        <div class="paths-container" id="gpu_list_container">
+                            <div class="path-entry">
+                                <div class="path-input">
+                                    <div class="input-container">
+                                        <input type="number" class="gpu-entry-input" value="1" min="0" oninput="updatePreview()" data-validation-type="number">
+                                        <button type="button" class="clear-btn" onclick="clearGPUEntry(this)" title="Clear field">✕</button>
+                                    </div>
+                                </div>
+                                <button type="button" class="remove-btn" onclick="removeGPUEntry(this)">Remove</button>
+                            </div>
+                            <div class="path-entry">
+                                <div class="path-input">
+                                    <div class="input-container">
+                                        <input type="number" class="gpu-entry-input" value="2" min="0" oninput="updatePreview()" data-validation-type="number">
+                                        <button type="button" class="clear-btn" onclick="clearGPUEntry(this)" title="Clear field">✕</button>
+                                    </div>
+                                </div>
+                                <button type="button" class="remove-btn" onclick="removeGPUEntry(this)">Remove</button>
+                            </div>
+                            <div class="path-entry">
+                                <div class="path-input">
+                                    <div class="input-container">
+                                        <input type="number" class="gpu-entry-input" value="3" min="0" oninput="updatePreview()" data-validation-type="number">
+                                        <button type="button" class="clear-btn" onclick="clearGPUEntry(this)" title="Clear field">✕</button>
+                                    </div>
+                                </div>
+                                <button type="button" class="remove-btn" onclick="removeGPUEntry(this)">Remove</button>
+                            </div>
+                        </div>
+                        <button type="button" class="add-path-btn" onclick="addGPUEntry()">+ Add GPU</button>
+                        <small>Add GPU indices for additional available GPUs</small>
+                    </div>
+                </div>
+
+                <!-- Search Space -->
+                <div class="section">
+                    <h2>Search Space</h2>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="write_debug">
+                        <label for="write_debug">Write Debug Info</label>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Optional Analysis Parameters</h3>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="optional_params_enable">
+                            <label for="optional_params_enable">Use Custom Parameters from File</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="optional_params_filepath">File Path<span id="optional_params_filepath_validation" class="validation-message"></span></label>
+                            <div class="path-input">
+                                <div class="input-container">
+                                    <input type="text" id="optional_params_filepath" value="DIR_PATH/analysis_additional_params.h5" oninput="updatePathValidation('optional_params_filepath', 'file')" data-validation-type="file">
+                                    <button type="button" class="clear-btn" onclick="clearField('optional_params_filepath')" title="Clear field">✕</button>
+                                </div>
+                                <div id="optional_params_filepath_validation" class="validation-indicator"></div>
+                                <div class="path-actions">
+                                    <button type="button" class="path-btn" onclick="pastePath('optional_params_filepath')">Paste</button>
+                                    <button type="button" class="path-btn" onclick="copyField('optional_params_filepath')">Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="hrf_use_file" checked>
+                            <label for="hrf_use_file">Use HRF from File</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="hrf_key">HRF Key</label>
+                            <input type="text" id="hrf_key" value="analysis_params/hrf_values">
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="sigmas_use_file" checked>
+                            <label for="sigmas_use_file">Use Sigmas from File</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="sigmas_key">Sigmas Key</label>
+                            <input type="text" id="sigmas_key" value="analysis_params/sigmas">
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="spatial_grid_use_file" checked>
+                            <label for="spatial_grid_use_file">Use Spatial Grid from File</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="spatial_grid_key">Spatial Grid Key</label>
+                            <input type="text" id="spatial_grid_key" value="analysis_params/spatial_grid_xy">
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Default HRF Parameters</h3>
+                        <div class="form-group">
+                            <label for="hrf_t">Time Range t</label>
+                            <input type="text" id="hrf_t" value="(0, 45)">
+                        </div>
+                        <div class="form-group">
+                            <label for="hrf_tr">TR</label>
+                            <input type="number" step="0.1" id="hrf_tr" value="1.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="hrf_peak_delay">Peak Delay</label>
+                            <input type="number" step="0.01" id="hrf_peak_delay" value="6.16">
+                        </div>
+                        <div class="form-group">
+                            <label for="hrf_under_delay">Undershoot Delay</label>
+                            <input type="number" step="0.1" id="hrf_under_delay" value="12.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="hrf_peak_disp">Peak Dispersion</label>
+                            <input type="number" step="0.01" id="hrf_peak_disp" value="0.85">
+                        </div>
+                        <div class="form-group">
+                            <label for="hrf_under_disp">Undershoot Dispersion</label>
+                            <input type="number" step="0.01" id="hrf_under_disp" value="0.82">
+                        </div>
+                        <div class="form-group">
+                            <label for="hrf_peak_to_under">Peak to Undershoot Ratio</label>
+                            <input type="number" step="0.01" id="hrf_peak_to_under" value="2.15">
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="hrf_normalize" checked>
+                            <label for="hrf_normalize">Normalize HRF</label>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Default Spatial Grid</h3>
+                        <div class="form-group">
+                            <label for="spatial_vf_radius">Visual Field Radius</label>
+                            <input type="number" id="spatial_vf_radius" value="12">
+                        </div>
+                        <div class="form-group">
+                            <label for="spatial_num_h">Number of Horizontal pRFs</label>
+                            <input type="number" id="spatial_num_h" value="51">
+                        </div>
+                        <div class="form-group">
+                            <label for="spatial_num_v">Number of Vertical pRFs</label>
+                            <input type="number" id="spatial_num_v" value="51">
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Default Sigmas</h3>
+                        <div class="form-group">
+                            <label for="num_sigmas">Number of Sigmas</label>
+                            <input type="number" id="num_sigmas" value="8">
+                        </div>
+                        <div class="form-group">
+                            <label for="min_sigma">Minimum Sigma</label>
+                            <input type="number" step="0.1" id="min_sigma" value="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="max_sigma">Maximum Sigma</label>
+                            <input type="number" step="0.1" id="max_sigma" value="5">
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>nDCT</h3>
+                        <div class="form-group">
+                            <label for="ndct_value">nDCT Value</label>
+                            <input type="number" id="ndct_value" value="1">
+                            <small>DCT bases for low frequency drift. Generates (2 * nDCT + 1) cosine regressors</small>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Draggable Divider -->
+        <div class="resizer" id="horizontal_resizer" aria-label="Resize panels" title="Drag to resize"></div>
+
+        <!-- Preview Panel -->
+        <div class="preview-panel" id="rightPanel">
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="downloadXML()">📥 Download XML</button>
+                <button class="btn btn-secondary" onclick="copyToClipboard()">📋 Copy to Clipboard</button>
+                <div style="flex: 1; display: flex; align-items: center; justify-content: flex-end; color: #ccc; font-size: 12px; font-family: monospace;">
+                    <span id="configFilenameDisplay"></span>
+                </div>
+            </div>
+            <div id="xmlPreview"></div>
+        </div>
+    </div>
+
+  </div>
+    </main>
+  </div>
+    <script src="/js/sidebar.js"></script>
+    <script src="/gemprf-configs/js/config_generator.js"></script>
+</body>
+</html>

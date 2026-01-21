@@ -3,7 +3,7 @@
     "@Contact 		:   siddharth.mittal@meduniwien.ac.at",
     "@License 		:   (C)Copyright 2024 - 2025, Medical University of Vienna",
 	  "@Cite DOI 		: 	https://doi.org/10.1016/j.media.2025.103891",
-	  "@Paper Title	:	GPU-Empowered Mapping of Population Receptive Fields for Large-Scale fMRI Analysis"
+	  "@Paper Title	: 	GPU-Empowered Mapping of Population Receptive Fields for Large-Scale fMRI Analysis"
 -->
 
 <root version="0.1.11">
@@ -84,15 +84,15 @@
 
     <!-- OR, make Bids False and specify directly single/multiple filepaths -->
     <fixed_paths>
-      <stimulus_filepath>path/to/stimuli/task-bar_apertures.nii.gz</stimulus_filepath>
+      <stimulus_filepath>D:/GEMpRF-DemoKit/example_data/stimuli/task-bar_apertures.nii.gz</stimulus_filepath>
       <measured_data_filepath comment="Add one or more measured-data filepaths here. Use a separate filepath block for each entry.">
-        <filepath>path/to/data/BIDS/sub-001/ses-01/func/sub-001_ses-01_task-bold_run-01_bold.nii.gz</filepath>
-        <filepath>path/to/data/BIDS/sub-001/ses-01/func/sub-001_ses-01_task-bold_run-02_bold.nii.gz</filepath>
+        <filepath>path/to/data/tests/gem_generic_test/BIDS/sub-001/ses-3n2/func/sub-001_ses-3n2_task-prf_acq-normal_run-01_bold.nii.gz</filepath>
+        <filepath>path/to/data/tests/gem_generic_test/BIDS/sub-001/ses-3n2/func/sub-001_ses-3n2_task-prf_acq-normal_run-01_bold.nii.gz</filepath>
       </measured_data_filepath>
       <results>
 
         <!--  directory for results  -->
-        <basepath>path/to/results/derivatives/prfanalyze/</basepath>
+        <basepath>path/to/data/tests/gem_generic_test/derivatives/prfanalyze-gem/analysis-01/sub-001/ses-3n2/</basepath>
         
         <!--  Custom result filename postfix  -->
         <custom_filename_postfix>-sample</custom_filename_postfix>

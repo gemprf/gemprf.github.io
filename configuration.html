@@ -86,7 +86,8 @@
       <li>🚀 Your Python code stays tiny, you only call <code>gp.run(CONFIG_FILEPATH)</code>.</li>
       <li>🔁 Create multiple XML files to run multiple analyses easily.</li>
       <li>📂 GEM-pRF stores a copy of your XML file inside the analysis output folder.</li>
-      <li>📥 <strong><a href="#download-sample">Download a sample config file</a></strong> to get started quickly.</li>
+      <li>⚡ Use <strong><a href="/gemprf-configs/config_generator.html">Configuration Generator</a></strong> to create XML files through an interactive web interface.</li>
+      <li>💾 <strong><a href="#download-sample">Download a sample config file</a></strong> to get started quickly.</li>
     </ul>
   </section>
 
@@ -157,23 +158,54 @@
   <section class="quick-overview">
     <h2>See a full configuration example</h2>
     <p>
-      A complete example configuration file is available here:<br>
-      👉 <a href="/tutorials/config-tutorials/config_file.html">Configuration File Example</a>
+      A complete example configuration file is available on GitHub:
     </p>
-    <p>Use it as a template, adjust paths and parameters, and you're ready to run GEM-pRF.</p>
+    <div data-github-button data-github-url="https://github.com/siddmittal/GEMpRF-DemoKit/blob/main/sample_configs/sample_config.xml"></div>
+    <p style="margin-top: 15px;">
+      Use this example as a template and adjust paths and parameters for your study. 
+      <strong>For an easier approach, check out the interactive configuration generator in the section below</strong> 
+      to build your own custom config file step-by-step.
+    </p>
   </section>
 
   <!-- Download Sample Config -->
   <section class="quick-overview" id="download-sample">
-    <h2>Download sample configuration file</h2>
-    <p>
-      Get started quickly by downloading our sample configuration file. You can use it as a starting point for your own analyses.
-    </p>
-    <a class="download-button" data-download-key="sample_config">
-      <span class="button-arrow">⬇</span>
-      <span class="button-text">Download<br>Sample Configuration</span>
-    </a>
+    <h2>Configuration Tools & Resources</h2>
+    
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #667eea; margin-bottom: 10px;">🛠️ Interactive Configuration Generator</h3>
+      <p>
+        Need help creating a configuration file? Use our interactive generator to build your XML configuration step-by-step:
+      </p>
+      <a class="download-button" href="/gemprf-configs/config_generator.html" style="background: linear-gradient(135deg, #667eea, #764ba2); margin-top: 10px;">
+        <span class="button-arrow">⚙️</span>
+        <span class="button-text">Open Configuration<br>Generator</span>
+      </a>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: #667eea; margin-bottom: 10px;">📥 Download Sample Configuration</h3>
+      <p>
+        Get started quickly by downloading our sample configuration file. You can use it as a starting point for your own analyses.
+      </p>
+      <a class="download-button" data-download-key="sample_config" style="margin-top: 10px;">
+        <span class="button-arrow">⬇</span>
+        <span class="button-text">Download<br>Sample Configuration</span>
+      </a>
+    </div>
+
+    <div>
+      <h3 style="color: #667eea; margin-bottom: 10px;">📚 Configuration Archives</h3>
+      <p>
+        Looking for configuration files for older GEM-pRF versions? Browse our archive of configurations:
+      </p>
+      <a class="download-button" href="/gemprf-configs/list-configs-archive.html" style="background: linear-gradient(135deg, #27ae60, #229954); margin-top: 10px;">
+        <span class="button-arrow">📦</span>
+        <span class="button-text">View<br>Config Archive</span>
+      </a>
+    </div>
   </section>
+
 
 </main>
 
@@ -186,6 +218,7 @@
 
     <!-- Fetch the sidebar items -->
      <script src="/js/sidebar.js"></script>
+     <script src="/js/github-button.js"></script>
 
 </body>
 

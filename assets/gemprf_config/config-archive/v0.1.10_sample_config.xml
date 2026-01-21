@@ -2,11 +2,14 @@
     "@Author  		:   Siddharth Mittal",
     "@Contact 		:   siddharth.mittal@meduniwien.ac.at",
     "@License 		:   (C)Copyright 2024 - 2025, Medical University of Vienna",
-	  "@Cite DOI 		: 	https://doi.org/10.1016/j.media.2025.103891",
-	  "@Paper Title	:	GPU-Empowered Mapping of Population Receptive Fields for Large-Scale fMRI Analysis"
+	"@Cite DOI 		: 	https://doi.org/10.1101/2025.05.16.654560",
+	"@Paper Tile	:	GPU-Empowered Mapping of Population Receptive Fields for Large-Scale fMRI Analysis"
 -->
 
-<root version="0.1.11">
+<!-- Sample CHN Retinotpic Data: https://openneuro.org/datasets/ds004698/versions/3.0.0 -->
+<!-- WARNING: CHN Retinotpic Data contains Stimulus in .Mat format so, you must convert it to Nifit format -->
+
+<root>
   <refine_fitting enable="True" refinefit_on_gpu="True"/> <!-- Execute refine fitting on GPU if sufficient GPU memory is available -->
   
   <!-- Stimulus data -->
@@ -35,7 +38,7 @@
       <append_to_basepath>derivatives, fmriprep</append_to_basepath>
 
       <!-- Directory name for results; backups created with timestamp if overwrite="True" -->
-      <results_anaylsis_id overwrite="False">GEMDataAnalysisResults</results_anaylsis_id>
+      <results_anaylsis_id overwrite="False">CHNDataAnalysisResults</results_anaylsis_id>
 
       <!-- NOTE: Case sensitive, provide the exact values!!!
            For the analysis, sub, ses, task, run, hemi,
@@ -84,22 +87,18 @@
 
     <!-- OR, make Bids False and specify directly single/multiple filepaths -->
     <fixed_paths>
-      <stimulus_filepath>path/to/stimuli/task-bar_apertures.nii.gz</stimulus_filepath>
-      <measured_data_filepath comment="Add one or more measured-data filepaths here. Use a separate filepath block for each entry.">
-        <filepath>path/to/data/BIDS/sub-001/ses-01/func/sub-001_ses-01_task-bold_run-01_bold.nii.gz</filepath>
-        <filepath>path/to/data/BIDS/sub-001/ses-01/func/sub-001_ses-01_task-bold_run-02_bold.nii.gz</filepath>
-      </measured_data_filepath>
-      <results>
 
-        <!--  directory for results  -->
-        <basepath>path/to/results/derivatives/prfanalyze/</basepath>
-        
-        <!--  Custom result filename postfix  -->
-        <custom_filename_postfix>-sample</custom_filename_postfix>
-        
-        <!--  Flag to prepend date  -->
+      <measured_data_filepath>
+        <!-- Measured input data filepaths -->
+        <filepath>path/to/data/tests/gem_generic_test/BIDS/sub-001/ses-3n2/func/sub-001_ses-3n2_task-prf_acq-normal_run-01_bold.nii.gz</filepath>
+        <filepath>path/to/data/tests/gem_generic_test/BIDS/sub-001/ses-3n2/func/sub-001_ses-3n2_task-prf_acq-normal_run-01_bold.nii.gz</filepath>
+      </measured_data_filepath>
+
+      <results>
+        <!-- Results filepaths realted -->
+        <basepath>path/to/data/tests/gem_generic_test/derivatives/prfanalyze-gem/analysis-01/sub-001/ses-3n2/</basepath>
+        <custom_filename_postfix>_[custom_info]</custom_filename_postfix>
         <prepend_date>True</prepend_date>
-        
       </results>
 
     </fixed_paths>
@@ -113,6 +112,8 @@
 
   <!-- Measured data section -->
   <measured_data>
+    <width>101</width>
+    <height>101</height>
     <batches>500</batches>
   </measured_data>
 
@@ -141,19 +142,20 @@
       <spatial_grid_xy use_from_file="True" key="analysis_params/spatial_grid_xy"/>
     </optional_analysis_params>
 
-    <!-- (DEFAULT) parameters when optional_analysis_params=False -->
-    <!-- SPM HRF parameters -->
-    <default_hrf t="(0, 45)" TR="1.0" peak_delay="6.16" under_shoot_delay="12.0"
+    <!-- Default parameters when optional_analysis_params=False -->
+    <default_hrf t="(0, 45)" TR="1.2" peak_delay="6.16" under_shoot_delay="12.0"
                  peak_disp="0.85" under_disp="0.82" peak_to_undershoot="2.15"
                  normalize="true"/>
-                
+    <!-- SPM HRF parameters -->
+
     <default_spatial_grid visual_field_radius="12"
                           num_horizontal_prfs="51"
                           num_vertical_prfs="51"/>
 
     <default_sigmas num_sigmas="8" min_sigma="0.5" max_sigma="5"/>
-    <nDCT value="1" comment="DCT bases to account for low frequency drift. Generate (2 * nDCT + 1) cosine regressors"/>
 
   </search_space>
 
 </root>
+
+
