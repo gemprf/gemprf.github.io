@@ -70,6 +70,101 @@ const fieldHelpText = {
 };
 
 // ============================================================================
+// MOBILE DETECTION & XML RENDERING CONTROL
+// ============================================================================
+
+/**
+ * Detects if the device is a mobile device (excluding iPad)
+ * @returns {boolean}
+ */
+function isMobileDevice() {
+    const ua = navigator.userAgent.toLowerCase();
+    // Check if it's an iPad or other tablet
+    const isTablet = /ipad|android(?!.*mobi)/i.test(ua);
+    if (isTablet) return false;
+    
+    // Check for mobile devices
+    const mobileRegex = /mobile|android|webos|iphone|ipod|blackberry|iemobile|opera mini/i;
+    return mobileRegex.test(ua);
+}
+
+/**
+ * Detects if device is in portrait mode (height > width)
+ * @returns {boolean}
+ */
+function isPortraitMode() {
+    return window.innerHeight > window.innerWidth;
+}
+
+/**
+ * Determines if XML rendering should be disabled
+ * Disabled on: non-iPad mobile devices OR portrait mode
+ * @returns {boolean}
+ */
+function shouldDisableXmlRendering() {
+    const isNonIpadMobile = isMobileDevice();
+    const inPortrait = isPortraitMode();
+    return isNonIpadMobile || inPortrait;
+}
+
+/**
+ * Disables the XML rendering container and shows a warning modal
+ */
+function disableXmlRendering() {
+    const rightPanel = document.getElementById('rightPanel');
+    const resizer = document.getElementById('horizontal_resizer');
+    const modal = document.getElementById('xmlDisabledModal');
+    
+    if (rightPanel) {
+        rightPanel.style.display = 'none';
+    }
+    if (resizer) {
+        resizer.style.display = 'none';
+    }
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+/**
+ * Enables the XML rendering container and hides the warning modal
+ */
+function enableXmlRendering() {
+    const rightPanel = document.getElementById('rightPanel');
+    const resizer = document.getElementById('horizontal_resizer');
+    const modal = document.getElementById('xmlDisabledModal');
+    
+    if (rightPanel) {
+        rightPanel.style.display = '';
+    }
+    if (resizer) {
+        resizer.style.display = '';
+    }
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+/**
+ * Closes the XML disabled modal
+ */
+function closeXmlDisabledModal() {
+    const modal = document.getElementById('xmlDisabledModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+/**
+ * Initializes XML rendering control on page load
+ */
+function initializeXmlRenderingControl() {
+    if (shouldDisableXmlRendering()) {
+        disableXmlRendering();
+    }
+}
+
+// ============================================================================
 // INITIALIZATION
 // ============================================================================
 
@@ -83,7 +178,26 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeEmailObfuscation();
     initializeConfigFilename();
     addInfoIcons();
+    initializeXmlRenderingControl();
     updatePreview();
+});
+
+// Handle orientation changes for mobile devices
+window.addEventListener('orientationchange', function() {
+    if (shouldDisableXmlRendering()) {
+        disableXmlRendering();
+    } else {
+        enableXmlRendering();
+    }
+});
+
+// Also handle window resize for portrait/landscape detection
+window.addEventListener('resize', function() {
+    if (shouldDisableXmlRendering()) {
+        disableXmlRendering();
+    } else {
+        enableXmlRendering();
+    }
 });
 
 function initializeForm() {

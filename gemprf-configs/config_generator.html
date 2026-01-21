@@ -626,6 +626,24 @@
             </div>
             <div id="xmlPreview"></div>
         </div>
+
+        <!-- XML Disabled Modal for Mobile Devices -->
+        <div class="xml-disabled-modal" id="xmlDisabledModal">
+            <div class="modal-content">
+                <h2>XML Rendering Disabled</h2>
+                <p>The XML rendering container has been disabled on this device to provide a better user experience.</p>
+                <p class="modal-reason">This feature requires a larger, wider screen.</p>
+                <div class="modal-suggestions">
+                    <strong>To use the XML renderer:</strong>
+                    <ul>
+                        <li>Maximize your browser window or make it wider</li>
+                        <li>Switch to landscape mode on your mobile device</li>
+                        <li>Use a tablet or desktop computer in landscape/wide mode</li>
+                    </ul>
+                </div>
+                <button class="modal-ok-btn" onclick="closeXmlDisabledModal()">OK</button>
+            </div>
+        </div>
     </div>
 
   </div>

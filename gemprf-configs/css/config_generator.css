@@ -754,3 +754,114 @@ label .info-icon {
         transform: translateX(-100%);
     }
 }
+
+/* ============================================================================
+   XML DISABLED MODAL - MOBILE/PORTRAIT MODE
+   ============================================================================ */
+
+.xml-disabled-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.xml-disabled-modal.show {
+    display: flex;
+}
+
+.xml-disabled-modal .modal-content {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.xml-disabled-modal h2 {
+    color: #333;
+    margin-bottom: 16px;
+    font-size: 24px;
+}
+
+.xml-disabled-modal p {
+    color: #666;
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.xml-disabled-modal .modal-reason {
+    color: #d97706;
+    font-weight: 500;
+    margin: 16px 0 24px 0;
+}
+
+.xml-disabled-modal .modal-suggestions {
+    background: #f0f4f8;
+    border-left: 4px solid #667eea;
+    padding: 16px;
+    border-radius: 6px;
+    text-align: left;
+    margin-bottom: 24px;
+}
+
+.xml-disabled-modal .modal-suggestions strong {
+    display: block;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.xml-disabled-modal .modal-suggestions ul {
+    list-style-position: inside;
+    margin: 0;
+    padding: 0;
+}
+
+.xml-disabled-modal .modal-suggestions li {
+    color: #555;
+    margin: 6px 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.xml-disabled-modal .modal-ok-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.xml-disabled-modal .modal-ok-btn:hover {
+    background: #5568d3;
+}
+
+.xml-disabled-modal .modal-ok-btn:active {
+    transform: scale(0.98);
+}
+
+/* When preview panel is hidden on mobile, form-panel should use available space */
+.preview-panel[style*="display: none"] {
+    display: none !important;
+}
+
+#horizontal_resizer[style*="display: none"] {
+    display: none !important;
+}
