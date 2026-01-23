@@ -48,7 +48,7 @@
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "customer support",
-        "email": "siddharth.mittal@muv.ac.at",
+        "url": "https://gemprf.github.io/support.html",
         "availableLanguage": ["en"]
       }
     }
@@ -130,6 +130,26 @@
             ></textarea>
           </div>
 
+          <!-- GDPR Consent Checkbox -->
+          <div class="form-group checkbox-group">
+            <label for="consent" class="checkbox-label">
+              <input 
+                type="checkbox" 
+                id="consent" 
+                name="consent" 
+                required
+                class="checkbox-input"
+              >
+              <span>I consent to GEM-pRF processing my data to respond to my support request. <span class="required">*</span></span>
+            </label>
+          </div>
+
+          <!-- Privacy Notice -->
+          <div class="privacy-notice">
+            <p><strong>Data Processing Notice:</strong></p>
+            <p>Your name, email, subject, and message will be used solely to respond to your support request. Your data is submitted to <a href="https://formspree.io/" target="_blank" rel="noopener noreferrer">Formspree</a> and will be retained for up to 90 days unless you request deletion. You have the right to access, correct, or delete your personal data at any time. <button type="button" id="privacy-info-btn" class="privacy-link-btn">View our Privacy Policy</button></p>
+          </div>
+
           <!-- Submit Button -->
           <div class="form-group">
             <button type="submit" class="submit-button">Send Support Request</button>
@@ -150,6 +170,33 @@
           <li>The <a href="/configuration.html">Configuration</a> page for config-related issues</li>
           <li>Our <a href="/tutorials.html">Tutorials</a> for usage examples</li>
         </ul>
+      </div>
+
+      <!-- Privacy Modal -->
+      <div id="privacy-modal" class="modal">
+        <div class="modal-content">
+          <span class="modal-close" id="privacy-modal-close">&times;</span>
+          <h2>Privacy & Data Protection</h2>
+          <p><strong>Data Controller:</strong> GEM-pRF Development Team (contact: <span id="encoded-email" data-email="c2lkZGhhcnRoLm1pdHRhbEBtdXYuYWMuYXQ="></span>)</p>
+          
+          <p><strong>What data we collect:</strong> Your name, email address, subject, and message from the support form.</p>
+          
+          <p><strong>Why we collect it:</strong> To understand your inquiry and provide technical support and assistance.</p>
+          
+          <p><strong>Legal basis:</strong> Your explicit consent as provided through the form's consent checkbox.</p>
+          
+          <p><strong>Data retention:</strong> Your data is retained for up to 90 days to allow time for follow-up communication. You may request deletion of your data at any time.</p>
+          
+          <p><strong>Who has access:</strong> Only authorized members of the GEM-pRF support team access your data.</p>
+          
+          <p><strong>Your rights:</strong> You have the right to access, correct, delete, or port your personal data. To exercise these rights, please email us directly.</p>
+          
+          <p><strong>Third-party services:</strong> Your form data is processed through <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">Formspree</a>, which adheres to GDPR standards. By submitting this form, you consent to this transfer.</p>
+          
+          <p style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #ddd;">
+            <strong>For our complete Privacy Policy, please visit our <a href="/privacy.html" target="_blank">full Privacy Policy page</a>.</strong>
+          </p>
+        </div>
       </div>
 
     </main>
@@ -255,19 +302,232 @@
       border: 1px solid #bee5eb;
       display: block;
     }
+
+    .checkbox-group {
+      margin-bottom: 20px;
+      margin-top: 15px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      font-weight: 400;
+      color: #333;
+      cursor: pointer;
+      gap: 10px;
+    }
+
+    .checkbox-input {
+      margin-top: 4px;
+      cursor: pointer;
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+    }
+
+    .privacy-notice {
+      background-color: #e3f2fd;
+      border-left: 4px solid #0077b5;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      color: #1565c0;
+    }
+
+    .privacy-notice p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+
+    .privacy-notice a {
+      color: #0077b5;
+      text-decoration: underline;
+    }
+
+    .privacy-notice a:hover {
+      color: #005a8b;
+    }
+
+    .privacy-link-btn {
+      background: none;
+      border: none;
+      color: #0077b5;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 0;
+      font-size: 0.95rem;
+      font-family: inherit;
+      margin-left: 4px;
+    }
+
+    .privacy-link-btn:hover {
+      color: #005a8b;
+      text-decoration: none;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      position: relative;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 32px;
+      font-weight: bold;
+      color: #aaa;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .modal-close:hover,
+    .modal-close:focus {
+      color: #000;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .modal-content p {
+      margin: 12px 0;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .modal-content a {
+      color: #0077b5;
+      text-decoration: underline;
+    }
+
+    .modal-content a:hover {
+      color: #005a8b;
+    }
+
+    @media (max-width: 600px) {
+      .modal-content {
+        margin: 20px;
+        max-width: calc(100% - 40px);
+      }
+    }
   </style>
 
   <!-- Fetch the sidebar items -->
   <script src="/js/sidebar.js"></script>
 
+  <!-- Email decoding script -->
+  <script>
+    function decodeEmails() {
+      // Decode all encoded email elements
+      const encodedElements = document.querySelectorAll('[data-email]');
+      encodedElements.forEach(element => {
+        const encoded = element.getAttribute('data-email');
+        const decoded = atob(encoded);
+        
+        if (element.id === 'encoded-email') {
+          // For the modal, just show the email text
+          element.textContent = decoded;
+        } else if (element.tagName === 'A') {
+          // For mailto links
+          element.href = 'mailto:' + decoded;
+          element.textContent = decoded;
+        }
+      });
+    }
+    
+    // Decode on page load
+    document.addEventListener('DOMContentLoaded', decodeEmails);
+  </script>
+
   <!-- Form handling script -->
   <script>
+    // Privacy modal handling
+    const privacyModal = document.getElementById('privacy-modal');
+    const privacyBtn = document.getElementById('privacy-info-btn');
+    const privacyCloseBtn = document.getElementById('privacy-modal-close');
+
+    privacyBtn.addEventListener('click', function() {
+      privacyModal.classList.add('show');
+    });
+
+    privacyCloseBtn.addEventListener('click', function() {
+      privacyModal.classList.remove('show');
+    });
+
+    // Close modal when clicking outside of it
+    privacyModal.addEventListener('click', function(event) {
+      if (event.target === privacyModal) {
+        privacyModal.classList.remove('show');
+      }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape' && privacyModal.classList.contains('show')) {
+        privacyModal.classList.remove('show');
+      }
+    });
+
     document.getElementById('support-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       
       const form = this;
       const statusDiv = document.getElementById('form-status');
       const submitBtn = form.querySelector('.submit-button');
+      const consentCheckbox = document.getElementById('consent');
+
+      // Check if consent is given
+      if (!consentCheckbox.checked) {
+        statusDiv.className = 'form-status error';
+        statusDiv.textContent = 'Please consent to data processing before submitting the form.';
+        return;
+      }
       
       // Show loading state
       statusDiv.className = 'form-status loading';
