@@ -109,13 +109,6 @@ function ensureHamburgerButton() {
         btn.className = 'sidebar-collapse-btn mobile-hamburger';
         btn.setAttribute('aria-label', 'Toggle sidebar');
         btn.addEventListener('click', toggleSidebarCollapse);
-        
-        // Add tooltip
-        const tooltip = document.createElement('span');
-        tooltip.className = 'toggle-btn-tooltip';
-        tooltip.textContent = 'Toggle Sidebar';
-        btn.appendChild(tooltip);
-        
         document.body.appendChild(btn);
     }
 }
