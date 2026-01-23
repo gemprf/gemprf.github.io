@@ -109,6 +109,13 @@ function ensureHamburgerButton() {
         btn.className = 'sidebar-collapse-btn mobile-hamburger';
         btn.setAttribute('aria-label', 'Toggle sidebar');
         btn.addEventListener('click', toggleSidebarCollapse);
+        
+        // Add tooltip
+        const tooltip = document.createElement('span');
+        tooltip.className = 'toggle-btn-tooltip';
+        tooltip.textContent = 'Toggle Sidebar';
+        btn.appendChild(tooltip);
+        
         document.body.appendChild(btn);
     }
 }
@@ -118,20 +125,11 @@ function updateHamburgerPosition() {
     const sidebar = document.getElementById('configSidebar');
     if (!btn || !sidebar) return;
     
-    const sidebarRect = sidebar.getBoundingClientRect();
-    const isCollapsed = sidebar.classList.contains('collapsed');
-    
-    if (isCollapsed) {
-        // When sidebar is collapsed, fix button to left edge
-        btn.style.position = 'fixed';
-        btn.style.left = '12px';
-        btn.style.right = 'auto';
-    } else {
-        // When sidebar is visible, position at sidebar's top-right corner
-        btn.style.position = 'fixed';
-        btn.style.left = (sidebarRect.right - 48) + 'px'; // 48px = 36px (button width) + 12px (right padding)
-        btn.style.right = 'auto';
-    }
+    // Always fix button to top right corner
+    btn.style.position = 'fixed';
+    btn.style.right = '12px';
+    btn.style.left = 'auto';
+    btn.style.top = '12px';
 }
 
 function showHamburger(visible) {
