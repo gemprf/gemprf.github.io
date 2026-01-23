@@ -99,6 +99,47 @@ function isPortraitMode() {
     return window.innerHeight > window.innerWidth;
 }
 
+// Ensure a dedicated hamburger button exists (independent of sidebar layout)
+function ensureHamburgerButton() {
+    let btn = document.getElementById('mobileHamburger');
+    if (!btn) {
+        btn = document.createElement('button');
+        btn.id = 'mobileHamburger';
+        btn.type = 'button';
+        btn.className = 'sidebar-collapse-btn mobile-hamburger';
+        btn.setAttribute('aria-label', 'Toggle sidebar');
+        btn.addEventListener('click', toggleSidebarCollapse);
+        document.body.appendChild(btn);
+    }
+}
+
+function updateHamburgerPosition() {
+    const btn = document.getElementById('mobileHamburger');
+    const sidebar = document.getElementById('configSidebar');
+    if (!btn || !sidebar) return;
+    
+    const sidebarRect = sidebar.getBoundingClientRect();
+    const isCollapsed = sidebar.classList.contains('collapsed');
+    
+    if (isCollapsed) {
+        // When sidebar is collapsed, fix button to left edge
+        btn.style.position = 'fixed';
+        btn.style.left = '12px';
+        btn.style.right = 'auto';
+    } else {
+        // When sidebar is visible, position at sidebar's top-right corner
+        btn.style.position = 'fixed';
+        btn.style.left = (sidebarRect.right - 48) + 'px'; // 48px = 36px (button width) + 12px (right padding)
+        btn.style.right = 'auto';
+    }
+}
+
+function showHamburger(visible) {
+    const btn = document.getElementById('mobileHamburger');
+    if (!btn) return;
+    btn.style.display = visible ? 'flex' : 'none';
+}
+
 /**
  * Determines if XML rendering should be disabled
  * Disabled on: non-iPad mobile devices OR portrait mode
@@ -117,12 +158,24 @@ function disableXmlRendering() {
     const rightPanel = document.getElementById('rightPanel');
     const resizer = document.getElementById('horizontal_resizer');
     const modal = document.getElementById('xmlDisabledModal');
+    const sidebar = document.getElementById('configSidebar');
+    const wrapper = document.querySelector('.config-wrapper');
     
     if (rightPanel) {
         rightPanel.style.display = 'none';
     }
     if (resizer) {
         resizer.style.display = 'none';
+    }
+    if (wrapper) {
+        wrapper.classList.add('preview-disabled');
+    }
+    ensureHamburgerButton();
+    showHamburger(true);
+    // Auto-collapse sidebar when preview is disabled
+    if (sidebar) {
+        sidebar.classList.add('collapsed');
+        localStorage.setItem('configSidebarCollapsed', true);
     }
     // Only show modal if it hasn't been shown before
     if (modal && !xmlDisabledModalShown) {
@@ -138,6 +191,7 @@ function enableXmlRendering() {
     const rightPanel = document.getElementById('rightPanel');
     const resizer = document.getElementById('horizontal_resizer');
     const modal = document.getElementById('xmlDisabledModal');
+    const wrapper = document.querySelector('.config-wrapper');
     
     if (rightPanel) {
         rightPanel.style.display = '';
@@ -145,6 +199,10 @@ function enableXmlRendering() {
     if (resizer) {
         resizer.style.display = '';
     }
+    if (wrapper) {
+        wrapper.classList.remove('preview-disabled');
+    }
+    showHamburger(true);
     if (modal) {
         modal.style.display = 'none';
     }
@@ -166,6 +224,8 @@ function closeXmlDisabledModal() {
 function initializeXmlRenderingControl() {
     if (shouldDisableXmlRendering()) {
         disableXmlRendering();
+    } else {
+        showHamburger(true);
     }
 }
 
@@ -179,16 +239,34 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeBIDSRunTypeToggle();
     initCollapsibles();
     initResizableDivider();
+    ensureHamburgerButton();
+    showHamburger(true);
+    updateHamburgerPosition();
+    initializeXmlRenderingControl();
     initializeSidebarState();
+    initializeSidebarCloseOnClick();
     initializeEmailObfuscation();
     initializeConfigFilename();
     addInfoIcons();
-    initializeXmlRenderingControl();
     updatePreview();
 });
 
+// Debounce function to limit how often resize handler fires
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // Handle orientation changes for mobile devices
 window.addEventListener('orientationchange', function() {
+    updateHamburgerPosition();
     if (shouldDisableXmlRendering()) {
         disableXmlRendering();
     } else {
@@ -196,14 +274,17 @@ window.addEventListener('orientationchange', function() {
     }
 });
 
-// Also handle window resize for portrait/landscape detection
-window.addEventListener('resize', function() {
+// Also handle window resize for portrait/landscape detection (debounced to improve performance)
+const handleResize = debounce(function() {
+    updateHamburgerPosition();
     if (shouldDisableXmlRendering()) {
         disableXmlRendering();
     } else {
         enableXmlRendering();
     }
-});
+}, 150);
+
+window.addEventListener('resize', handleResize);
 
 function initializeForm() {
     const form = document.getElementById('configForm');
@@ -263,6 +344,51 @@ function initializeSidebarState() {
     }
 }
 
+/**
+ * Close sidebar when clicking outside or on any link/button
+ */
+function initializeSidebarCloseOnClick() {
+    const sidebar = document.getElementById('configSidebar');
+    if (!sidebar) return;
+
+    // Close sidebar when clicking outside (only on narrow/mobile screens)
+    document.addEventListener('click', function(evt) {
+        const toggleBtn = sidebar.querySelector('.sidebar-collapse-btn');
+        const mobileBtn = document.getElementById('mobileHamburger');
+        const clickInsideSidebar = sidebar.contains(evt.target);
+        const clickToggle = toggleBtn && toggleBtn.contains(evt.target);
+        const clickMobile = mobileBtn && mobileBtn.contains(evt.target);
+        
+        // Only close sidebar on click outside if we're in narrow/mobile mode (preview disabled)
+        const configWrapper = document.querySelector('.config-wrapper');
+        const isNarrowMode = configWrapper && configWrapper.classList.contains('preview-disabled');
+        
+        if (isNarrowMode && !clickInsideSidebar && !clickToggle && !clickMobile && !sidebar.classList.contains('collapsed')) {
+            sidebar.classList.add('collapsed');
+            localStorage.setItem('configSidebarCollapsed', true);
+        }
+    });
+
+    // Close sidebar after clicking any sidebar link/button
+    sidebar.addEventListener('click', function(evt) {
+        const target = evt.target;
+        const mobileBtn = document.getElementById('mobileHamburger');
+        if (mobileBtn && mobileBtn.contains(evt.target)) return;
+        
+        const isLink = target.tagName === 'A' || target.closest('a');
+        const isButton = target.tagName === 'BUTTON' || target.closest('button');
+        
+        // Only close sidebar on link/button click if we're in narrow/mobile mode (preview disabled)
+        const configWrapper = document.querySelector('.config-wrapper');
+        const isNarrowMode = configWrapper && configWrapper.classList.contains('preview-disabled');
+        
+        if (isNarrowMode && (isLink || isButton) && !sidebar.classList.contains('collapsed')) {
+            sidebar.classList.add('collapsed');
+            localStorage.setItem('configSidebarCollapsed', true);
+        }
+    });
+}
+
 function initializeEmailObfuscation() {
     const emailSpan = document.getElementById('contactEmail');
     if (emailSpan) {
@@ -311,6 +437,9 @@ function toggleSidebarCollapse() {
     sidebar.classList.toggle('collapsed');
     const isCollapsed = sidebar.classList.contains('collapsed');
     localStorage.setItem('configSidebarCollapsed', isCollapsed);
+    
+    // Update hamburger button position based on sidebar state
+    updateHamburgerPosition();
     
     if (typeof window.recalculatePanels === 'function') {
         window.recalculatePanels();
@@ -579,6 +708,62 @@ function initResizableDivider() {
     initWidths();
     window.recalculatePanels = initWidths;
     window.addEventListener('resize', initWidths);
+}
+
+// ============================================================================
+// XML SCROLL CONTROLS
+// ============================================================================
+
+function initializeXmlScrollControls() {
+    const xmlPreview = document.getElementById('xmlPreview');
+    const scrollLeft = document.getElementById('scrollLeft');
+    const scrollRight = document.getElementById('scrollRight');
+    const scrollThumb = document.getElementById('scrollThumb');
+    const scrollTrack = document.querySelector('.scroll-track');
+    
+    if (!xmlPreview || !scrollLeft || !scrollRight || !scrollThumb || !scrollTrack) return;
+    
+    const scrollAmount = 100; // pixels to scroll per click
+    
+    // Update scroll thumb based on horizontal scroll position
+    const updateScrollThumb = () => {
+        const scrollableWidth = xmlPreview.scrollWidth - xmlPreview.clientWidth;
+        if (scrollableWidth <= 0) {
+            scrollThumb.style.width = '100%';
+            scrollThumb.style.left = '0px';
+            return;
+        }
+        
+        const trackWidth = scrollTrack.offsetWidth;
+        const scrollPercentage = xmlPreview.scrollLeft / scrollableWidth;
+        const thumbWidth = Math.max(20, trackWidth * (xmlPreview.clientWidth / xmlPreview.scrollWidth));
+        const maxThumbPosition = trackWidth - thumbWidth;
+        
+        scrollThumb.style.width = thumbWidth + 'px';
+        scrollThumb.style.left = (scrollPercentage * maxThumbPosition) + 'px';
+    };
+    
+    // Scroll left button
+    scrollLeft.addEventListener('click', () => {
+        xmlPreview.scrollLeft = Math.max(0, xmlPreview.scrollLeft - scrollAmount);
+        updateScrollThumb();
+    });
+    
+    // Scroll right button
+    scrollRight.addEventListener('click', () => {
+        xmlPreview.scrollLeft += scrollAmount;
+        updateScrollThumb();
+    });
+    
+    // Update thumb position when xmlPreview scrolls (manual scroll)
+    xmlPreview.addEventListener('scroll', updateScrollThumb);
+    
+    // Update thumb when content changes
+    const observer = new MutationObserver(updateScrollThumb);
+    observer.observe(xmlPreview, { childList: true, subtree: true });
+    
+    // Initial thumb update
+    setTimeout(updateScrollThumb, 100);
 }
 
 // ============================================================================

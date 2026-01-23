@@ -4,10 +4,16 @@
     box-sizing: border-box;
 }
 
+html {
+    height: 100vh;
+    overflow: hidden;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f5f5f5;
-    overflow-x: hidden;
+    overflow: hidden;
+    height: 100vh;
 }
 
 .page-header {
@@ -17,6 +23,7 @@ body {
     font-weight: 700;
     color: #333;
     letter-spacing: 0.3px;
+    flex: 0 0 auto;
 }
 
 .developer-info {
@@ -26,6 +33,7 @@ body {
     color: #888;
     background: transparent;
     border-bottom: none;
+    flex: 0 0 auto;
 }
 
 .developer-info a {
@@ -55,19 +63,50 @@ body {
     box-shadow: none;
     border-radius: 0;
     background: #f5f5f5;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .config-wrapper {
     display: flex;
-    height: calc(100vh - 20px);
+    flex: 1;
+    height: 100%;
     gap: 0;
     margin: 0;
     width: 100%;
+    overflow: hidden;
+}
+
+/* Overlay sidebar when preview is disabled (narrow layout) */
+.config-wrapper.preview-disabled .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 240px !important;
+    min-width: 240px !important;
+    z-index: 3500;
+    box-shadow: 2px 0 12px rgba(0,0,0,0.25);
+    transition: transform 0.2s ease;
+    transform: translateX(0);
+}
+
+/* Override collapsed width in overlay mode so transform handles visibility */
+.config-wrapper.preview-disabled .sidebar.collapsed {
+    width: 240px !important;
+    min-width: 240px !important;
+    transform: translateX(-100%);
 }
 
 /* Tighten spacing between sidebar and content on this page only */
 .container {
     gap: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
 }
 
 .content {
@@ -91,7 +130,53 @@ body {
     justify-content: center;
     font-size: 18px;
     transition: all 0.2s ease;
-    z-index: 10;
+    z-index: 2000;
+}
+
+.sidebar-collapse-btn::before {
+    content: '≡';
+}
+
+/* Dedicated hamburger shown when preview is disabled (placed outside sidebar) */
+#mobileHamburger {
+    position: fixed;
+    left: 12px;
+    top: 12px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(0,0,0,0.15);
+    color: #333;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 4000;
+}
+
+#mobileHamburger::before {
+    content: '≡';
+}
+
+/* Ensure hamburger shows when preview is disabled (right panel hidden) */
+.config-wrapper.preview-disabled .sidebar-collapse-btn {
+    position: fixed;
+    left: 12px;
+    top: 12px;
+    right: auto;
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(0,0,0,0.15);
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 3000;
+}
+
+.config-wrapper.preview-disabled .sidebar-collapse-btn::before {
+    content: '≡';
+    font-size: 20px;
 }
 
 .sidebar-collapse-btn:hover {
@@ -177,15 +262,18 @@ label .info-icon {
 /* keep the toggle reachable when collapsed */
 .sidebar.collapsed .sidebar-collapse-btn {
     position: fixed;
-    left: 8px;
-    top: 10px;
+    left: 12px;
+    top: 12px;
     right: auto;
-    background: rgba(58,74,138,0.9);
-    border-color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.95);
+    border: 1px solid rgba(0,0,0,0.15);
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .sidebar.collapsed .sidebar-collapse-btn::before {
-    content: '→';
+    content: '≡';
+    font-size: 20px;
 }
 
 .sidebar:not(.collapsed) .sidebar-collapse-btn::before {
@@ -197,9 +285,11 @@ label .info-icon {
     width: calc(50% - 6px);
     background: white;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 30px;
     border-right: 2px solid #ddd;
     border-radius: 8px 0 0 8px;
+    height: 100%;
 }
 
 .preview-panel {
@@ -207,14 +297,104 @@ label .info-icon {
     width: calc(50% - 6px);
     background: #1e1e1e;
     color: #d4d4d4;
-    overflow-y: auto;
+    overflow: hidden;
     padding: 0;
     position: relative;
     border-radius: 0 8px 8px 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Horizontal scroll controls for XML preview */
+.scroll-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    background: #252526;
+    border-bottom: 1px solid #3e3e42;
+    flex: 0 0 auto;
+}
+
+.scroll-arrow {
+    background: #3c3c41;
+    border: 1px solid #555;
+    color: #ccc;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: background-color 0.2s;
+    flex: 0 0 auto;
+}
+
+.scroll-arrow:hover {
+    background: #505050;
+    color: #fff;
+}
+
+.scroll-arrow:active {
+    background: #3e3e42;
+}
+
+.scroll-track {
+    flex: 1;
+    height: 12px;
+    background: #1e1e1e;
+    border: 1px solid #3e3e42;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #555;
+    border-radius: 6px;
+    min-width: 20px;
+    width: 20px;
+    transition: background-color 0.2s;
+}
+
+.scroll-thumb:hover {
+    background: #666;
 }
 
 #xmlPreview {
     padding: 8px;
+    overflow-y: auto;
+    overflow-x: auto;
+    flex: 1;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    scrollbar-width: thin;
+    scrollbar-color: #555 #1e1e1e;
+}
+
+/* Hide default horizontal scrollbar, we use custom controls */
+#xmlPreview::-webkit-scrollbar {
+    height: 10px;
+}
+
+#xmlPreview::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+
+#xmlPreview::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 5px;
+}
+
+#xmlPreview::-webkit-scrollbar-thumb:hover {
+    background: #666;
 }
 
 .resizer {
@@ -568,6 +748,7 @@ label .info-icon {
     display: flex;
     gap: 8px;
     z-index: 10;
+    flex: 0 0 auto;
 }
 
 .btn {
