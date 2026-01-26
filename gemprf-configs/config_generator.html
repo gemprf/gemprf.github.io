@@ -294,9 +294,14 @@
                                 <small>Comma-separated values or "all"</small>
                             </div>
                             <div class="form-group">
-                                <label for="bids_space">Space</label>
-                                <input type="text" id="bids_space" value="fsnative">
-                                <small>e.g., fsaverage/fsnative/T1w or all</small>
+                                <label>Space</label>
+                                <div class="checkbox-group">
+                                    <label><input type="checkbox" class="bids-space-option" value="fsnative" checked> fsnative</label>
+                                    <label><input type="checkbox" class="bids-space-option" value="fsaverage"> fsaverage</label>
+                                    <label><input type="checkbox" class="bids-space-option" value="T1w"> T1w</label>
+                                    <label><input type="checkbox" class="bids-space-option" value="all"> all</label>
+                                </div>
+                                <small>Select one or more spaces; "all" overrides other selections</small>
                             </div>
                             <div class="form-group">
                                 <label for="bids_extension">Input File Extension</label>
@@ -311,9 +316,9 @@
                             <div id="individual_section">
                                 <h3 style="margin-top: 20px;">Individual Task Analysis</h3>
                                 <div class="form-group">
-                                    <label for="individual_task">Task</label>
+                                    <label for="individual_task">Task<span id="individual_task_validation" class="validation-message"></span></label>
                                     <input type="text" id="individual_task" value="fixedbar">
-                                    <small>ONLY one value allowed</small>
+                                    <small>Provide exactly one task name; do not enter "all"; avoid spaces or commas</small>
                                 </div>
                                 <div class="form-group">
                                     <label for="individual_ses">Session</label>
@@ -330,15 +335,35 @@
                             <!-- Concatenated Analysis -->
                             <div id="concatenated_section" class="hidden">
                                 <h3 style="margin-top: 20px;">Concatenated Analysis</h3>
-                                <small style="color: #666; margin-bottom: 10px; display: block;">Add concatenate items (example shows 3 items, modify as needed)</small>
+                                <small style="color: #666; margin-bottom: 10px; display: block;">Add one or more concatenate items</small>
                                 <div class="form-group">
-                                    <label for="concat_items">Concatenate Items (JSON format)</label>
-                                    <textarea id="concat_items" rows="10">[
-  {"ses": "01", "task": "fixedbar", "run": "1"},
-  {"ses": "01", "task": "fixedbar", "run": "2"},
-  {"ses": "01", "task": "fixedbar", "run": "3"}
-]</textarea>
-                                    <small>Each item should have ses, task, and run</small>
+                                    <label>Concatenate Items</label>
+                                    <div id="concat_items_container" class="paths-container">
+                                        <div class="path-entry concat-item" style="border: 1px solid #ddd; padding: 12px; border-radius: 6px; margin-bottom: 10px; position: relative;">
+                                            <div style="margin-bottom: 8px;">
+                                                <button type="button" class="remove-btn concat-remove-btn" onclick="removeConcatItem(this)">✕ Remove</button>
+                                            </div>
+                                            <div class="path-input triple-inputs" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                                                <div class="input-container">
+                                                    <label class="inline-label">ses</label>
+                                                    <input type="text" class="concat-input concat-ses" value="" placeholder="e.g., 01" oninput="updateConcatItemsPreview()">
+                                                    <span class="validation-message"></span>
+                                                </div>
+                                                <div class="input-container">
+                                                    <label class="inline-label">task</label>
+                                                    <input type="text" class="concat-input concat-task" value="" placeholder="e.g., fixedbar" oninput="updateConcatItemsPreview()">
+                                                    <span class="validation-message"></span>
+                                                </div>
+                                                <div class="input-container">
+                                                    <label class="inline-label">run</label>
+                                                    <input type="text" class="concat-input concat-run" value="" placeholder="e.g., 1" oninput="updateConcatItemsPreview()">
+                                                    <span class="validation-message"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="add-path-btn" onclick="addConcatItem()">+ Add Item</button>
+                                    <small>Each item needs ses, task, and run; only one value each (no spaces or commas)</small>
                                 </div>
                             </div>
                         </div>

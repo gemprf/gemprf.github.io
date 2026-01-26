@@ -30,12 +30,12 @@ const fieldHelpText = {
     bids_analysis: "Analysis identifier(s). Use comma-separated values or 'all'. If 'all', the program would process all analyses available in the dataset.",
     bids_sub: "Subject identifier(s). Use comma-separated values or 'all' to process all subjects. If 'all', the program would process all subjects in the current analysis.",
     bids_hemi: "Hemisphere(s) to process. Use 'L', 'R', comma-separated, or 'all'. If 'all', both hemispheres will be processed.",
-    bids_space: "Coordinate space of the data (e.g., 'fsnative', 'fsaverage', 'T1w'). Use 'all' for all available spaces.",
+    bids_space: "Coordinate space of the data (e.g., 'fsnative', 'fsaverage', 'T1w'). Select one or more; choose 'all' to include every available space.",
     bids_extension: "Input file extension: '.nii.gz' for volumetric, '.gii' for surface, or 'both' to process all available.",
-    individual_task: "Task name for individual analysis. CAUTION: Only ONE value is allowed.",
+    individual_task: "Task name for individual analysis. CAUTION: Only ONE value is allowed. Do not use 'all' or include spaces/commas.",
     individual_ses: "Session identifier(s). Use comma-separated values or 'all'. If you choose 'all', the program would process all sessions for the specified subject(s).",
     individual_run: "Run identifier(s). Use comma-separated values or 'all'. If you choose 'all', the program would process all runs for the specified session(s).",
-    concat_items: "JSON array defining which runs to concatenate. Each item should specify ses, task, and run.",
+    concat_items: "Add one or more concatenate items. Each needs ses, task, and run (single value each; no spaces or commas).",
     fixed_stim_path: "Direct filepath to the stimulus file (.nii.gz format).",
     fixed_results_basepath: "Directory where results will be saved.",
     fixed_filename_postfix: "Custom text to append to result filenames (e.g., '-sample').",
@@ -316,6 +316,12 @@ function initializeBIDSRunTypeToggle() {
         } else {
             individualSection.classList.add('hidden');
             concatenatedSection.classList.remove('hidden');
+            // Add second item if concatenated mode has fewer than 2
+            const container = document.getElementById('concat_items_container');
+            const items = container?.querySelectorAll('.concat-item') || [];
+            if (items.length < 2) {
+                addConcatItem();
+            }
         }
         updatePreview();
     });
@@ -506,6 +512,123 @@ function updatePathValidation(fieldId, expectedType, requiredExtension = null) {
 }
 
 // ============================================================================
+// INDIVIDUAL TASK VALIDATION
+// ============================================================================
+
+function validateIndividualTaskValue(value) {
+    const trimmed = (value || '').trim();
+
+    if (!trimmed) {
+        return { status: 'error', message: '(⛔ Task is required)' };
+    }
+
+    if (/\s|,/.test(trimmed)) {
+        return { status: 'error', message: '(⛔ No spaces or commas)' };
+    }
+
+    if (trimmed.toLowerCase() === 'all') {
+        return { status: 'error', message: '(⛔ Provide a single task name, not "all")' };
+    }
+
+    return { status: 'ok', message: '' };
+}
+
+function validateSingleEntryValue(value) {
+    const trimmed = (value || '').trim();
+    if (!trimmed) {
+        return { status: 'error', message: '(⛔ Required)' };
+    }
+    if (/\s|,/.test(trimmed)) {
+        return { status: 'error', message: '(⛔ No spaces or commas)' };
+    }
+    return { status: 'ok', message: '' };
+}
+
+function updateConcatItemValidation(item) {
+    if (!item) return;
+    const inputs = item.querySelectorAll('.concat-input');
+    inputs.forEach(input => {
+        const indicator = input.nextElementSibling;
+        if (!indicator) return;
+
+        const { status, message } = validateSingleEntryValue(input.value);
+        indicator.className = 'validation-message';
+        indicator.textContent = '';
+        if (status === 'error') {
+            indicator.classList.add('error');
+            indicator.textContent = message;
+        }
+    });
+}
+
+function updateConcatItemsValidation() {
+    document.querySelectorAll('.concat-item').forEach(updateConcatItemValidation);
+    validateConcatItemsMinimum();
+}
+
+function validateConcatItemsMinimum() {
+    const runType = document.getElementById('bids_run_type')?.value;
+    if (runType !== 'concatenated') return;
+
+    const container = document.getElementById('concat_items_container');
+    const items = container?.querySelectorAll('.concat-item') || [];
+    const itemCount = items.length;
+
+    let errorMsg = '';
+    if (itemCount < 2) {
+        errorMsg = `(⛔ Minimum 2 items required for concatenated mode, currently ${itemCount})`;
+    }
+
+    let msgElement = document.getElementById('concat_items_error');
+    if (!msgElement && errorMsg) {
+        msgElement = document.createElement('div');
+        msgElement.id = 'concat_items_error';
+        msgElement.className = 'validation-message error';
+        msgElement.style.display = 'block';
+        msgElement.style.marginTop = '8px';
+        container.parentNode.insertBefore(msgElement, container.nextSibling);
+    }
+    if (msgElement) {
+        msgElement.textContent = errorMsg;
+        msgElement.style.display = errorMsg ? 'block' : 'none';
+    }
+
+    // Disable remove buttons if only 2 items remain
+    items.forEach((item, idx) => {
+        const removeBtn = item.querySelector('.concat-remove-btn');
+        if (removeBtn) {
+            if (itemCount <= 2) {
+                removeBtn.disabled = true;
+                removeBtn.style.opacity = '0.5';
+                removeBtn.style.cursor = 'not-allowed';
+            } else {
+                removeBtn.disabled = false;
+                removeBtn.style.opacity = '1';
+                removeBtn.style.cursor = 'pointer';
+            }
+        }
+    });
+}
+
+function updateIndividualTaskValidation() {
+    const input = document.getElementById('individual_task');
+    const indicator = document.getElementById('individual_task_validation');
+    if (!input || !indicator) return;
+
+    const { status, message } = validateIndividualTaskValue(input.value);
+    indicator.className = 'validation-message';
+    indicator.textContent = '';
+
+    if (status === 'error') {
+        indicator.classList.add('error');
+        indicator.textContent = message;
+    } else if (status === 'warning') {
+        indicator.classList.add('warning');
+        indicator.textContent = message;
+    }
+}
+
+// ============================================================================
 // PATH FIELD ACTIONS
 // ============================================================================
 
@@ -568,6 +691,65 @@ function addDataPath() {
     `;
     container.appendChild(newEntry);
     updateDataPathsPreview();
+}
+
+// ============================================================================
+// CONCATENATED ITEMS MANAGEMENT
+// ============================================================================
+
+function addConcatItem() {
+    const container = document.getElementById('concat_items_container');
+    if (!container) return;
+
+    const newEntry = document.createElement('div');
+    newEntry.className = 'path-entry concat-item';
+    newEntry.style.cssText = 'border: 1px solid #ddd; padding: 12px; border-radius: 6px; margin-bottom: 10px;';
+    newEntry.innerHTML = `
+        <div style="margin-bottom: 8px;">
+            <button type="button" class="remove-btn concat-remove-btn" onclick="removeConcatItem(this)">✕ Remove</button>
+        </div>
+        <div class="path-input triple-inputs" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+            <div class="input-container">
+                <label class="inline-label">ses</label>
+                <input type="text" class="concat-input concat-ses" value="" placeholder="e.g., 01" oninput="updateConcatItemsPreview()">
+                <span class="validation-message"></span>
+            </div>
+            <div class="input-container">
+                <label class="inline-label">task</label>
+                <input type="text" class="concat-input concat-task" value="" placeholder="e.g., fixedbar" oninput="updateConcatItemsPreview()">
+                <span class="validation-message"></span>
+            </div>
+            <div class="input-container">
+                <label class="inline-label">run</label>
+                <input type="text" class="concat-input concat-run" value="" placeholder="e.g., 1" oninput="updateConcatItemsPreview()">
+                <span class="validation-message"></span>
+            </div>
+        </div>
+    `;
+    container.appendChild(newEntry);
+    updateConcatItemsPreview();
+}
+
+function removeConcatItem(btn) {
+    const entry = btn.closest('.concat-item');
+    const container = document.getElementById('concat_items_container');
+    const itemCount = container?.querySelectorAll('.concat-item').length || 0;
+    const runType = document.getElementById('bids_run_type')?.value;
+
+    // Prevent removal if in concatenated mode and only 2 items remain
+    if (runType === 'concatenated' && itemCount <= 2) {
+        alert('Concatenated mode requires at least 2 items.');
+        return;
+    }
+
+    if (entry) {
+        entry.remove();
+        updateConcatItemsPreview();
+    }
+}
+
+function updateConcatItemsPreview() {
+    updatePreview();
 }
 
 function removeDataPath(btn) {
@@ -793,6 +975,15 @@ function normalizePathForXml(value) {
     return escapeXml(value.replace(/\\/g, '/'));
 }
 
+function getSelectedSpaces() {
+    const boxes = Array.from(document.querySelectorAll('.bids-space-option'));
+    if (!boxes.length) return '';
+    const selected = boxes.filter(box => box.checked).map(box => box.value);
+    if (!selected.length) return '';
+    if (selected.includes('all')) return 'all';
+    return selected.join(', ');
+}
+
 function generateXML() {
     const version = document.getElementById('version').value;
     const dataType = document.querySelector('input[name="data_type"]:checked').value;
@@ -919,10 +1110,10 @@ function generateBIDSSection() {
            either provide comma separated values or specify "all"
            Sample: <analysis>01, 02</analysis> or <analysis>all</analysis>
       -->
-      <analysis>${escapeXml(document.getElementById('bids_analysis').value)}</analysis>
-      <sub>${escapeXml(document.getElementById('bids_sub').value)}</sub>
-      <hemi>${escapeXml(document.getElementById('bids_hemi').value)}</hemi>
-      <space comment="e.g. fsaverage/fsnative/T1w or all">${escapeXml(document.getElementById('bids_space').value)}</space>
+    <analysis>${escapeXml(document.getElementById('bids_analysis').value)}</analysis>
+    <sub>${escapeXml(document.getElementById('bids_sub').value)}</sub>
+    <hemi>${escapeXml(document.getElementById('bids_hemi').value)}</hemi>
+    <space comment="e.g. fsaverage/fsnative/T1w or all">${escapeXml(getSelectedSpaces())}</space>
 	  
 	  <!-- IMPORTANT: volumetric files will be flattend, and only files ending with '_bold.nii.gz' or '_bold.func.gii' will be processed -->
       <input_file_extension comment="options are .nii.gz/.gii/both">${document.getElementById('bids_extension').value}</input_file_extension>
@@ -942,26 +1133,26 @@ function generateBIDSSection() {
       <!-- CONCATENATED Analysis -->
       <concatenated>
 `;
-        try {
-            const items = JSON.parse(document.getElementById('concat_items').value);
-            items.forEach(item => {
-                xml += `
-        <concatenate_item>
-          <ses>${escapeXml(item.ses)}</ses> 		<!-- ONLY one value is allowed -->
-          <task>${escapeXml(item.task)}</task>	<!-- ONLY one value is allowed -->
-          <run>${escapeXml(item.run)}</run> 			<!-- ONLY one value is allowed -->
-        </concatenate_item>
+                const concatItems = [];
+                document.querySelectorAll('.concat-item').forEach(item => {
+                        const ses = item.querySelector('.concat-ses')?.value.trim() || '';
+                        const task = item.querySelector('.concat-task')?.value.trim() || '';
+                        const run = item.querySelector('.concat-run')?.value.trim() || '';
+                        const invalid = /\s|,/.test(ses) || /\s|,/.test(task) || /\s|,/.test(run);
+                        if (ses && task && run && !invalid) {
+                                concatItems.push({ ses, task, run });
+                        }
+                });
+
+                concatItems.forEach(item => {
+                        xml += `
+                <concatenate_item>
+                    <ses>${escapeXml(item.ses)}</ses> 		<!-- ONLY one value is allowed -->
+                    <task>${escapeXml(item.task)}</task>	<!-- ONLY one value is allowed -->
+                    <run>${escapeXml(item.run)}</run> 			<!-- ONLY one value is allowed -->
+                </concatenate_item>
 `;
-            });
-        } catch (e) {
-            xml += `
-        <concatenate_item>
-          <ses>01</ses>
-          <task>fixedbar</task>
-          <run>1</run>
-        </concatenate_item>
-`;
-        }
+                });
         xml += `
       </concatenated>
 `;
@@ -1054,6 +1245,8 @@ function generateFixedPathsSection() {
 // ============================================================================
 
 function updatePreview() {
+    updateIndividualTaskValidation();
+    updateConcatItemsValidation();
     const xml = generateXML();
     const preview = document.getElementById('xmlPreview');
     if (!preview) return;
