@@ -173,6 +173,10 @@ function disableXmlRendering() {
         modal.style.display = 'flex';
         xmlDisabledModalShown = true;
     }
+    // Recalculate panel widths to remove inline styles
+    if (window.recalculatePanels) {
+        window.recalculatePanels();
+    }
 }
 
 /**
@@ -196,6 +200,10 @@ function enableXmlRendering() {
     showHamburger(true);
     if (modal) {
         modal.style.display = 'none';
+    }
+    // Recalculate panel widths to restore split-panel layout
+    if (window.recalculatePanels) {
+        window.recalculatePanels();
     }
 }
 
@@ -872,6 +880,15 @@ function initResizableDivider() {
 
     // Set initial widths
     const initWidths = () => {
+        const wrapper = document.querySelector('.config-wrapper');
+        // Only set inline widths when preview is enabled (not in narrow/mobile mode)
+        if (wrapper && wrapper.classList.contains('preview-disabled')) {
+            // Let CSS handle the width in narrow mode
+            left.style.width = '';
+            right.style.width = '';
+            return;
+        }
+        
         const rect = container.getBoundingClientRect();
         const dW = dividerWidth();
         const half = Math.max(minLeft, Math.floor((rect.width - dW) / 2));
