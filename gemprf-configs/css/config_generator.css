@@ -992,10 +992,33 @@ label .info-icon {
    ============================================================================ */
 
 @media (max-width: 1024px) {
+    html {
+        overflow: auto;
+    }
+
+    body {
+        overflow: auto;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .container {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    .container .content {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
     .config-wrapper {
         flex-direction: column;
         height: auto;
-        min-height: calc(100vh - 20px);
+        min-height: calc(100vh - 100px);
+        overflow: visible;
     }
 
     .form-panel {
@@ -1004,6 +1027,9 @@ label .info-icon {
         border-bottom: 2px solid #ddd;
         border-radius: 8px 8px 0 0;
         max-height: none;
+        height: auto;
+        overflow-y: visible;
+        overflow-x: hidden;
     }
 
     .preview-panel {
@@ -1034,8 +1060,18 @@ label .info-icon {
 }
 
 @media (max-width: 768px) {
+    html {
+        height: auto;
+    }
+
+    body {
+        min-height: 100vh;
+        height: auto;
+    }
+
     .form-panel {
         padding: 20px 15px;
+        padding-bottom: 40px;
     }
 
     .section {
@@ -1192,4 +1228,29 @@ label .info-icon {
 
 #horizontal_resizer[style*="display: none"] {
     display: none !important;
+}
+/* Additional mobile scrolling fixes when preview is disabled */
+.config-wrapper.preview-disabled {
+    overflow: visible;
+    height: auto;
+    min-height: 100vh;
+}
+
+.config-wrapper.preview-disabled .form-panel {
+    height: auto;
+    overflow-y: visible;
+    min-height: calc(100vh - 150px);
+    padding-bottom: 50px;
+}
+
+@media (max-width: 1024px) {
+    .config-wrapper.preview-disabled {
+        overflow: visible;
+    }
+    
+    .config-wrapper.preview-disabled .form-panel {
+        height: auto;
+        overflow-y: visible;
+        overflow-x: hidden;
+    }
 }
