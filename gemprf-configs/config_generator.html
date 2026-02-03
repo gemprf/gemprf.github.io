@@ -268,18 +268,7 @@
                                 <small>Comma-separated values</small>
                             </div>
                             <div class="form-group">
-                                <label for="results_id">Results Analysis ID</label>
-                                <div class="input-container">
-                                    <input type="text" id="results_id" value="" placeholder="e.g. 01 or TestWithGEM (to get analysis-01 or analysis-TestWithGEM)">
-                                    <button type="button" class="clear-btn" onclick="clearField('results_id')" title="Clear field">✕</button>
-                                </div>
-                            </div>
-                            <div class="form-group checkbox-group">
-                                <input type="checkbox" id="results_overwrite">
-                                <label for="results_overwrite">Overwrite Existing Results</label>
-                            </div>
-                            <div class="form-group">
-                                <label for="bids_analysis">Analysis</label>
+                                <label for="bids_analysis">Input Analysis ID</label>
                                 <input type="text" id="bids_analysis" value="01">
                                 <small>Comma-separated values or "all"</small>
                             </div>
@@ -414,6 +403,38 @@
                                 <button type="button" class="add-path-btn" onclick="addDataPath()">+ Add Path</button>
                                 <small>Add one or more measured data file paths</small>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Results -->
+                <div class="section">
+                    <h2>Output Results</h2>
+                    
+                    <!-- BIDS Output Results -->
+                    <div id="bids_output_results_section">
+                        <div class="subsection">
+                            <h3>Output Configuration</h3>
+                            <p style="color: #666; font-size: 13px; margin-bottom: 15px;">Data Type: <strong>BIDS Format</strong></p>
+                            <div class="form-group">
+                                <label for="results_id">Analysis ID</label>
+                                <div class="input-container">
+                                    <input type="text" id="results_id" value="" placeholder="e.g. 01 or TestWithGEM (to get analysis-01 or analysis-TestWithGEM)">
+                                    <button type="button" class="clear-btn" onclick="clearField('results_id')" title="Clear field">✕</button>
+                                </div>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="results_overwrite">
+                                <label for="results_overwrite">Overwrite Existing Results</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fixed Paths Output Results -->
+                    <div id="fixed_output_results_section" class="hidden">
+                        <div class="subsection">
+                            <h3>Output Configuration</h3>
+                            <p style="color: #666; font-size: 13px; margin-bottom: 15px;">Data Type: <strong>Fixed Paths</strong></p>
                             <div class="form-group">
                                 <label for="fixed_results_basepath">Results Base Path<span id="fixed_results_basepath_validation" class="validation-message"></span></label>
                                 <div class="path-input">

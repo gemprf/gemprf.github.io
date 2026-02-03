@@ -300,13 +300,19 @@ function initializeDataTypeToggle() {
         radio.addEventListener('change', function() {
             const bidsSection = document.getElementById('bids_section');
             const fixedSection = document.getElementById('fixed_paths_section');
+            const bidsOutputSection = document.getElementById('bids_output_results_section');
+            const fixedOutputSection = document.getElementById('fixed_output_results_section');
             
             if (this.value === 'bids') {
                 bidsSection.classList.remove('hidden');
                 fixedSection.classList.add('hidden');
+                bidsOutputSection.classList.remove('hidden');
+                fixedOutputSection.classList.add('hidden');
             } else {
                 bidsSection.classList.add('hidden');
                 fixedSection.classList.remove('hidden');
+                bidsOutputSection.classList.add('hidden');
+                fixedOutputSection.classList.remove('hidden');
             }
             updatePreview();
         });
