@@ -80,28 +80,52 @@
         <main class="content">
             <h1>Cite</h1>
 
-            <!-- Citation Box -->
-            <div class="citation-box">
-                <p>Here's the link to our research paper published in Medical Image Analysis:</p>
-                <p>
-                    <a href="https://doi.org/10.1016/j.media.2025.103891" target="_blank"
-                        rel="noopener noreferrer">
-                        <em>Mittal et al. (2025), GEM-pRF: GPU-Empowered Mapping of Population Receptive Fields for
-                            Large-Scale fMRI Analysis</em>
+            <!-- Paper Citation Section -->
+            <section class="citation-section">
+                <h2>Research Paper</h2>
+                <p>To cite the GEM-pRF software, please cite our research paper published in Medical Image Analysis:</p>
+                <div class="citation-box">
+                    <p>
+                        <a href="https://doi.org/10.1016/j.media.2025.103891" target="_blank"
+                            rel="noopener noreferrer">
+                            <em>Mittal et al. (2025), GEM-pRF: GPU-Empowered Mapping of Population Receptive Fields for
+                                Large-Scale fMRI Analysis</em>
+                        </a>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Software Version Section -->
+            <section class="citation-section">
+                <h2>Software Version</h2>
+                <p>When specifying the software version used in your research, please refer to the version number listed on the 
+                    <a href="https://pypi.org/project/gemprf/" target="_blank" rel="noopener noreferrer">
+                        GEM-pRF PyPI package manager
                     </a>
-                </p>
-            </div>
+                    page. This ensures reproducibility and clarity about which version of the software was used.</p>
+            </section>
 
         </main>
     </div>
 
     <style>
+        .citation-section {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .citation-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
         .citation-box {
             background: #f9f9f9;
             border-left: 4px solid #0077b5;
             /* subtle accent color */
             padding: 15px 20px;
-            margin-top: 20px;
+            margin-top: 15px;
+            margin-bottom: 10px;
             border-radius: 6px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         }
