@@ -82,14 +82,33 @@
 
             <!-- Paper Citation Section -->
             <section class="citation-section">
-                <h2>Research Paper</h2>
-                <p>To cite the GEM-pRF software, please cite our research paper published in Medical Image Analysis:</p>
+                <h2>GEM-pRF Software & Methodology</h2>
+                <p>To cite the GEM-pRF software or methodology, please cite our research paper published in Medical Image Analysis:</p>
                 <div class="citation-box">
+                    <p id="paper-doi-badge">
+                        <!-- DOI badge injected by doi-badges.js -->
+                    </p>
                     <p>
                         <a href="https://doi.org/10.1016/j.media.2025.103891" target="_blank"
                             rel="noopener noreferrer">
                             <em>Mittal et al. (2025), GEM-pRF: GPU-Empowered Mapping of Population Receptive Fields for
                                 Large-Scale fMRI Analysis</em>
+                        </a>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Documentation Website Section -->
+            <section class="citation-section">
+                <h2>Documentation Website</h2>
+                <p>If you used the GEM-pRF documentation website (e.g., the XML configuration generator), you can cite it using the following DOI:</p>
+                <div class="citation-box">
+                    <p id="documentation-doi-badge">
+                        <!-- DOI badge injected by doi-badges.js -->
+                    </p>
+                    <p>
+                        <a href="https://doi.org/10.5281/zenodo.18475202" target="_blank" rel="noopener noreferrer">
+                            <em>Mittal et al. (2025), GEM-pRF <strong>Software Documentation</strong> for fMRI Population Receptive Field (pRF) Mapping</em>
                         </a>
                     </p>
                 </div>
@@ -138,7 +157,15 @@
 
 
     <!-- Fecth the sidebar items -->
-     <script src="/js/sidebar.js"></script>    
+     <script src="/js/sidebar.js"></script>
+     <script src="/js/doi-badges.js"></script>
+     <script>
+         // Inject DOI badges
+         document.addEventListener('DOMContentLoaded', function() {
+             insertDOIBadge('paper-doi-badge', 'paper');
+             insertDOIBadge('documentation-doi-badge', 'documentation');
+         });
+     </script>
 
 </body>
 
