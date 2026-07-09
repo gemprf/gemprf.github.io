@@ -46,6 +46,10 @@
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
     
+    <!-- Chatbot Styles -->
+    <link rel="stylesheet" href="/gemprf-configs/css/chatbot.css">
+    <link rel="stylesheet" href="/gemprf-configs/css/ai-assistant.css">
+    
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MXYNQ1GY8V"></script>
     <script>
@@ -672,6 +676,29 @@
                 <button class="modal-ok-btn" onclick="closeXmlDisabledModal()">OK</button>
             </div>
         </div>
+
+        <!-- Configuration Chatbot - Popup Window -->
+        <button class="ai-assistant-btn" id="ai-assistant-btn" title="Open AI Assistant">💬</button>
+        
+        <div class="ai-popup-overlay" id="ai-popup-overlay">
+            <div id="chatbot-container">
+                <div class="chatbot-header">
+                    <div class="chatbot-header-title">
+                        <span class="chatbot-header-icon">🤖</span>
+                        Config Assistant
+                    </div>
+                    <div class="chatbot-header-actions">
+                        <button id="chatbot-api-config" class="chatbot-header-btn" title="Configure API Key">⚙️ API</button>
+                        <button id="chatbot-close-btn" class="chatbot-header-btn" title="Close">✕</button>
+                    </div>
+                </div>
+                <div id="chatbot-messages"></div>
+                <div class="chatbot-input-section">
+                    <textarea id="chatbot-input" placeholder="Ask me about configuration parameters..." rows="1"></textarea>
+                    <button id="chatbot-send" type="button">Send</button>
+                </div>
+            </div>
+        </div>
     </div>
 
   </div>
@@ -679,5 +706,6 @@
   </div>
     <script src="/js/sidebar.js"></script>
     <script src="/gemprf-configs/js/config_generator.js"></script>
+    <script src="/gemprf-configs/js/chatbot.js"></script>
 </body>
 </html>

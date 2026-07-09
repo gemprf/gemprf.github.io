@@ -1,0 +1,127 @@
+/* Floating AI Assistant Icon Button */
+
+.ai-assistant-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    z-index: 998;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.ai-assistant-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+}
+
+.ai-assistant-btn:active {
+    transform: scale(0.98);
+}
+
+.ai-assistant-btn.active {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+/* Popup Window Overlay */
+.ai-popup-overlay {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 360px;
+    max-height: 480px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
+    z-index: 997;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+}
+
+.ai-popup-overlay.open {
+    display: flex;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Chatbot Container Positioning */
+#chatbot-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.ai-popup-overlay #chatbot-container {
+    background: white;
+    border: none;
+    box-shadow: none;
+    height: 480px;
+    max-height: 480px;
+}
+
+/* Ensure messages area scrolls properly */
+.ai-popup-overlay #chatbot-messages {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.ai-popup-overlay #chatbot-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ai-popup-overlay #chatbot-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.ai-popup-overlay #chatbot-messages::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.ai-popup-overlay #chatbot-messages::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .ai-assistant-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
+    }
+    
+    .ai-popup-overlay {
+        width: calc(100vw - 40px);
+        max-width: 360px;
+        bottom: 80px;
+        right: 20px;
+        max-height: 400px;
+    }
+}

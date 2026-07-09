@@ -1,0 +1,794 @@
+{
+  "software_info": {
+    "name": "GEM-pRF",
+    "full_name": "GPU-Empowered Mapping of Population Receptive Fields",
+    "author": "Siddharth Mittal",
+    "contact": "siddharth.mittal@meduniwien.ac.at",
+    "affiliation": "Medical University of Vienna",
+    "license": "(C)Copyright 2024 - 2025, Medical University of Vienna",
+    "citation": "https://doi.org/10.1016/j.media.2025.103891",
+    "paper_title": "GPU-Empowered Mapping of Population Receptive Fields for Large-Scale fMRI Analysis",
+    "version": "0.1.11",
+    "description": "GEM-pRF is a software for population receptive field (pRF) mapping using GPU acceleration. It analyzes fMRI data to map how visual cortex processes different regions of visual space.",
+    "purpose": "Map population receptive fields in visual cortex using fMRI data with GPU acceleration",
+    "capabilities": ["GPU-accelerated pRF fitting", "BIDS-compatible input", "Surface and volumetric analysis", "Multi-GPU support", "Flexible stimulus configurations"],
+    "support": "For installation help, bug reports, troubleshooting, or general usage questions, please visit the support page or contact the author.",
+    "scope_note": "This chatbot only answers questions about XML configuration file parameters. For other topics, visit the documentation."
+  },
+  "ui_elements": {
+    "description": "UI elements and their corresponding XML parameters. This section helps map user interface labels to XML configuration parameters.",
+    "config_filename_builder": {
+      "name": "Config Filename Builder",
+      "type": "UI feature",
+      "description": "A UI-only feature (not part of XML) that helps users create descriptive filenames for configuration files. It combines Data Source, Stimulus Type, and Description fields to generate a meaningful filename.",
+      "components": {
+        "data_source": "Identifier for your data source (e.g., HCP, NYU). Max 5 words.",
+        "stimulus_type": "Type of stimulus used (e.g., fixed bar). Max 5 words.",
+        "description": "Brief analysis description (e.g., high res analysis). Max 10 words."
+      },
+      "note": "This is not a configuration parameter - it's a helper tool to name your config file."
+    },
+    "version": {
+      "ui_label": "Config Version",
+      "xml_parameter": "version",
+      "description": "The version of the configuration file format. Currently fixed at 0.1.11. This determines the XML structure.",
+      "section": "Version"
+    },
+    "refine_fitting_section": {
+      "ui_label": "Refine Fitting",
+      "section": "Refine Fitting",
+      "parameters": {
+        "enable_refine_fitting": {
+          "ui_label": "Enable Refine Fitting",
+          "xml_parameter": "refine_fitting/enable",
+          "description": "Checkbox to enable/disable refine fitting. GEM-pRF uses one-step refine fitting based on quadratic approximation."
+        },
+        "execute_on_gpu": {
+          "ui_label": "Execute on GPU (if available)",
+          "xml_parameter": "refine_fitting/refinefit_on_gpu",
+          "description": "Checkbox to execute refine fitting on GPU for faster processing."
+        }
+      }
+    },
+    "stimulus_configuration": {
+      "ui_label": "Stimulus Configuration",
+      "section": "Stimulus",
+      "parameters": {
+        "stimulus_directory": {
+          "ui_label": "Stimulus Directory",
+          "xml_parameter": "stimulus/directory",
+          "description": "Path to directory containing stimulus files in Nifti format."
+        },
+        "visual_field_radius": {
+          "ui_label": "Visual Field Radius",
+          "xml_parameter": "stimulus/visual_field",
+          "description": "Radius of visual field in degrees (e.g., 8 means ±8 degrees)."
+        },
+        "width": {
+          "ui_label": "Width",
+          "xml_parameter": "stimulus/width",
+          "description": "Width of stimulus image in pixels."
+        },
+        "height": {
+          "ui_label": "Height",
+          "xml_parameter": "stimulus/height",
+          "description": "Height of stimulus image in pixels."
+        }
+      }
+    },
+    "binarization": {
+      "ui_label": "Binarization",
+      "section": "Stimulus/Binarization",
+      "parameters": {
+        "enable_binarization": {
+          "ui_label": "Enable Binarization",
+          "xml_parameter": "stimulus/binarization/enable",
+          "description": "Enable binarization of stimulus images using a threshold."
+        },
+        "threshold": {
+          "ui_label": "Threshold",
+          "xml_parameter": "stimulus/binarization/threshold",
+          "description": "Threshold value for binarization. Pixels above this value become 1, below become 0."
+        }
+      }
+    },
+    "high_temporal_resolution": {
+      "ui_label": "High Temporal Resolution",
+      "section": "Stimulus/High Temporal Resolution",
+      "parameters": {
+        "enable": {
+          "ui_label": "Enable High Temporal Resolution",
+          "xml_parameter": "stimulus/high_temp_resolution/enable",
+          "description": "Enable high temporal resolution mode for stimulus processing."
+        },
+        "num_frames": {
+          "ui_label": "Number of Downsampled Frames",
+          "xml_parameter": "stimulus/high_temp_resolution/num_frames",
+          "description": "Number of frames after downsampling."
+        },
+        "slice_time_ref": {
+          "ui_label": "Slice Time Reference",
+          "xml_parameter": "stimulus/high_temp_resolution/slice_time_ref",
+          "description": "Slice timing reference for temporal alignment (0-1, typically 0.5 for middle slice)."
+        }
+      }
+    },
+    "input_data_source": {
+      "ui_label": "Input Data Source",
+      "section": "Input Data Source",
+      "description": "Choose between BIDS format (structured neuroimaging data) or Fixed Paths (manual file paths).",
+      "data_organization_type": {
+        "bids_format": "Use BIDS-compliant data structure with automatic file discovery",
+        "fixed_paths": "Manually specify exact file paths for stimulus and measured data"
+      }
+    },
+    "bids_configuration": {
+      "ui_label": "BIDS Configuration",
+      "section": "Input Data Source/BIDS",
+      "parameters": {
+        "run_type": {
+          "ui_label": "Run Type",
+          "xml_parameter": "input_datasrc/bids/run_type",
+          "description": "Individual (analyze runs separately) or Concatenated (combine multiple runs)."
+        },
+        "base_path": {
+          "ui_label": "Base Path",
+          "xml_parameter": "input_datasrc/bids/basepath",
+          "description": "Root directory of your BIDS dataset."
+        },
+        "append_to_base_path": {
+          "ui_label": "Append to Base Path",
+          "xml_parameter": "input_datasrc/bids/append",
+          "description": "Folders to append to base path (comma-separated, e.g., 'derivatives,fmriprep')."
+        },
+        "results_analysis_id": {
+          "ui_label": "Results Analysis ID",
+          "xml_parameter": "input_datasrc/bids/results_analysis_id",
+          "description": "Custom ID for results folder (e.g., '01' creates 'analysis-01')."
+        },
+        "overwrite_existing_results": {
+          "ui_label": "Overwrite Existing Results",
+          "xml_parameter": "input_datasrc/bids/overwrite",
+          "description": "Checkbox to allow overwriting existing analysis results."
+        },
+        "analysis": {
+          "ui_label": "Analysis",
+          "xml_parameter": "input_datasrc/bids/analysis",
+          "description": "Analysis numbers to process (comma-separated or 'all')."
+        },
+        "subjects": {
+          "ui_label": "Subjects",
+          "xml_parameter": "input_datasrc/bids/sub",
+          "description": "Subject IDs to process (comma-separated or 'all')."
+        },
+        "hemisphere": {
+          "ui_label": "Hemisphere",
+          "xml_parameter": "input_datasrc/bids/hemi",
+          "description": "Hemisphere to process: L, R, or 'all'."
+        },
+        "space": {
+          "ui_label": "Space",
+          "xml_parameter": "input_datasrc/bids/space",
+          "description": "Coordinate space(s): fsnative, fsaverage, T1w, or 'all'."
+        },
+        "input_file_extension": {
+          "ui_label": "Input File Extension",
+          "xml_parameter": "input_datasrc/bids/extension",
+          "description": "File format: .nii.gz (volumetric), .gii (surface), or both."
+        }
+      }
+    },
+    "individual_task_analysis": {
+      "ui_label": "Individual Task Analysis",
+      "section": "BIDS/Individual",
+      "parameters": {
+        "task": {
+          "ui_label": "Task",
+          "xml_parameter": "input_datasrc/bids/individual/task",
+          "description": "Single task name (e.g., 'fixedbar'). Do not use 'all'."
+        },
+        "session": {
+          "ui_label": "Session",
+          "xml_parameter": "input_datasrc/bids/individual/ses",
+          "description": "Session number(s) (comma-separated or 'all')."
+        },
+        "run": {
+          "ui_label": "Run",
+          "xml_parameter": "input_datasrc/bids/individual/run",
+          "description": "Run number(s) (comma-separated or 'all')."
+        }
+      }
+    },
+    "concatenated_analysis": {
+      "ui_label": "Concatenated Analysis",
+      "section": "BIDS/Concatenated",
+      "description": "Combine multiple runs into single analysis. Each item specifies ses, task, and run to concatenate.",
+      "parameters": {
+        "concatenate_items": {
+          "ui_label": "Concatenate Items",
+          "xml_parameter": "input_datasrc/bids/concatenated/item",
+          "description": "List of items to concatenate, each with ses, task, and run values."
+        }
+      }
+    },
+    "fixed_paths_configuration": {
+      "ui_label": "Fixed Paths Configuration",
+      "section": "Input Data Source/Fixed Paths",
+      "parameters": {
+        "stimulus_file_path": {
+          "ui_label": "Stimulus File Path",
+          "xml_parameter": "input_datasrc/fixed_paths/stim_file",
+          "description": "Full path to stimulus .nii.gz file."
+        },
+        "measured_data_file_paths": {
+          "ui_label": "Measured Data File Paths",
+          "xml_parameter": "input_datasrc/fixed_paths/data_files",
+          "description": "List of full paths to measured fMRI data files (.nii.gz)."
+        },
+        "results_base_path": {
+          "ui_label": "Results Base Path",
+          "xml_parameter": "input_datasrc/fixed_paths/results_basepath",
+          "description": "Directory where analysis results will be saved."
+        },
+        "custom_filename_postfix": {
+          "ui_label": "Custom Filename Postfix",
+          "xml_parameter": "input_datasrc/fixed_paths/filename_postfix",
+          "description": "Custom text added to result filenames (e.g., '-sample')."
+        },
+        "prepend_date_to_filename": {
+          "ui_label": "Prepend Date to Filename",
+          "xml_parameter": "input_datasrc/fixed_paths/prepend_date",
+          "description": "Checkbox to add date prefix to result filenames."
+        }
+      }
+    },
+    "prf_model": {
+      "ui_label": "pRF Model",
+      "section": "pRF Model",
+      "parameters": {
+        "model_type": {
+          "ui_label": "Model Type",
+          "xml_parameter": "prf_model/model",
+          "description": "Type of pRF model. Currently only '2D Gaussian' is available. DoG and CSS models not yet implemented."
+        }
+      }
+    },
+    "measured_data": {
+      "ui_label": "Measured Data",
+      "section": "Measured Data",
+      "parameters": {
+        "batches": {
+          "ui_label": "Batches",
+          "xml_parameter": "measured_data/batches",
+          "description": "Number of batches for processing data. Adjust based on available GPU memory."
+        }
+      }
+    },
+    "gpu_configuration": {
+      "ui_label": "GPU Configuration",
+      "section": "GPU",
+      "parameters": {
+        "default_gpu": {
+          "ui_label": "Default GPU",
+          "xml_parameter": "gpu/default",
+          "description": "Default GPU index (0 for first GPU, 1 for second, etc.)."
+        },
+        "additional_available_gpus": {
+          "ui_label": "Additional Available GPUs",
+          "xml_parameter": "gpu/available",
+          "description": "List of additional GPU indices available for processing."
+        }
+      }
+    },
+    "search_space": {
+      "ui_label": "Search Space",
+      "section": "Search Space",
+      "description": "The Search Space section defines all parameters for the grid search phase of pRF fitting, including HRF parameters, spatial grid, sigma values, and drift removal.",
+      "subsections": {
+        "write_debug": {
+          "ui_label": "Write Debug Info",
+          "xml_parameter": "search_space/write_debug",
+          "description": "Checkbox to save debug information during grid search."
+        },
+        "optional_analysis_parameters": {
+          "ui_label": "Optional Analysis Parameters",
+          "description": "Load custom HRF, sigmas, or spatial grid from an external file instead of using default values.",
+          "parameters": {
+            "use_custom_parameters": {
+              "ui_label": "Use Custom Parameters from File",
+              "xml_parameter": "search_space/optional_params/enable",
+              "description": "Checkbox to load parameters from external .h5 file."
+            },
+            "file_path": {
+              "ui_label": "File Path",
+              "xml_parameter": "search_space/optional_params/filepath",
+              "description": "Path to .h5 file containing custom parameters."
+            },
+            "use_hrf_from_file": {
+              "ui_label": "Use HRF from File",
+              "xml_parameter": "search_space/optional_params/hrf_from_file",
+              "description": "Load HRF values from file instead of computing from default parameters."
+            },
+            "hrf_key": {
+              "ui_label": "HRF Key",
+              "xml_parameter": "search_space/optional_params/hrf_key",
+              "description": "Key/path in .h5 file for HRF values (e.g., 'analysis_params/hrf_values')."
+            },
+            "use_sigmas_from_file": {
+              "ui_label": "Use Sigmas from File",
+              "xml_parameter": "search_space/optional_params/sigmas_from_file",
+              "description": "Load sigma values from file instead of using default range."
+            },
+            "sigmas_key": {
+              "ui_label": "Sigmas Key",
+              "xml_parameter": "search_space/optional_params/sigmas_key",
+              "description": "Key/path in .h5 file for sigma values (e.g., 'analysis_params/sigmas')."
+            },
+            "use_spatial_grid_from_file": {
+              "ui_label": "Use Spatial Grid from File",
+              "xml_parameter": "search_space/optional_params/spatial_grid_from_file",
+              "description": "Load spatial grid positions from file instead of using default grid."
+            },
+            "spatial_grid_key": {
+              "ui_label": "Spatial Grid Key",
+              "xml_parameter": "search_space/optional_params/spatial_grid_key",
+              "description": "Key/path in .h5 file for spatial grid (e.g., 'analysis_params/spatial_grid_xy')."
+            }
+          }
+        },
+        "default_hrf_parameters": {
+          "ui_label": "Default HRF Parameters",
+          "description": "Hemodynamic Response Function parameters for modeling BOLD response. These define the shape of the HRF used in pRF fitting.",
+          "parameters": {
+            "time_range_t": {
+              "ui_label": "Time Range t",
+              "xml_parameter": "search_space/HRF_parameters/t",
+              "description": "Time range for HRF in seconds (e.g., '(0, 45)' for 0 to 45 seconds)."
+            },
+            "tr": {
+              "ui_label": "TR",
+              "xml_parameter": "search_space/HRF_parameters/tr",
+              "description": "Repetition Time in seconds (time between volume acquisitions)."
+            },
+            "peak_delay": {
+              "ui_label": "Peak Delay",
+              "xml_parameter": "search_space/HRF_parameters/peak_delay",
+              "description": "Time to peak of HRF in seconds."
+            },
+            "undershoot_delay": {
+              "ui_label": "Undershoot Delay",
+              "xml_parameter": "search_space/HRF_parameters/under_delay",
+              "description": "Time to undershoot of HRF in seconds."
+            },
+            "peak_dispersion": {
+              "ui_label": "Peak Dispersion",
+              "xml_parameter": "search_space/HRF_parameters/peak_disp",
+              "description": "Dispersion (width) of HRF peak."
+            },
+            "undershoot_dispersion": {
+              "ui_label": "Undershoot Dispersion",
+              "xml_parameter": "search_space/HRF_parameters/under_disp",
+              "description": "Dispersion (width) of HRF undershoot."
+            },
+            "peak_to_undershoot_ratio": {
+              "ui_label": "Peak to Undershoot Ratio",
+              "xml_parameter": "search_space/HRF_parameters/peak_to_under",
+              "description": "Ratio of peak amplitude to undershoot amplitude."
+            },
+            "normalize_hrf": {
+              "ui_label": "Normalize HRF",
+              "xml_parameter": "search_space/HRF_parameters/normalize",
+              "description": "Checkbox to normalize HRF to unit sum."
+            }
+          }
+        },
+        "default_spatial_grid": {
+          "ui_label": "Default Spatial Grid",
+          "description": "Grid of pRF center positions to search during grid search phase.",
+          "parameters": {
+            "visual_field_radius": {
+              "ui_label": "Visual Field Radius",
+              "xml_parameter": "search_space/spatial_grid/vf_radius",
+              "description": "Maximum eccentricity in degrees for pRF centers."
+            },
+            "number_of_horizontal_prfs": {
+              "ui_label": "Number of Horizontal pRFs",
+              "xml_parameter": "search_space/spatial_grid/num_h",
+              "description": "Number of pRF positions along horizontal axis."
+            },
+            "number_of_vertical_prfs": {
+              "ui_label": "Number of Vertical pRFs",
+              "xml_parameter": "search_space/spatial_grid/num_v",
+              "description": "Number of pRF positions along vertical axis."
+            }
+          }
+        },
+        "default_sigmas": {
+          "ui_label": "Default Sigmas",
+          "description": "Range of pRF sizes (sigma values in degrees) to search during grid search.",
+          "parameters": {
+            "number_of_sigmas": {
+              "ui_label": "Number of Sigmas",
+              "xml_parameter": "search_space/sigmas/num_sigmas",
+              "description": "Number of different sigma values to test."
+            },
+            "minimum_sigma": {
+              "ui_label": "Minimum Sigma",
+              "xml_parameter": "search_space/sigmas/min_sigma",
+              "description": "Smallest pRF size in degrees."
+            },
+            "maximum_sigma": {
+              "ui_label": "Maximum Sigma",
+              "xml_parameter": "search_space/sigmas/max_sigma",
+              "description": "Largest pRF size in degrees."
+            }
+          }
+        },
+        "ndct": {
+          "ui_label": "nDCT",
+          "description": "Discrete Cosine Transform bases for removing low-frequency drift from fMRI signals.",
+          "parameters": {
+            "ndct_value": {
+              "ui_label": "nDCT Value",
+              "xml_parameter": "search_space/nDCT",
+              "description": "Number of DCT bases for low-frequency drift removal. Generates (2*nDCT + 1) cosine regressors."
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "refine_fitting": {
+      "section": "Refine Fitting",
+      "enable": {
+        "explanation": "Controls whether refine fitting is performed after the initial grid search. GEM-pRF uses a one-step refine fitting based on quadratic approximation to fine-tune pRF parameters.",
+        "default": "True",
+        "type": "boolean",
+        "use_case": "Enable for more accurate pRF estimates. Uses one-step quadratic approximation refinement after grid search."
+      },
+      "refinefit_on_gpu": {
+        "explanation": "If enabled, refine fitting computations will be executed on GPU hardware. This significantly speeds up the fitting process if sufficient GPU memory is available.",
+        "default": "True",
+        "type": "boolean",
+        "use_case": "Enable if you have a GPU with sufficient VRAM (typically 8GB+). Disable if you have limited GPU memory or want to use CPU only."
+      }
+    },
+    "stimulus": {
+      "section": "Stimulus Configuration",
+      "directory": {
+        "explanation": "Path to the directory containing your stimulus files. These should be in Nifti format (.nii.gz). The stimulus represents the visual stimuli presented during the fMRI experiment.",
+        "type": "path",
+        "example": "Path/to/data/BIDS/stimuli",
+        "use_case": "Point to the folder where your aperture/stimulus files are stored. These are typically 3D arrays where each frame represents a different stimulus aperture position."
+      },
+      "visual_field": {
+        "explanation": "The radius of the visual field in degrees. This defines the extent of the visual stimulus space (e.g., ±8 degrees means the stimulus covers 16x16 degrees of visual angle).",
+        "default": "8",
+        "type": "number",
+        "unit": "degrees",
+        "use_case": "Set this based on your actual stimulus. Common values are 8° (standard) or 12° (larger field)."
+      },
+      "width": {
+        "explanation": "The width of the stimulus image in pixels. This should match the horizontal dimension of your stimulus files.",
+        "default": "101",
+        "type": "number",
+        "unit": "pixels",
+        "use_case": "101x101 is standard for most pRF studies. Adjust if your stimulus has different dimensions."
+      },
+      "height": {
+        "explanation": "The height of the stimulus image in pixels. This should match the vertical dimension of your stimulus files.",
+        "default": "101",
+        "type": "number",
+        "unit": "pixels",
+        "use_case": "Usually matches width for square stimuli. Set to your actual stimulus dimensions."
+      },
+      "binarization_enable": {
+        "explanation": "When enabled, stimulus values are converted to binary (0 and 1). All values above the threshold become 1, all values below become 0. This can help with noisy stimulus data.",
+        "default": "True",
+        "type": "boolean",
+        "use_case": "Enable if your stimulus is noisy or has intermediate values. Disable if you want to preserve stimulus intensity variations."
+      },
+      "binarization_threshold": {
+        "explanation": "The threshold value used for binarization. Stimulus values above this threshold are set to 1, below are set to 0.",
+        "default": "0",
+        "type": "number",
+        "use_case": "Set to 0 if using a binary stimulus (0 and 1). Adjust if you have grayscale stimulus data."
+      },
+      "high_temporal_resolution": {
+        "explanation": "Enable this to compute model signals using high-resolution stimulus and then downsample to match your fMRI temporal resolution. This improves stimulus sampling accuracy.",
+        "default": "False",
+        "type": "boolean",
+        "use_case": "Enable if your stimulus has very fast changes or high frame rate. Useful for stimulus-locked designs."
+      },
+      "num_frames_downsampled": {
+        "explanation": "The number of fMRI frames in your timecourse. This is the total length of your fMRI time series (number of TRs).",
+        "type": "number",
+        "example": "305",
+        "use_case": "Set this to match the total number of volumes/TRs in your fMRI data."
+      },
+      "slice_time_ref": {
+        "explanation": "Slice timing reference (0.0 to 1.0). Controls how stimulus-fMRI alignment is handled when slices are acquired at different times. 0.5 means the reference is at the middle of the TR.",
+        "default": "0.5",
+        "type": "number",
+        "use_case": "Use 0.5 for most cases. Adjust if you need precise temporal alignment accounting for slice acquisition order."
+      }
+    },
+    "input_datasrc": {
+      "section": "Input Data Source",
+      "BIDS_enable": {
+        "explanation": "When enabled, GEM-pRF expects data organized in BIDS (Brain Imaging Data Structure) format. This is the recommended and most flexible approach.",
+        "default": "True",
+        "type": "boolean",
+        "use_case": "Enable if your data follows BIDS format. Disable only if using fixed file paths instead."
+      },
+      "BIDS_run_type": {
+        "explanation": "Specifies how multiple runs are handled. 'individual' analyzes each run separately. 'concatenated' combines multiple runs before analysis.",
+        "default": "individual",
+        "type": "string",
+        "options": ["individual", "concatenated"],
+        "use_case": "Use 'individual' if runs have different stimulus conditions. Use 'concatenated' to pool data from multiple runs for more statistical power."
+      },
+      "basepath": {
+        "explanation": "The root path to your BIDS dataset. All relative paths are resolved from here.",
+        "type": "path",
+        "example": "Path/to/data/BIDS",
+        "use_case": "Point to the top-level BIDS directory containing sub-* folders."
+      },
+      "append_to_basepath": {
+        "explanation": "Additional path components to append to the basepath. Useful for pointing to preprocessed data in derivatives folders.",
+        "type": "string",
+        "example": "derivatives, fmriprep",
+        "use_case": "Use 'derivatives, fmriprep' if your preprocessed fMRI data is in BIDS/derivatives/fmriprep."
+      },
+      "results_anaylsis_id": {
+        "explanation": "Directory name for storing analysis results. If overwrite=False, a timestamp is appended to avoid overwriting previous results.",
+        "default": "GEMDataAnalysisResults",
+        "type": "string",
+        "use_case": "Use a descriptive name like 'MyStudy_pRF_Analysis' to organize results."
+      },
+      "results_overwrite": {
+        "explanation": "When False, results are saved with a timestamp suffix to prevent overwriting. When True, existing results are replaced.",
+        "default": "False",
+        "type": "boolean",
+        "use_case": "Keep False during development. Set to True only when you're sure you want to replace results."
+      },
+      "analysis": {
+        "explanation": "Which analysis run numbers to process. Use comma-separated values (e.g., '01, 02') or 'all' for all runs.",
+        "type": "string",
+        "example": "'01' or '01, 02, 03' or 'all'",
+        "use_case": "Set to specific run numbers for testing, or 'all' for complete analysis."
+      },
+      "sub": {
+        "explanation": "Which subjects to analyze. Use comma-separated subject IDs or 'all' for all subjects in the dataset.",
+        "type": "string",
+        "example": "'01' or '01, 02, 03' or 'all'",
+        "use_case": "Use specific subject IDs during testing, 'all' for group analysis."
+      },
+      "hemi": {
+        "explanation": "Which brain hemispheres to process. Options are 'left', 'right', or 'all' for both hemispheres.",
+        "type": "string",
+        "example": "'all' or 'left' or 'right'",
+        "use_case": "Use 'all' for bilateral analysis. Use 'left' or 'right' if studying specific hemisphere."
+      },
+      "space": {
+        "explanation": "Which anatomical space your data is in. Examples: 'fsnative' (native surface), 'fsaverage' (standard average), 'T1w' (native anatomical), 'MNI152NLin2009cAsym', etc.",
+        "type": "string",
+        "example": "'fsnative' or 'fsaverage' or 'T1w' or 'all'",
+        "use_case": "Use 'fsnative' for subject-specific surface. Use 'fsaverage' for standard template space. Use 'all' to process all available spaces."
+      },
+      "input_file_extension": {
+        "explanation": "File format of input fMRI data. '.gii' for surface files (GIFTI), '.nii.gz' for volumetric files (Nifti), 'both' to accept either format.",
+        "type": "string",
+        "options": [".nii.gz", ".gii", "both"],
+        "use_case": "Use '.gii' for surface-based analysis (recommended). Use '.nii.gz' for volumetric analysis."
+      },
+      "individual_task": {
+        "explanation": "The specific fMRI task name to analyze when using individual (non-concatenated) runs. Must be exactly one value.",
+        "type": "string",
+        "example": "fixedbar",
+        "use_case": "Set to your task name (e.g., 'fixedbar', 'checkerboard', 'wedge-ring')."
+      },
+      "individual_ses": {
+        "explanation": "Session labels for individual analysis. Use comma-separated values or 'all'.",
+        "type": "string",
+        "example": "'all' or '01, 02'",
+        "use_case": "Use 'all' if you want all sessions, or specify particular session IDs."
+      },
+      "individual_run": {
+        "explanation": "Run numbers for individual analysis. Use comma-separated values or 'all'.",
+        "type": "string",
+        "example": "'all' or '1, 2, 3'",
+        "use_case": "Use 'all' to include all runs, or specify which runs to process."
+      }
+    },
+    "pRF_model": {
+      "section": "pRF Model",
+      "model": {
+        "explanation": "The receptive field model to use. Currently only '2d_gaussian' is fully available. DoG (Difference of Gaussians) and CSS (Compressive Spatial Summation) are not yet available.",
+        "default": "2d_gaussian",
+        "type": "string",
+        "options": ["2d_gaussian"],
+        "use_case": "Use '2d_gaussian' for standard pRF analysis. This models each voxel's visual receptive field as a 2D Gaussian in visual space."
+      }
+    },
+    "measured_data": {
+      "section": "Measured Data",
+      "batches": {
+        "explanation": "Number of data batches for processing. Larger values use more GPU memory but can be faster. Adjust based on your GPU VRAM.",
+        "default": "500",
+        "type": "number",
+        "use_case": "Start with 500. Increase if you have >16GB GPU VRAM. Decrease if you get out-of-memory errors."
+      }
+    },
+    "gpu": {
+      "section": "GPU Configuration",
+      "default_gpu": {
+        "explanation": "Index of the primary GPU to use for computations. GPU numbering starts from 0 (first GPU).",
+        "default": "0",
+        "type": "integer",
+        "use_case": "Set to 0 for single GPU systems. Set to 1, 2, etc. if you have multiple GPUs and want to use a specific one."
+      },
+      "additional_available_gpus": {
+        "explanation": "List of additional GPU indices available for distributed processing. These GPUs can be used for parallel analysis of multiple subjects/runs.",
+        "type": "array",
+        "example": "[1, 2, 3]",
+        "use_case": "List all GPU IDs you want GEM-pRF to use for parallel processing. Useful for multi-GPU setups."
+      }
+    },
+    "search_space": {
+      "section": "Search Space Configuration",
+      "write_debug_info": {
+        "explanation": "When enabled, generates detailed debug information during analysis. Useful for troubleshooting but increases computation time and storage.",
+        "default": "False",
+        "type": "boolean",
+        "use_case": "Enable only during debugging. Disable for production analysis to save time and disk space."
+      },
+      "optional_analysis_params_enable": {
+        "explanation": "When enabled, GEM-pRF loads custom HRF, pRF sizes, and spatial grid from an external HDF5 file instead of using default values.",
+        "default": "False",
+        "type": "boolean",
+        "use_case": "Enable if you have pre-computed or custom HRF and grid parameters. Otherwise, use defaults."
+      },
+      "optional_analysis_params_filepath": {
+        "explanation": "Path to HDF5 file containing custom analysis parameters (HRF, sigma values, spatial grid).",
+        "type": "path",
+        "example": "DIR_PATH/analysis_additional_params.h5",
+        "use_case": "Provide path to your custom parameters file if optional_analysis_params_enable=True."
+      },
+      "hrf_use_from_file": {
+        "explanation": "When enabled, loads custom HRF (Hemodynamic Response Function) from file. The HRF characterizes how neural activity is transformed into fMRI signal.",
+        "default": "True",
+        "type": "boolean",
+        "use_case": "Keep True if using optional params file. Otherwise, use default HRF."
+      },
+      "hrf_t": {
+        "explanation": "Time range for HRF computation in seconds. (0, 45) means HRF is computed from 0 to 45 seconds after stimulus onset.",
+        "default": "(0, 45)",
+        "type": "tuple",
+        "unit": "seconds",
+        "use_case": "Standard value (0, 45) works for most fMRI studies. Adjust if you have different TR or need different time window."
+      },
+      "hrf_TR": {
+        "explanation": "Repetition Time (TR) in seconds. This is the time between successive fMRI acquisitions.",
+        "default": "1.0",
+        "type": "float",
+        "unit": "seconds",
+        "use_case": "Set to your actual TR. Common values: 1.0s, 1.5s, 2.0s, 3.0s depending on your acquisition protocol."
+      },
+      "hrf_peak_delay": {
+        "explanation": "Time to peak of the HRF in seconds. Default SPM value is 6.16s, which is typical for visual cortex.",
+        "default": "6.16",
+        "type": "float",
+        "unit": "seconds",
+        "use_case": "Use 6.16 for standard visual cortex. Adjust if studying other brain regions with different HRF dynamics."
+      },
+      "hrf_under_shoot_delay": {
+        "explanation": "Time to the undershoot (negative deflection) of the HRF in seconds. Default is 12.0s.",
+        "default": "12.0",
+        "type": "float",
+        "unit": "seconds",
+        "use_case": "Standard SPM value 12.0s works well for most studies. Adjust based on your HRF model."
+      },
+      "default_spatial_grid_visual_field_radius": {
+        "explanation": "Radius of the visual field search space in degrees. This defines the extent of pRF positions to search. Should match or exceed your stimulus visual field size.",
+        "default": "12",
+        "type": "number",
+        "unit": "degrees",
+        "use_case": "Set to match or exceed your visual_field stimulus parameter. Use 12° for most studies."
+      },
+      "default_spatial_grid_num_horizontal_prfs": {
+        "explanation": "Number of pRF positions to sample along the horizontal axis. More values = finer grid = longer computation.",
+        "default": "51",
+        "type": "integer",
+        "use_case": "51 is standard and provides good balance. Use 41 for faster testing, 61 for higher resolution."
+      },
+      "default_spatial_grid_num_vertical_prfs": {
+        "explanation": "Number of pRF positions to sample along the vertical axis. Should typically match num_horizontal_prfs for square grid.",
+        "default": "51",
+        "type": "integer",
+        "use_case": "Usually matches num_horizontal_prfs. Adjust symmetrically for balanced grid coverage."
+      },
+      "default_sigmas_num_sigmas": {
+        "explanation": "Number of different pRF size (sigma) values to search. More values = more thorough search but slower computation.",
+        "default": "8",
+        "type": "integer",
+        "use_case": "8 is standard. Use 6 for faster testing, 10 for more thorough search."
+      },
+      "default_sigmas_min_sigma": {
+        "explanation": "Minimum pRF size (sigma) to search in degrees of visual angle. Controls the smallest receptive field to consider.",
+        "default": "0.5",
+        "type": "float",
+        "unit": "degrees",
+        "use_case": "0.5° is typical for early visual areas. Use larger values for later visual areas."
+      },
+      "default_sigmas_max_sigma": {
+        "explanation": "Maximum pRF size (sigma) to search in degrees of visual angle. Controls the largest receptive field to consider.",
+        "default": "5",
+        "type": "float",
+        "unit": "degrees",
+        "use_case": "5° is typical for early visual areas. Use larger values (7-10°) for later/higher visual areas."
+      },
+      "nDCT": {
+        "explanation": "Number of DCT (Discrete Cosine Transform) basis functions for modeling low-frequency drift in fMRI signal. Generates (2*nDCT + 1) regressors.",
+        "default": "1",
+        "type": "integer",
+        "use_case": "1 is standard and sufficient for most studies. Increase if you have significant low-frequency drift."
+      }
+    }
+  },
+  "faqs": [
+    {
+      "question": "What is a population receptive field (pRF)?",
+      "answer": "A pRF is the region of visual space that a voxel in visual cortex responds to. It's typically modeled as a 2D Gaussian. The pRF model estimates each voxel's preferred position (x, y) and size (sigma) in visual space, which reveals how visual cortex represents the visual world."
+    },
+    {
+      "question": "What is the difference between individual and concatenated run analysis?",
+      "answer": "Individual: Analyzes each run separately, which is useful when runs have different stimulus conditions. Concatenated: Combines multiple runs before analysis, increasing statistical power by pooling more data. Use concatenated if your runs have the same stimulus to get more stable estimates."
+    },
+    {
+      "question": "Why should I enable refine fitting?",
+      "answer": "Refine fitting uses optimization algorithms to fine-tune the initial grid search results, leading to more accurate pRF parameter estimates. It takes longer but produces better-quality results. Enable it for final analyses."
+    },
+    {
+      "question": "What should I set the batch size to?",
+      "answer": "Start with 500. If you get GPU out-of-memory errors, decrease it (e.g., to 300). If you have a powerful GPU (>24GB VRAM) and want faster processing, increase it (e.g., to 1000). Larger batches use more memory but can be faster due to better GPU utilization."
+    },
+    {
+      "question": "How do I choose the spatial grid resolution?",
+      "answer": "51x51 is a good default. Use 41x41 for quick testing (faster but less detailed). Use 61x61 for final analysis requiring higher spatial resolution in visual space. Higher values increase computation time quadratically."
+    },
+    {
+      "question": "What stimulus parameters should I use?",
+      "answer": "Visual field: should match your stimulus extent (typically 8° for standard stimuli). Width/Height: should match your stimulus image dimensions (typically 101x101 pixels). Enable binarization if your stimulus is noisy to convert it to binary 0/1 values."
+    },
+    {
+      "question": "What does visual field radius mean?",
+      "answer": "It's the extent of the visual field in degrees (e.g., ±8° means the stimulus covers 16x16 degrees). Your spatial grid search space should be at least as large as your stimulus visual field to avoid missing pRFs at the boundaries."
+    },
+    {
+      "question": "When should I use GPU acceleration?",
+      "answer": "Always enable GPU acceleration (refinefit_on_gpu=True) if you have a GPU with at least 8GB VRAM. GPUs are 10-100x faster than CPU for pRF fitting. Disable only if you have limited GPU memory or need reproducible CPU-based results."
+    },
+    {
+      "question": "What is BIDS format and why should I use it?",
+      "answer": "BIDS (Brain Imaging Data Structure) is a standardized way to organize neuroimaging data. Using BIDS makes data sharing easier, enables automated analysis pipelines, and reduces errors from manual path management. GEM-pRF strongly recommends BIDS format."
+    },
+    {
+      "question": "How do I know which fMRI space to analyze?",
+      "answer": "fsnative: subject's native surface space (good for individual analysis). fsaverage: standard template surface (good for group analysis). T1w: subject's native volumetric space. Choose based on your analysis goal and preprocessing results."
+    }
+  ],
+  "tips": [
+    "Start with small batches (300) if you're unsure about GPU memory. You can always increase later.",
+    "Always validate your stimulus files are in the correct directory before running analysis.",
+    "Use 'all' for subjects/runs during initial testing to catch configuration errors early.",
+    "Keep results_overwrite=False until you're sure your configuration is correct.",
+    "Enable debug_info temporarily if analysis results look suspicious.",
+    "The configuration file is the most important part - get it right and GEM-pRF will run smoothly!",
+    "If you have multiple GPUs, add them to additional_available_gpus for parallel processing.",
+    "Consider using fsaverage for group-level statistics and retinotopic maps.",
+    "Make sure your stimulus visual field matches your actual stimulus extent.",
+    "For publication-quality pRF maps, use refine_fitting=True and higher spatial grid resolution (61x61)."
+  ]
+}

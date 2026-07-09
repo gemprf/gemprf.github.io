@@ -1193,3 +1193,50 @@ label .info-icon {
 #horizontal_resizer[style*="display: none"] {
     display: none !important;
 }
+
+/* Chatbot Integration with config generator layout */
+.config-wrapper {
+    gap: 0;
+}
+
+main.content {
+    display: flex;
+    flex-direction: row;
+}
+
+#chatbot-container {
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
+    border-left: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjust form-panel to make room for chatbot */
+.form-panel {
+    flex: 1;
+}
+
+/* Mobile: Stack chatbot below form when screen is narrow */
+@media (max-width: 1600px) {
+    main.content {
+        flex-direction: column;
+    }
+
+    #chatbot-container {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        height: 300px;
+        border-left: none;
+        border-top: 1px solid #ddd;
+        order: 2;
+    }
+
+    .config-wrapper {
+        flex-direction: column;
+    }
+}
