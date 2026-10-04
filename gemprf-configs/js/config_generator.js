@@ -236,6 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeForm();
     initializeDataTypeToggle();
     initializeBIDSRunTypeToggle();
+    initializeDependentGroup('optional_params_enable', 'optional_params_children');
     initCollapsibles();
     initResizableDivider();
     ensureHamburgerButton();
@@ -339,6 +340,25 @@ function initializeBIDSRunTypeToggle() {
         }
         updatePreview();
     });
+}
+
+// Disables the controls inside a group while its parent checkbox is unchecked.
+// Values are left untouched, so the generated XML is unaffected.
+function initializeDependentGroup(parentId, groupId) {
+    const parent = document.getElementById(parentId);
+    const group = document.getElementById(groupId);
+    if (!parent || !group) return;
+
+    const sync = () => {
+        const disabled = !parent.checked;
+        group.classList.toggle('is-disabled', disabled);
+        group.querySelectorAll('input, select, textarea, button').forEach(el => {
+            el.disabled = disabled;
+        });
+    };
+
+    parent.addEventListener('change', sync);
+    sync();
 }
 
 function initializeSidebarState() {

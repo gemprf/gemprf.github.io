@@ -941,6 +941,17 @@ label .info-icon {
     margin-bottom: 10px;
 }
 
+/* Children of a parent checkbox, greyed out while the parent is unchecked */
+.dependent-group.is-disabled {
+    opacity: 0.5;
+}
+
+.dependent-group.is-disabled input,
+.dependent-group.is-disabled button,
+.dependent-group.is-disabled label {
+    cursor: not-allowed;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
 }

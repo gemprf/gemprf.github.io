@@ -530,9 +530,12 @@
                 <!-- Search Space -->
                 <div class="section">
                     <h2>Search Space</h2>
-                    <div class="form-group checkbox-group">
-                        <input type="checkbox" id="write_debug">
-                        <label for="write_debug">Write Debug Info</label>
+                    <div class="subsection">
+                        <h3>Debug Options</h3>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="write_debug">
+                            <label for="write_debug">Write Debug Info</label>
+                        </div>
                     </div>
 
                     <div class="subsection">
@@ -541,6 +544,7 @@
                             <input type="checkbox" id="optional_params_enable">
                             <label for="optional_params_enable">Use Custom Parameters from File</label>
                         </div>
+                        <div id="optional_params_children" class="dependent-group">
                         <div class="form-group">
                             <label for="optional_params_filepath">File Path<span id="optional_params_filepath_validation" class="validation-message"></span></label>
                             <div class="path-input">
@@ -578,6 +582,7 @@
                         <div class="form-group">
                             <label for="spatial_grid_key">Spatial Grid Key</label>
                             <input type="text" id="spatial_grid_key" value="analysis_params/spatial_grid_xy">
+                        </div>
                         </div>
                     </div>
 
